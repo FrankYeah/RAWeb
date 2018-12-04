@@ -1,0 +1,28 @@
+@CHARSET "UTF-8";
+.container{
+	font-size: 18px;
+	width : 90%;
+	max-width:960px;
+	min-height:740px;
+	margin:0 auto;
+	margin-top:50px;
+	border:1px solid;
+	border-radius:20px;
+	word-break:break-word;
+	padding:40px;
+	vertical-align:middle;
+	text-align:center;
+	overflow:auto;
+}
+.content-2{
+	width:80%;
+	margin:0 auto;
+	margin-top:8%;
+}
+h1.title{
+	margin-top:0px;
+}
+th {
+	white-space:nowrap;
+	text-align: center;
+}

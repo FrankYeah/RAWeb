@@ -1,0 +1,53 @@
+@CHARSET "UTF-8";
+
+/* main */
+.main_container {
+	border: 1px solid blue;
+	margin: 40px 10px 0 10px;
+	padding: 10px;
+}
+
+.date_wrapper {
+	float: right;
+	margin-bottom: 3%;
+}
+
+.server_wrapper {
+	width: 150px;
+	margin-top: 20px;
+	border: 1px solid black;
+}
+
+.server_img1 {
+	width: 70px;
+    padding-bottom: 30px;	
+	/*height: 150px;
+	border: 1px solid black;*/
+}
+
+.server_img2 {
+	width: 120px;
+    padding-bottom: 30px;	
+	/*height: 150px;
+	border: 1px solid black;*/
+}
+
+.status_wrapper {
+	width: 70%;
+	border: 1px solid black;
+	padding: 2px 5px;
+}
+
+.status_icon {
+	/*width: 20px;
+	height: 20px;*/
+	vertical-align: middle;
+	margin-right: 5px;
+}
+
+.refresh_btn {
+	width: 38%;
+	/*height: 60%;*/
+	margin-top: 40px;
+	cursor: pointer;
+}

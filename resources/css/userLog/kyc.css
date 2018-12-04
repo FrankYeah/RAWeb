@@ -1,0 +1,88 @@
+@CHARSET "UTF-8";
+
+.container {
+	font-size: 18px;
+	width: 90%;
+	max-width: 960px;
+	min-height:740px;
+	margin: 0 auto;
+	margin-top: 50px;
+	border: 1px solid;
+	border-radius: 20px;
+	word-break: break-all;
+	padding: 40px;
+	vertical-align: middle;
+	text-align: center;
+	overflow: auto;
+}
+
+.rowname {
+	word-break: break-all;
+}
+
+/*
+        #resultTable {
+            width:70%;
+            text-align:center;
+        }*/
+.rowname {
+	width: 5%;
+}
+
+.kyctable {
+	margin: auto;
+	width: 70%;
+	margin-bottom: 50px;
+}
+
+table th {
+	position: relative;
+}
+
+table thead {
+	white-space: nowrap;
+}
+
+label.control-label.col-sm-4 {
+	padding-right: 0px;
+	margin-right: 0px;
+	padding-left: 0px;
+	box-sizing: border-box;
+}
+
+.diagonal {
+	width: 40%;
+}
+
+.diagonal::after {
+	content: '';
+	position: absolute;
+	height: 2px;
+	width: 248px;
+	background-color: #ffffff;
+	transform: rotate(8deg);
+	left: 0px;
+	top: 17px;
+}
+
+#tableTime {
+	display: block;
+	position: relative;
+	bottom: -9px;
+	left: 0px;
+}
+
+#tableCondition {
+	display: block;
+	position: absolute;
+	top: 0px;
+	left: 200px;
+}
+
+.result-1 {
+	padding: 10px;
+}
+
+#portfolioNum {
+	padding-right: 30px;
+}

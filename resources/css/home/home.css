@@ -1,0 +1,142 @@
+@CHARSET "UTF-8";
+
+.div_container1 {
+	width: 100%;
+	height: 43.75rem;
+	min-width: 71.25rem;
+}
+
+.div_container2 {
+	width: 100%;
+	height:30.125rem;
+	min-width: 71.25rem;
+}
+
+.div_container3 {
+	width: 100%;
+	min-width: 71.25rem;
+	height: 31.25rem;
+}
+
+.div_bg1 {
+	background: url("../../picture/about_top.png") no-repeat center;
+    background-size: cover;
+}
+
+.div_bg2 {
+	background: #FFFFFF;
+}
+
+.div_bg3 {
+	background: #EFF9F7;
+}
+
+.div_bg4 {
+	background: #E1F2F9;
+}
+
+.div_bg5 {
+	background: url("../../picture/about_top.png") no-repeat center;
+    background-size: cover;
+}
+
+.title_wrapper1 {
+	width: 50rem;
+	height: 8.125rem;
+	background-color: rgba(255, 255, 255, 0.7);
+	margin-top: 14.25rem;
+	/*overflow: auto;*/
+}
+
+.title1 {
+	font-size: 2.25rem;
+	color: #454545;
+	letter-spacing: 3.5px;
+	margin-top: 1.5rem;
+	margin-left: 2.5rem;
+}
+
+.txt1 {
+	font-size: 1.875rem;
+	letter-spacing: 2px;
+	line-height: 3rem;
+}
+
+.txt2 {
+	font-size: 1.125rem;
+	color: #454545;
+	letter-spacing: 0.063rem;
+	line-height: 2rem;
+	margin-top: 1.875rem;
+	text-align: justify;
+    text-justify: distribute-all-lines; /* ie */
+}
+
+.txt_color1 {
+	color: #01B6AD;
+}
+
+.txt_color2 {
+	color: #30526D;
+}
+
+.mask_wrapper {
+	width: 30.25rem;
+	float: right;
+	margin-top: 6.563rem;
+	margin-right: 8.25rem;
+}
+
+.mask_title {
+	font-size: 1.875rem;
+	color: #FFFFFF;
+	letter-spacing: 3.5px;
+	line-height: 3.75rem;
+}
+
+.mask_txt {
+	font-size: 1.125rem;
+	color: #FFFFFF;
+	letter-spacing: 1px;
+	line-height: 2rem;
+}
+
+.mask_online {
+	border: 1px solid #FFFFFF;
+	border-radius: 0.5rem;
+	width: 13.125rem;
+	height: 3.75rem;
+	line-height: 3.75rem;
+	margin-top: 1.25rem;
+}
+
+.mask_online_txt {
+	font-size: 1.125rem;
+	color: #FFFFFF;
+	letter-spacing: 2.75px;
+}
+
+.headphone_wrapper {
+	float: left;
+	margin-left: 2.688rem;
+	margin-right: 0.625rem;
+}
+
+.headphone {
+	width: 1.875rem;
+	height: 1.938rem;
+	vertical-align : middle;
+}
+
+/* 1920�H�W���p */
+@media screen and (min-width: 1920px) {
+	.div_container2 {
+		height: 36rem;
+	}
+	.title_wrapper1 {
+		margin-top: 20rem;
+	}
+	.div_container3 {
+		height: 40rem;
+	}
+}

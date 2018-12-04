@@ -1,0 +1,57 @@
+@CHARSET "UTF-8";
+
+.container{
+	font-size: 18px;
+	width : 90%;
+	max-width:960px;
+	height:880px;
+	margin:0 auto;
+	margin-top:50px;
+	border:1px solid;
+	border-radius:20px;
+	word-break:break-word;
+	padding:40px;
+	vertical-align:middle;
+	/*text-align:center;*/
+}
+
+.label {
+	margin-right: 5px;
+}
+
+#picbody{
+	border:1px solid green;
+	margin-top:10px;
+	text-align:center;
+	display:inline-block;
+	padding:10px;
+}
+.table {
+    margin-bottom: 20px;
+    margin-top: 5%;
+    white-space:nowrap;
+}
+
+
+.col-1{
+	width:10%;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+.axis text {
+  font: 12px sans-serif;
+}
+.axis path{
+  stroke: black;
+}
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
