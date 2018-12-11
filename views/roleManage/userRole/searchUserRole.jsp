@@ -43,7 +43,7 @@
 		<table id ="userTable" class="table table-bordered table-striped table-hover">
 		<thead>
 			<tr class="info">
-				<th>BUID</th><th>權限代碼</th><th>權限名稱</th><th>UserID</th><th>UserName</th><th>最後登入時間</th>
+				<th>BUID</th><th>權限代碼</th><th>權限名稱</th><th>UserID</th><th>UserName</th><th>UserEmail</th><th>最後登入時間</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -62,7 +62,7 @@ var UserID = "${userID}";
 		contentType : 'application/json',
 		data :{"userID":UserID},
 		url : fubon.contextPath+"roleManage/Role/Admin/Item",
-		success : function(data, response, xhr) {			
+		success : function(data, response, xhr) {
 			var temp = JSON.parse(data).Data;
 			var userIDdata = JSON.parse(temp); 
 			var BUID = userIDdata.BUID;
@@ -125,7 +125,7 @@ var UserID = "${userID}";
 			contentType : 'application/json',
 			data :{"buID":BUID,"roleID":RoleID},
 			url : fubon.contextPath+"roleManage/Role/adminList",
-			success : function(data, response, xhr) {			
+			success : function(data, response, xhr) {
 				var tableData = JSON.parse(JSON.parse(data).Data).Users;
 				console.log(tableData);
 				if (tableData.length==0){
@@ -154,7 +154,7 @@ function getBURoles(BUID){
 		contentType : 'application/json',
 		data :{"buId":BUID},
 		url : fubon.contextPath+"roleManage/Role/roleList",
-		success : function(data, response, xhr) {			
+		success : function(data, response, xhr) {
 			var temp = JSON.parse(data);
 			var tableData = JSON.parse(temp.Data).Roles;
 			
@@ -181,12 +181,12 @@ function getBURolesUsers(BUID,RoleID){
 		contentType : 'application/json',
 		data :{"buID":BUID,"roleID":RoleID},
 		url : fubon.contextPath+"roleManage/Role/adminList",
-		success : function(data, response, xhr) {			
+		success : function(data, response, xhr) {
 			var tableData = JSON.parse(JSON.parse(data).Data).Users;
 			console.log(tableData);
 			$("#userTable").find("tr:gt(0)").remove();
 			for(var i=0; i<tableData.length;i++){
-				var str = "<tr><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>";
+				var str = "<tr><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>";
 				$('#userTable').append(str);
 				var $specifyTd = $('#userTable tr:last').find('td');
 				$specifyTd.eq(0).text(tableData[i].BUName+" "+tableData[i].BUID);
@@ -194,7 +194,8 @@ function getBURolesUsers(BUID,RoleID){
 				$specifyTd.eq(2).text(tableData[i].RoleName);
 				$specifyTd.eq(3).text(tableData[i].UserID);
 				$specifyTd.eq(4).text(tableData[i].UserName);
-				$specifyTd.eq(5).text(tableData[i].LastLogin);			
+                $specifyTd.eq(5).text(tableData[i].UserEmail);
+				$specifyTd.eq(6).text(tableData[i].LastLogin);
 
 			}
 		
@@ -219,11 +220,11 @@ function getBURolesUsersForSearch(BUID,RoleID){
 			$("#userTable").find("tr:gt(0)").remove();
 			if (tableData.length==0){
 				bootsrapAlert("目前此單位無管理者!");
-				var str = "<tr><td colspan='6'>目前此單位無管理者</td></tr>";
+				var str = "<tr><td colspan='7'>目前此單位無管理者</td></tr>";
 				$('#userTable').append(str);
 			}else{
 			  for(var i=0; i<tableData.length;i++){
-				var str = "<tr><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>";
+				var str = "<tr><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>";
 				$('#userTable').append(str);
 				var $specifyTd = $('#userTable tr:last').find('td');
 				$specifyTd.eq(0).text(tableData[i].BUName+" "+tableData[i].BUID);
@@ -231,7 +232,8 @@ function getBURolesUsersForSearch(BUID,RoleID){
 				$specifyTd.eq(2).text(tableData[i].RoleName);
 				$specifyTd.eq(3).text(tableData[i].UserID);
 				$specifyTd.eq(4).text(tableData[i].UserName);
-				$specifyTd.eq(5).text(tableData[i].LastLogin);			
+				$specifyTd.eq(5).text(tableData[i].UserEmail);
+				$specifyTd.eq(6).text(tableData[i].LastLogin);
 
 			 }
 			}

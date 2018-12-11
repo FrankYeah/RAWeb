@@ -67,6 +67,7 @@ function arraysTransformToObject3(trans1,trans2,keys){
 
 /*取得 navbar 上面的功能*/
 function getNavBar(roleScope){
+
 	var roleScope = groupProcess(roleScope);
 	for (var i = 0; i < roleScope.length;i++){
 		var type1Data = roleScope[i];
@@ -208,7 +209,6 @@ function logout(){
 
 /*取得該User是哪個 BU*/
 function getBUIDsByUserID(UserID){
-	console.log(userID)
 	$.ajax({
 		type : "GET",
 		contentType : 'application/json',

@@ -16,40 +16,48 @@
 <jsp:include page="title.jsp"></jsp:include>
 
 <div class="content-1">
-<!--之後者裏要改成從資料庫撈有哪些單位-->
+	<!--之後者裏要改成從資料庫撈有哪些單位-->
 	<label class="control-label col-sm-2">單位ID:</label>
-		<div class="col-sm-10 form-group"> 
-			<select class="form-control" id="buId" name="buId"> </select>
-	   	</div>
+	<div class="col-sm-10 form-group">
+		<select class="form-control" id="buId" name="buId"> </select>
+	</div>
+
 	<label class="control-label col-sm-2" >權限代碼:</label>
-		<div class="col-sm-3">
-			<select class="form-control" id="roleID" name="roleID"> </select>
-		</div>
-		
-		<div class="col-sm-10 form-group"> </div>
-		
-	   	<div class="col-sm-12 ">
-	   	<label class="control-label col-sm-2" >使用者代碼:</label>
-		<div class="col-sm-3 " > 
+	<div class="col-sm-3">
+		<select class="form-control" id="roleID" name="roleID"> </select>
+	</div>
+
+	<div class="col-sm-10 form-group"> </div>
+
+	<div class="col-sm-12">
+		<label class="control-label col-sm-2" >使用者代碼:</label>
+		<div class="col-sm-3" >
 			<input  type="text" maxlength="50" id="userID" name="userID" class="form-control" placeholder="userID" />
-	   	</div>
-	    <label class="control-label col-sm-2"> 使用者姓名:</label>
-		<div class="col-sm-3 " > 
+		</div>
+		<label class="control-label col-sm-2"> 使用者姓名:</label>
+		<div class="col-sm-3" >
 			<input type="text" maxlength="50" id="userName" name="userName" class="form-control" placeholder="userName" />
-	   	</div>
-	   	<div class="col-sm-2">
+		</div>
+	 </div>
+	<div class="col-sm-10 form-group"> </div>
+
+	<div class="col-sm-12">
+		<label class="control-label col-sm-2"> 使用者電子郵件:</label>
+		<div class="col-sm-3" >
+			<input type="text" maxlength="100" id="userEmail" name="userEmail" class="form-control" placeholder="userEmail" />
+		</div>
+		<div class="col-sm-2">
 			<button id="submitBtn" type="button" class="btn btn-primary">新增</button>
-		</div>	
-		
-	   	 </div>
-		<div class="col-sm-10 form-group"> </div>
+		</div>
+	</div>
+	<div class="col-sm-10 form-group"> </div>
 </div>
 
 	<div class="content-2"><!-- style="display:none;"  -->
 		<table id ="userTable" class="table table-bordered table-striped table-hover">
 		<thead>
 			<tr class="info">
-				<th>BUID</th><th>權限代碼</th><th>權限名稱</th><th>UserID</th><th>UserName</th>
+				<th>BUID</th><th>權限代碼</th><th>權限名稱</th><th>UserID</th><th>UserName</th><th>UserEmail</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -69,7 +77,7 @@ $.ajax({
 	contentType : 'application/json',
 	data :{"userID":UserID},
 	url : fubon.contextPath+"roleManage/Role/Admin/Item",
-	success : function(data, response, xhr) {			
+	success : function(data, response, xhr) {
 		var temp = JSON.parse(data).Data;
 		var userIDdata = JSON.parse(temp); 
 		//alert(UserID);
@@ -127,7 +135,8 @@ $.ajax({
 					"BUName":buInfo[1],
 					"UserID":$("#userID").val(),
 					"RoleID":$("#roleID").find(":selected").text(),
-					"UserName":$("#userName").val()};
+					"UserName":$("#userName").val(),
+                	"UserEmail":$("#userEmail").val()};
 			
 			/*新增使用者*/
 			$.ajax({
@@ -143,6 +152,7 @@ $.ajax({
 						bootsrapAlert("使用者新增成功");
 						$("#userID").val("");
 						$("#userName").val("");
+                        $("#userEmail").val("");
 						getBURolesUsers(buInfo[0])
 					}
 
@@ -164,7 +174,7 @@ function getBURoles(BUID){
 		contentType : 'application/json',
 		data :{"buId":BUID},
 		url : fubon.contextPath+"roleManage/Role/roleList",
-		success : function(data, response, xhr) {			
+		success : function(data, response, xhr) {
 			var temp = JSON.parse(data);
 			var tableData = JSON.parse(temp.Data).Roles;
 			
@@ -199,7 +209,7 @@ function getBURolesUsers(BUID){
 				$('#userTable').append(str);
 			}
 			for(var i=0; i<tableData.length;i++){
-				var str = "<tr><td> </td><td> </td><td> </td><td> </td><td> </td></tr>";
+				var str = "<tr><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>";
 				$('#userTable').append(str);
 				var $specifyTd = $('#userTable tr:last').find('td');
 				$specifyTd.eq(0).text(tableData[i].BUName+" "+tableData[i].BUID);
@@ -207,6 +217,7 @@ function getBURolesUsers(BUID){
 				$specifyTd.eq(2).text(tableData[i].RoleName);
 				$specifyTd.eq(3).text(tableData[i].UserID);
 				$specifyTd.eq(4).text(tableData[i].UserName);
+                $specifyTd.eq(5).text(tableData[i].UserEmail);
 			}
 		
 		},

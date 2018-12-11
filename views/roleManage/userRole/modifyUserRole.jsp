@@ -16,56 +16,51 @@
 
 <jsp:include page="title.jsp"></jsp:include>
 
-<div class="content-1">
-<!--之後者裏要改成從資料庫撈有哪些單位-->
-	<label class="control-label col-sm-2"> 單位ID:</label>
-	<div class="col-sm-10 form-group"> 
-		<select class="form-control" id="buId" name="buId"> </select>
-	</div>
-	<label class="control-label col-sm-2" > 權限代碼:</label>
-	<div class="col-sm-3">
-		<select class="form-control" id="roleID" name="roleID"> </select>
-	</div>
-	<div class="col-sm-7 form-group"> </div>
-	<div class="col-sm-10 form-group"> </div>
-	<div class="col-sm-12 ">
-		<label class="control-label col-sm-2"> 使用者代碼:</label>
-			<div class="col-sm-3 form-group"> 
+	<div class="content-1">
+		<!--之後者裏要改成從資料庫撈有哪些單位-->
+		<label class="control-label col-sm-2"> 單位ID:</label>
+		<div class="col-sm-10 form-group">
+			<select class="form-control" id="buId" name="buId"> </select>
+		</div>
+		<label class="control-label col-sm-2" > 權限代碼:</label>
+		<div class="col-sm-3">
+			<select class="form-control" id="roleID" name="roleID"> </select>
+		</div>
+		<div class="col-sm-7 form-group"> </div>
+		<div class="col-sm-10 form-group"> </div>
+		<div class="col-sm-12 ">
+			<label class="control-label col-sm-2"> 使用者代碼:</label>
+			<div class="col-sm-3 form-group">
 				<input type="text" maxlength="50" id="userID" name="userID" class="form-control" placeholder="userID" readonly="readonly"/>
 			</div>
-		<label class="control-label col-sm-2"> 使用者姓名:</label>
-		<div class="col-sm-3 form-group"> 
-			<input type="text" maxlength="50" id="userName" name="userName" class="form-control" placeholder="userName" />
-		</div>	
-
-
-	</div>
-	<div class="col-sm-10 ">
-		<label class="control-label col-sm-3">使用者電子郵件:</label>
-		<div class="col-sm-4 form-group"> 
-			<input type="text" maxlength="50" id="userEmail" name="userEmail" class="form-control" placeholder="userEmail" />
-		</div>	
-
-
-		<div class="col-sm-4">
-			<button id="submitBtn" type="button" class="btn btn-primary">修改</button>
+			<label class="control-label col-sm-2"> 使用者姓名:</label>
+			<div class="col-sm-3 form-group">
+				<input type="text" maxlength="50" id="userName" name="userName" class="form-control" placeholder="userName" />
+			</div>
 		</div>
+		<div class="col-sm-12 ">
+			<label class="control-label col-sm-2"> 使用者電子郵件:</label>
+			<div class="col-sm-3 form-group" >
+				<input type="text" maxlength="100" id="userEmail" name="userEmail" class="form-control" placeholder="userEmail" />
+			</div>
 
+			<div class="col-sm-1">
+				<button id="submitBtn" type="button" class="btn btn-primary">修改</button>
+			</div>
+		</div>
 	</div>
-</div>
-    
+
 	<div class="content-2"><!-- style="display:none;"  -->
-	   <input type="text" id="myInput" onkeyup="filterUserID('myInput','userTable')" placeholder="Search for UserID." title="filter word">
+		<input type="text" id="myInput" onkeyup="filterUserID('myInput','userTable')" placeholder="Search for UserID." title="filter word">
 		<table id ="userTable" class="table table-bordered table-striped table-hover">
 		<thead>
 			<tr class="info">
-				<th>BUID</th><th>權限代碼</th><th>權限名稱</th><th>UserID</th><th>UserName</th><th>E-mail</th>
+				<th>BUID</th><th>權限代碼</th><th>權限名稱</th><th>UserID</th><th>UserName</th><th>UserEmail</th>
 			</tr>
 		</thead>
 		<tbody>
 		</tbody>
 		</table>
-		
 	</div>
 
 </div>
@@ -79,16 +74,10 @@ var UserID = "${userID}";
 		contentType : 'application/json',
 		data :{"userID":UserID},
 		url : fubon.contextPath+"roleManage/Role/Admin/Item",
-		success : function(data, response, xhr) {			
-			console.log(data)
-			console.log(response)
-			console.log(xhr)
+		success : function(data, response, xhr) {
 			var temp = JSON.parse(data).Data;
-			console.log(temp)
 			var userIDdata = JSON.parse(temp); 
-			console.log(userIDdata)
 			var BUID = userIDdata.BUID;
-			console.log(BUID)
 			var BUIDtemp;
 			/*判斷單位是否是 0000*/
 			if(typeof(BUID)=="undefined"){
@@ -121,6 +110,7 @@ var UserID = "${userID}";
 	   filterUserID('myInput','userTable');
         $("#userID").val("");
         $("#userName").val("");
+        $("#userEmail").val("");
 
 		//var buId = $("#buId").find(":selected").val();
 		var buidstr = $("#buId").find(":selected").val();
@@ -140,8 +130,6 @@ var UserID = "${userID}";
 	
 	
 	$("#submitBtn").click(function() {
-		  
-		   
 		if(userNameValidate()){
 			var buidstr = $("#buId").find(":selected").val();
 			var buInfo = buidstr.split(',');
@@ -150,7 +138,8 @@ var UserID = "${userID}";
 					"BUName":buInfo[1],
 					"UserID":$("#userID").val(),
 					"RoleID":$("#roleID").find(":selected").text(),
-					"UserName":$("#userName").val()};
+					"UserName":$("#userName").val(),
+					"UserEmail":$("#userEmail").val()};
 			/*修改使用者*/
 			$.ajax({
 				type : "POST",
@@ -163,9 +152,8 @@ var UserID = "${userID}";
 					$('#myInput').val("");
 					$("#userID").val("");
 					$("#userName").val("");
+                    $("#userEmail").val("");
 					getBURolesUsers(buInfo[0]);
-					
-	                
 				},
 				error : function(xhr) {
 					bootsrapAlert("err: " + xhr.status + ' '
@@ -183,7 +171,7 @@ function getBURoles(BUID){
 		contentType : 'application/json',
 		data :{"buId":BUID},
 		url : fubon.contextPath+"roleManage/Role/roleList",
-		success : function(data, response, xhr) {			
+		success : function(data, response, xhr) {
 			var temp = JSON.parse(data);
 			var tableData = JSON.parse(temp.Data).Roles;
 			 //alert(BUID);
@@ -209,22 +197,22 @@ function getBURolesUsers(BUID){
 		contentType : 'application/json',
 		data :{"buID":BUID,"roleID":"All"},
 		url : fubon.contextPath+"roleManage/Role/adminList",
-		success : function(data, response, xhr) {			
+		success : function(data, response, xhr) {
 			var tableData = JSON.parse(JSON.parse(data).Data).Users;
 			console.log(tableData);
 			$("#userTable").find("tr:gt(0)").remove();
 			if (tableData.length==0){
-				var str = "<tr><td colspan='5'>目前此單位無管理者</td></tr>";
+				var str = "<tr><td colspan='6'>目前此單位無管理者</td></tr>";
 				$('#userTable').append(str);
 			}
 			for(var i=0; i<tableData.length;i++){
-				var str = "<tr><td> </td><td> </td><td> </td><td> </td><td> </td></tr>";
+				var str = "<tr><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>";
 				$('#userTable').append(str);
 				
 				var h = $("<a>", {
 					href : "#",
 					text : tableData[i].UserID,
-					onclick:"sendModify('"+tableData[i].UserID+"','"+tableData[i].UserName+"','"+tableData[i].RoleID+"')"
+					onclick:"sendModify('"+tableData[i].UserID+"','"+tableData[i].UserName+"','"+tableData[i].UserEmail+"','"+tableData[i].RoleID+"')"
 				});
 			
 				var $specifyTd = $('#userTable tr:last').find('td');
@@ -233,6 +221,7 @@ function getBURolesUsers(BUID){
 				$specifyTd.eq(2).text(tableData[i].RoleName);
 				$specifyTd.eq(3).append(h);
 				$specifyTd.eq(4).text(tableData[i].UserName);
+                $specifyTd.eq(5).text(tableData[i].UserEmail);
 			}
 			
 			
@@ -244,9 +233,10 @@ function getBURolesUsers(BUID){
 	});
 }
 
-function sendModify(userid,userName,roleID){
+function sendModify(userid, userName, userEmail, roleID){
 	$('#userID').val(userid);
 	$('#userName').val(userName);
+    $('#userEmail').val(userEmail);
 	$('#roleID').val(roleID);
 }
 

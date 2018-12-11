@@ -40,7 +40,7 @@
 		<table id ="userTable" class="table table-bordered table-striped table-hover">
 		<thead>
 			<tr class="info">
-				<th>刪除</th><th>BUID</th><th>權限代碼</th><th>權限名稱</th><th>UserID</th><th>UserName</th>
+				<th>刪除</th><th>BUID</th><th>權限代碼</th><th>權限名稱</th><th>UserID</th><th>UserName</th><th>UserEmail</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -61,7 +61,7 @@ var UserID = "${userID}";
 		contentType : 'application/json',
 		data :{"userID":UserID},
 		url : fubon.contextPath+"roleManage/Role/Admin/Item",
-		success : function(data, response, xhr) {			
+		success : function(data, response, xhr) {
 			var temp = JSON.parse(data).Data;
 			
 			/*取得該User是哪個 BU*/
@@ -190,7 +190,7 @@ function getBURoles(BUID){
 		contentType : 'application/json',
 		data :{"buId":BUID},
 		url : fubon.contextPath+"roleManage/Role/roleList",
-		success : function(data, response, xhr) {			
+		success : function(data, response, xhr) {
 			var temp = JSON.parse(data);
 			var tableData = JSON.parse(temp.Data).Roles;
 			/*清除原有的 option*/
@@ -216,16 +216,16 @@ function getBURolesUsers(BUID,RoleID){
 		contentType : 'application/json',
 		data :{"buID":BUID,"roleID":RoleID},
 		url : fubon.contextPath+"roleManage/Role/adminList",
-		success : function(data, response, xhr) {			
+		success : function(data, response, xhr) {
 			var tableData = JSON.parse(JSON.parse(data).Data).Users;
 			console.log(tableData);
 			$("#userTable").find("tr:gt(0)").remove();
 			if (tableData.length==0){
-				var str = "<tr><td colspan='6'>目前此單位無管理者</td></tr>";
+				var str = "<tr><td colspan='7'>目前此單位無管理者</td></tr>";
 				$('#userTable').append(str);
 			}
 			for(var i=0; i<tableData.length;i++){
-				var str = "<tr><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>";
+				var str = "<tr><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>";
 				$('#userTable').append(str);
 				var checkbox = $('<input />', { type: 'checkbox', id:tableData[i].BUID+i, name:tableData[i].BUID , value:tableData[i].UserID+'&'+tableData[i].BUID +"&"+tableData[i].BUName +'&'+tableData[i].RoleID+'&'+tableData[i].UserName});
 				var $specifyTd = $('#userTable tr:last').find('td');
@@ -235,6 +235,7 @@ function getBURolesUsers(BUID,RoleID){
 				$specifyTd.eq(3).text(tableData[i].RoleName);
 				$specifyTd.eq(4).text(tableData[i].UserID);
 				$specifyTd.eq(5).text(tableData[i].UserName);
+                $specifyTd.eq(6).text(tableData[i].UserEmail);
 			}
 			$("#submitBtnDel").removeAttr("style");
 		
