@@ -12,6 +12,35 @@
 <jsp:include page="../nav.jsp"></jsp:include>
 <div class="container page-header">
 <jsp:include page="title.jsp"></jsp:include>
+
+    <div class="content-1">
+        <label class="control-label col-sm-1"> 每年</label>
+            <div class="col-sm-1 form-group" style="padding:0px"> 
+                <input class="form-control" type="number" min="1" max="12"/>
+            </div>
+        <label class="control-label col-sm-1"> 月</label>
+            <div class="col-sm-1 form-group" style="padding:0px"> 
+                <input class="form-control" type="number" min="1" max="31"/>
+            </div>
+        <label class="control-label col-sm-1"> 日</label>
+            <div class="col-sm-1 form-group"> 
+                <button type="button" class="btn btn-primary" >新增</button>
+            </div>
+    </div>
+
+    <div class="content-2">
+        <table id ="productTable" class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr class="info">
+                    <td class="wn">日期</td><td class="wn">刪除</td>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+         </table>
+
+    </div>
 </div>
 
 <spring:url value="/resources/houseViewManage/modifyHouseViewNotifyDate.js" var="houseViewJs" />
@@ -25,3 +54,6 @@
 
 </body>
 </html>
+
+
+

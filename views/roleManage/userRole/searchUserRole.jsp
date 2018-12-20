@@ -43,7 +43,7 @@
 		<table id ="userTable" class="table table-bordered table-striped table-hover">
 		<thead>
 			<tr class="info">
-				<th>BUID</th><th>權限代碼</th><th>權限名稱</th><th>UserID</th><th>UserName</th><th>UserEmail</th><th>最後登入時間</th>
+				<th>BUID</th><th>權限代碼</th><th>權限名稱</th><th>UserID</th><th>UserName</th><th>E-mail</th><th>最後登入時間</th>
 			</tr>
 		</thead>
 		<tbody>

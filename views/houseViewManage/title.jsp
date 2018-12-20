@@ -12,10 +12,10 @@ $(function(){
 </script>
 
 <div class="header">
-	<div class="col-sm-3">
+	<div class="col-sm-4">
 		<h1 class="title" align="left">觀點匯入管理</h1>
 	</div>
-	<div class="col-sm-9">
+	<div class="col-sm-8">
 		<ul class="nav nav-tabs" id="navi">
 			
 		</ul>

@@ -5,9 +5,16 @@
         <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
     </Console>
 
-    <RandomAccessFile name="DefaultFile" fileName="${sys:catalina.home}/logs/RABackend.log">
+    <RollingRandomAccessFile name="DefaultFile"
+                             fileName="${sys:catalina.home}/logs/RABackend.log"
+                             filePattern="${sys:catalina.home}/logs/RABackend.%d{yyyy-MM-dd}.%i.log">
         <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
-    </RandomAccessFile>
+        <Policies>
+            <TimeBasedTriggeringPolicy interval="1" />
+            <SizeBasedTriggeringPolicy size="100 MB" />
+        </Policies>
+        <DefaultRolloverStrategy max="10" />
+    </RollingRandomAccessFile>
 </Appenders>
 <Loggers>
     <Root level="error">

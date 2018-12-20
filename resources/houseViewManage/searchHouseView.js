@@ -2,6 +2,8 @@ $(function() {
     /* 搜尋商品的觀點參數 */
     $("#searchBtn").click(function() {
         searchHouseView($("#buId").find(":selected").val());
+        console.log('bubu')
+        console.log($("#buId").find(":selected").val())
     });
 });
 
@@ -9,7 +11,7 @@ $(function() {
 $("select").change(function () {
     var buId = "";
     $( "select option:selected" ).each(function() {
-      buId += $(this).val();
+      buId = $("#buId").find(":selected").val();
     });
     searchHouseView(buId);
   }).change();
@@ -19,13 +21,13 @@ $("select").change(function () {
  */
 function searchHouseView(buId){
     var searchReq = {keyword:$("#productIdOrName").val(), buId:buId};
-
     $.ajax({
         type : "POST",
         url : fubon.contextPath+"houseViewManage/searchHouseView",
         contentType : 'application/json;charset=UTF-8',
         data : JSON.stringify(searchReq),
         success : function(data, response, xhr) {
+            console.log(data)
             if(data.Status === "Error"){
                 $("#productTable").find("tr:gt(0)").remove();
                 $(".Msg").empty().append(data);
@@ -45,10 +47,10 @@ function searchHouseView(buId){
                     $specifyTd.eq(0).text(productHouseViewParamList[i].productCode);
                     $specifyTd.eq(1).text(productHouseViewParamList[i].productName);
                     if (productHouseViewParamList[i].oldERoR1Y) {
-                        $specifyTd.eq(2).text(productHouseViewParamList[i].oldERoR1Y * 100);
+                        $specifyTd.eq(2).text(productHouseViewParamList[i].oldERoR1Y * 100 +'%');
                     }
                     if (productHouseViewParamList[i].oldConfLevel) {
-                        $specifyTd.eq(3).text(productHouseViewParamList[i].oldConfLevel * 100);
+                        $specifyTd.eq(3).text(productHouseViewParamList[i].oldConfLevel * 100 +'%');
                     }
                     if (productHouseViewParamList[i].houseViewParamStartTime) {
                         $specifyTd.eq(4).text(productHouseViewParamList[i].houseViewParamStartTime);
@@ -68,6 +70,10 @@ function searchHouseView(buId){
 $("#downloadBtn").click(function() {
     var buId = $("#buId").find(":selected").val();
     var productIdOrName = $("#productIdOrName").val();
-    location.href = fubon.contextPath+"houseViewManage/downloadHouseView?buId="+ buId + "&productIdOrName=" + encodeURIComponent(productIdOrName);
+    if(productIdOrName === ""){
+        productIdOrName = 'all';
+    }
+    console.log(fubon.contextPath+"houseViewManage/downloadHouseView?buId=" + buId + "&productIdOrName=" + productIdOrName)
+    location.href = fubon.contextPath+"houseViewManage/downloadHouseView?buId=" + buId + "&productIdOrName=" + productIdOrName;
 });
 

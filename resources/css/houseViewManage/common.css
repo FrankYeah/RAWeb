@@ -43,3 +43,6 @@ td {
 .wn{
     white-space: nowrap;
 }
+.text-left{
+    text-align: left;
+}

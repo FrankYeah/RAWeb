@@ -44,7 +44,7 @@
 				<input type="text" maxlength="100" id="userEmail" name="userEmail" class="form-control" placeholder="userEmail" />
 			</div>
 
-			<div class="col-sm-1">
+			<div class="col-sm-5">
 				<button id="submitBtn" type="button" class="btn btn-primary">修改</button>
 			</div>
 		</div>
@@ -55,7 +55,7 @@
 		<table id ="userTable" class="table table-bordered table-striped table-hover">
 		<thead>
 			<tr class="info">
-				<th>BUID</th><th>權限代碼</th><th>權限名稱</th><th>UserID</th><th>UserName</th><th>UserEmail</th>
+				<th>BUID</th><th>權限代碼</th><th>權限名稱</th><th>UserID</th><th>UserName</th><th>E-mail</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -251,6 +251,7 @@ function userNameValidate() {
 	var buInfo = buidstr.split(',');
 	var buID = buInfo[0];
 	var RoleID = $("#roleID").find(":selected").text();
+	var userEmail = $("#userEmail").val().trim();
 	
 	if(!REBUId.test(buID)){
 		bootsrapAlert("請選擇欲加入的單位 ID");
@@ -269,6 +270,11 @@ function userNameValidate() {
 	
 	if(!REUserName.test(userName)){
 		bootsrapAlert("欲修改的使用者姓名最大長度為50，可含中文,英文,數字,底線(_),連結線(-),單點(.),括弧((),[],{}),斜線(/, \\)");
+    	return false;
+	}
+	
+	if(!REEmail.test(userEmail)){
+		bootsrapAlert("欲修改的使用者電子郵件，必須符合正式的電子郵件規範。");
     	return false;
     }
 	

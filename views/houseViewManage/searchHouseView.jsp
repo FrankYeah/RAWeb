@@ -14,7 +14,7 @@
 <jsp:include page="title.jsp"></jsp:include>
     <div class="content-1">
     <!--之後者裏要改成從資料庫撈有哪些單位-->
-        <label class="control-label col-sm-2"> 單位ID:</label>
+        <label class="control-label col-sm-2 text-left"> 單位ID:</label>
         <div class="col-sm-10 form-group">
             <select class="form-control" id="buId" name="buId">
                 <c:forEach items="${uiBUList}" var="BU" varStatus="iterator">
@@ -22,7 +22,7 @@
                 </c:forEach>
            </select>
        </div>
-        <label class="control-label col-sm-4" > 商品代碼/名稱:</label>
+        <label class="control-label col-sm-3 text-left" > 商品代碼/名稱:</label>
         <div class="col-sm-6">
             <input type="text" id="productIdOrName" name="productIdOrName" class="form-control" placeholder="All" />
         </div>
@@ -36,7 +36,7 @@
     <div class="content-1"><!-- style="display:none;"  -->
         <table id ="productTable"  class="table table-bordered table-striped table-hover">
             <tr class="info">
-                <td class="wn">代碼</td><td class="wn">名稱</td><td class="wn">預期年報酬率(%)</td><td class="wn">信心水準(%)</td><td >生效日期</td><td >失效日期</td>
+                <td class="wn">代碼</td><td class="wn">名稱</td><td class="wn">預期年報酬率</td><td class="wn">信心水準</td><td >修改日期</td><td >失效日期</td>
             </tr>
         </table>
 
