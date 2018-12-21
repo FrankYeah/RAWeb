@@ -2,7 +2,6 @@ $(function() {
     /* 搜尋商品的觀點參數 */
     $("#searchBtn").click(function() {
         searchHouseView($("#buId").find(":selected").val());
-        console.log('bubu')
         console.log($("#buId").find(":selected").val())
     });
 });
@@ -70,10 +69,8 @@ function searchHouseView(buId){
 $("#downloadBtn").click(function() {
     var buId = $("#buId").find(":selected").val();
     var productIdOrName = $("#productIdOrName").val();
-    if(productIdOrName === ""){
-        productIdOrName = 'all';
-    }
-    console.log(fubon.contextPath+"houseViewManage/downloadHouseView?buId=" + buId + "&productIdOrName=" + productIdOrName)
-    location.href = fubon.contextPath+"houseViewManage/downloadHouseView?buId=" + buId + "&productIdOrName=" + productIdOrName;
+
+    console.log(fubon.contextPath+"houseViewManage/downloadHouseView?buId=" + buId + "&productIdOrName=" + encodeURIComponent(productIdOrName))
+    location.href = fubon.contextPath+"houseViewManage/downloadHouseView?buId=" + buId + "&productIdOrName=" + encodeURIComponent(productIdOrName);
 });
 
