@@ -1,6 +1,8 @@
 let originData;
 let submitDataSet = {"houseViewParamList" : []}
-// 預設buId？
+let profitNum;
+let levelNum;
+
 searchHouseView()
 function searchHouseView(){
     var searchReq = {};
@@ -24,7 +26,7 @@ function searchHouseView(){
                 $("#productTable").find("tr:gt(0)").remove();
 
                 for(var i=0; i<productHouseViewParamList.length;i++){
-                    var str = "<tr> <td class='wn'> </td><td> </td><td><input style='border:0px; background-color: rgba(0%, 0%, 100%, 0); text-align:center' value='%'/> </td><td><input style='border:0px; background-color: rgba(0%, 0%, 100%, 0); text-align:center' value='%'/> </td></tr>";
+                    var str = "<tr> <td class='wn'> </td><td> </td><td><input onchange='changeColor(this)' style='color:grey; border:0px; background-color: rgba(0%, 0%, 100%, 0); text-align:center' value='%'/> </td><td><input onchange='changeColor(this)' style='color:grey; border:0px; background-color: rgba(0%, 0%, 100%, 0); text-align:center' value='%'/> </td></tr>";
                     $('#productTable').append(str);
                     var $specifyTd = $('#productTable tr:last').find('td');
                     $specifyTd.eq(0).text(productHouseViewParamList[i].productCode);
@@ -52,19 +54,40 @@ $(function() {
     $("#submitBtn").click(function() {
         for(var i=0; i<originData.Data.productHouseViewParamList.length;i++){
             var inputNum= $('#productTable tr').find('input');
-            var submitArray = {
-                "productCode" : originData.Data.productHouseViewParamList[i].productCode, 
-                "productERoR1Y" : Number(inputNum[0+i*2].value.substring(0, inputNum[0+i*2].value.length-1))/100,   
-                "productConfLevel" : Number(inputNum[1+i*2].value.substring(0, inputNum[1+i*2].value.length-1))/100
+            var submitArray;
+            if(inputNum[0+i*2].value.length == 1 && inputNum[1+i*2].value.length > 1){
+                alert('不可單一邊為空值')
+                return
             }
-            if(Number(inputNum[0+i*2].value.substring(0, inputNum[0+i*2].value.length-1))/100 == originData.Data.productHouseViewParamList[i].oldERoR1Y && Number(inputNum[1+i*2].value.substring(0, inputNum[1+i*2].value.length-1))/100 == originData.Data.productHouseViewParamList[i].oldConfLevel){
-
+            if(inputNum[0+i*2].value.length > 1 && inputNum[1+i*2].value.length == 1){
+                alert('不可單一邊為空值')
+                return
+            }
+            if(inputNum[0+i*2].value.length == 1){
+                profitNum = null;
             }else{
-                submitDataSet.houseViewParamList.push(submitArray);
+                profitNum = parseFloat((Number(inputNum[0+i*2].value.substring(0, inputNum[0+i*2].value.length-1))/100).toPrecision(12));
+            }
+
+            if(inputNum[1+i*2].value.length == 1){
+                levelNum = null;
+            }else{
+                levelNum = parseFloat((Number(inputNum[1+i*2].value.substring(0, inputNum[1+i*2].value.length-1))/100).toPrecision(12));
+            }
+            submitArray = {
+                "productCode" : originData.Data.productHouseViewParamList[i].productCode, 
+                "productERoR1Y" : profitNum,   
+                "productConfLevel" : levelNum
+            }
+            submitDataSet.houseViewParamList.push(submitArray);
+            
+
+            if(Number(inputNum[0+i*2].value.substring(0, inputNum[0+i*2].value.length-1))/100 == originData.Data.productHouseViewParamList[i].oldERoR1Y && Number(inputNum[1+i*2].value.substring(0, inputNum[1+i*2].value.length-1))/100 == originData.Data.productHouseViewParamList[i].oldConfLevel){
+            }else{
             }
  
-
         }
+        console.log(submitDataSet)
         sendModifyView(submitDataSet);
     });
 });
@@ -79,7 +102,7 @@ function sendModifyView(SubData){
         success : function(data, response, xhr) {
             //清空資料
             submitDataSet = {"houseViewParamList" : []};
-            // 權限？
+            // 
             console.log(data)
        
             if(data.Status === "Error"){
@@ -102,3 +125,7 @@ $(function() {
         searchHouseView()
     });
 });
+
+function changeColor(e){
+    e.style.color = 'black';
+}

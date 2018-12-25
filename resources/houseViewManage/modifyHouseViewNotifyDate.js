@@ -32,6 +32,29 @@ function getListNote(){
             bootsrapAlert("err: " + xhr.status + ' ' + xhr.statusText);
         }
     });
+
+    // 回傳間隔值
+    $.ajax({
+        type : "POST",
+        url : fubon.contextPath+"houseViewManage/getNotifyPeriod",
+        contentType : 'application/json;charset=UTF-8',
+        data : '',
+        success : function(data, response, xhr) {
+            console.log(data)
+
+            if(data.Status === "Error"){
+                
+            }else{
+                $('div div').find('input')[2].value = data.Data.period;
+            }
+        },
+        error : function(xhr) {
+            bootsrapAlert("err: " + xhr.status + ' ' + xhr.statusText);
+        }
+    });
+
+
+
 }
 
 // 新增

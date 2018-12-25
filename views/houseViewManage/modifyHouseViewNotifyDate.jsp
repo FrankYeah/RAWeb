@@ -29,7 +29,7 @@
             </div>
         <label class="control-label col-sm-2"> 通知間隔</label>
             <div class="col-sm-1 form-group" style="padding:0px"> 
-                <input class="form-control" type="number" min="1" max="7"/>
+                <input class="form-control" type="number" min="1" max="30"/>
             </div>
         <label class="control-label col-sm-1"> 日</label>
 
