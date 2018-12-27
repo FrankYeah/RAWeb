@@ -33,10 +33,10 @@ function searchHouseView(){
                         $specifyTd.eq(0).text(productHouseViewParamList[i].productCode);
                         $specifyTd.eq(1).text(productHouseViewParamList[i].productName);
                         if (productHouseViewParamList[i].newERoR1Y) {
-                            $specifyTd.eq(2).text(productHouseViewParamList[i].newERoR1Y * 100 + '%');
+                            $specifyTd.eq(2).text(parseFloat((productHouseViewParamList[i].newERoR1Y * 100).toPrecision(12)) + '%');
                         }
                         if (productHouseViewParamList[i].newConfLevel) {
-                            $specifyTd.eq(3).text(productHouseViewParamList[i].newConfLevel * 100 + '%');
+                            $specifyTd.eq(3).text(parseFloat((productHouseViewParamList[i].newConfLevel * 100).toPrecision(12)) + '%');
                         }
                     }
                 }

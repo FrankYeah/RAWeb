@@ -33,10 +33,10 @@ function searchHouseView(){
                     $specifyTd.eq(1).text(productHouseViewParamList[i].productName);
                     var $specifyInput = $('#productTable tr:last').find('input');
                     if (productHouseViewParamList[i].oldERoR1Y) {
-                        $specifyInput[0].value = productHouseViewParamList[i].oldERoR1Y * 100 +'%';
+                        $specifyInput[0].value = parseFloat((productHouseViewParamList[i].oldERoR1Y * 100).toPrecision(12)) +'%';
                     }
                     if (productHouseViewParamList[i].oldConfLevel) {
-                        $specifyInput[1].value = productHouseViewParamList[i].oldConfLevel * 100 +'%';
+                        $specifyInput[1].value = parseFloat((productHouseViewParamList[i].oldConfLevel * 100).toPrecision(12)) +'%';
                     }
                 }
             }

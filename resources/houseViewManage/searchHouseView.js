@@ -46,10 +46,10 @@ function searchHouseView(buId){
                     $specifyTd.eq(0).text(productHouseViewParamList[i].productCode);
                     $specifyTd.eq(1).text(productHouseViewParamList[i].productName);
                     if (productHouseViewParamList[i].oldERoR1Y) {
-                        $specifyTd.eq(2).text(productHouseViewParamList[i].oldERoR1Y * 100 +'%');
+                        $specifyTd.eq(2).text(parseFloat((productHouseViewParamList[i].oldERoR1Y * 100).toPrecision(12)) +'%');
                     }
                     if (productHouseViewParamList[i].oldConfLevel) {
-                        $specifyTd.eq(3).text(productHouseViewParamList[i].oldConfLevel * 100 +'%');
+                        $specifyTd.eq(3).text(parseFloat((productHouseViewParamList[i].oldConfLevel * 100).toPrecision(12)) +'%');
                     }
                     if (productHouseViewParamList[i].houseViewParamStartTime) {
                         $specifyTd.eq(4).text(productHouseViewParamList[i].houseViewParamStartTime);
