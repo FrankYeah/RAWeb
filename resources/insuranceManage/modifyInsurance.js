@@ -9,41 +9,11 @@ $(function() {
     	
     });
 	
-	/*搜尋商品*/
-	$("#submitBtnSearch").click(function() {
-		 $("#buId_text").val("");
-			$("#productID").val("");
-			$("#productName").val("");
-			$("#productDescribe").val("");
-			$("#url").val("");
-		if($("#productNameSearch").val()=="All"){
-			$("#productNameSearch").val("");
-
-			searchProduct($("#buId").find(":selected").val());
-		}else{
-			searchProduct($("#buId").find(":selected").val());
-			$("#productNameSearch").val("");
-		}
-	});	
 
 });
 
-/*如果切換ID 下面 role表格也要改變*/
-$("#buId").change(function () {
-    var str = "";
-    $( "#buId option:selected" ).each(function() {
-      str += $( this ).val();
-    });
-    
-    $("#buId_text").val("");
-	$("#productID").val("");
-	$("#productName").val("");
-	$("#productDescribe").val("");
-	$("#url").val("");
+searchProduct('0005');
 
-    searchProduct(str);
-  })
-  .change();
 /*確認是否為 json object*/  
 function IsJsonString(str) {
     try {
@@ -98,8 +68,7 @@ function selectProduct(product){
             var updatedProduct = {"BUID": $bu.val(), "BUName": $bu.attr("buname"),
                 "Code":$("#productID").val(),
                 "Name":$("#productName").val(),
-                "Description":$("#productDescribe").val(),
-                "Link":$("#url").val(),
+
                 "Active":$("#startCheckBox").prop("checked"),
 				"RiskReturn" :$("#RiskReturn :selected").text()
 			};
@@ -119,7 +88,7 @@ function selectProduct(product){
                     $("#productDescribe").val("");
                     $("input[type='checkbox']").attr("checked", false);
                     /*更新商品清單*/
-                    searchProduct($("#buId").find(":selected").val());
+                    searchProduct('0005');
 
                 },
                 error : function(xhr) {
@@ -196,8 +165,8 @@ function productNameValidate() {
 
 /*搜尋商品*/
 function searchProduct(BUID){
-	var searchproduct = {"SearchName":$("#productNameSearch").val(),"BUID":BUID};
-	
+	var searchproduct = {"SearchName":'',"BUID":'0005'};
+	console.log(searchproduct)
 	$.ajax({
 		type : "POST",
 		contentType : 'application/json',
@@ -217,7 +186,7 @@ function searchProduct(BUID){
 				$( ".Msg" ).empty();
 				for(var i=0; i<tableData.length;i++){
 					var product = tableData[i];
-					var str = "<tr><td class='wn'> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>";
+					var str = "<tr><td class='wn'> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>";
 					$('#productTable').append(str);
 					var $specifyTd = $('#productTable tr:last').find('td');
 					var href = $("<a/>", {
@@ -243,12 +212,10 @@ function searchProduct(BUID){
 
 					$specifyTd.eq(0).append($codeh);
 					$specifyTd.eq(1).text(product.Name);
-					$specifyTd.eq(2).text(product.RiskReturn);
-					$specifyTd.eq(3).text(product.Description);
-					$specifyTd.eq(4).append(href);
-					$specifyTd.eq(5).text(product.CreateTime);
-					$specifyTd.eq(6).append(checkEnabled(product.Active));
-					$specifyTd.eq(7).text(product.UpdateTime);
+					$specifyTd.eq(2).text('');
+					$specifyTd.eq(3).text('');
+					$specifyTd.eq(4).append(checkEnabled(product.Active));
+					$specifyTd.eq(5).text(product.UpdateTime);
 					
 				}
 				

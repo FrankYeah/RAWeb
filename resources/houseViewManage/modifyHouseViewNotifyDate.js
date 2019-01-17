@@ -115,6 +115,7 @@ $("#addBtn").click(function() {
 
 // 刪除
 function delDate(e){
+    console.log(e)
     var delData = {
         "notifyConfigId" : storeData.Data.productHouseViewNotifyConfigList[e.name].id // 該筆通知設定的 uuid
     }

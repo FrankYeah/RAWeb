@@ -58,7 +58,7 @@ function searchProduct(BUID){
 				$("#buId").find(":selected").val();
 				
 				for(var i=0; i<tableData.length;i++){
-					var str = "<tr><td class='wn'> </td><td> </td><td> </td><td> </td><td > </td><td> </td><td> </td><td> </td></tr>";
+					var str = "<tr><td class='wn'> </td><td> </td><td> </td><td> </td><td > </td><td> </td></tr>";
 					$('#productTable').append(str);
 					var $specifyTd = $('#productTable tr:last').find('td');
 					var href = $("<a>", {
@@ -68,12 +68,11 @@ function searchProduct(BUID){
 					});
 					$specifyTd.eq(0).text(tableData[i].Code);
 					$specifyTd.eq(1).text(tableData[i].Name);
-					$specifyTd.eq(2).text(tableData[i].RiskReturn);
-					$specifyTd.eq(3).text(tableData[i].Description);
-					$specifyTd.eq(4).append(href);
-					$specifyTd.eq(5).text(tableData[i].CreateTime);
-					$specifyTd.eq(6).append(checkEnabled(tableData[i].Active));
-					$specifyTd.eq(7).text(tableData[i].UpdateTime);
+					$specifyTd.eq(2).text('');
+					$specifyTd.eq(3).text('');
+					$specifyTd.eq(4).append(checkEnabled(tableData[i].Active));
+					$specifyTd.eq(5).text(tableData[i].UpdateTime);
+
 					
 				}
 				
@@ -112,7 +111,7 @@ function searchProductForSubmit(BUID){
 				$("#productTable").find("tr:gt(0)").remove();
 				$("#buId").find(":selected").val();
 				for(var i=0; i<tableData.length;i++){
-					var str = "<tr><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>";
+					var str = "<tr><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>";
 					$('#productTable').append(str);
 					var $specifyTd = $('#productTable tr:last').find('td');
 					var href = $("<a>", {
@@ -127,8 +126,7 @@ function searchProductForSubmit(BUID){
 					$specifyTd.eq(3).text(tableData[i].Description);
 					$specifyTd.eq(4).append(href);
 					$specifyTd.eq(5).text(tableData[i].CreateTime);
-					$specifyTd.eq(6).append(checkEnabled(tableData[i].Active));
-					$specifyTd.eq(7).text(tableData[i].UpdateTime);
+
 				}
 				
 			}

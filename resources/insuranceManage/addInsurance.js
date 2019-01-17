@@ -9,10 +9,9 @@ $(function() {
 			var product={"BUID": $bu.val(), "BUName": $bu.attr("buname"),
                          "Code":$("#productID").val(),
 		   				 "Name":$("#productName").val(),
-						 "Description":$("#productDescribe").val(),
-						 "Link":$("#url").val(),
 						 "Active":$("#startCheckBox").prop("checked"),
-						 "RiskReturn" :$("#RiskReturn :selected").text()
+                         "RiskReturn" :$("#RiskReturn :selected").text(),
+                         "isPrdruct" :$("#isPrdruct :selected").text()
 			};
 			console.log(product)
 			$.ajax({
@@ -48,39 +47,6 @@ $(function() {
 		}
 	});
 
-    $("#submitBtnUpload").click(function() {
-        var file = $('#file')[0].files[0];
-        console.log(file);
-        if(file != null && file.size > 0 ){
-            if(fileValidate()){
-                var formData = new FormData();
-                formData.append('file', file);
-                $.ajax({
-                    url : fubon.contextPath+"product/uploadForProduct",
-                    type: 'POST',
-                    cache: false,
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success : function(data, response, xhr) {
-                        if(data.status){
-                            $("#file").val(null);
-                            bootsrapAlert("處理成功");
-                        }else{
-                            bootsrapAlert(data.exceptionMessage);
-                        }
-                    },
-                    error : function(xhr) {
-                        bootsrapAlert("err: " + xhr.status + ' '
-                            + xhr.statusText);
-                    }
-                });
-            }
-        }else{
-            bootsrapAlert("請上傳檔案");
-		}
-
-    });
 
 });
 

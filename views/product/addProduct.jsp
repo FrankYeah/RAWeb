@@ -29,19 +29,7 @@
 		   </select>
 		   
 	   	</div>
-	<br>
-	<br>
-	<label class="control-label col-sm-2"> 類型:</label>
-	<div class="form-group col-sm-3">
-		<select id="type" name="type" class="form-control ">
-			<option  value="MF">MF</option>
-			<option  value="ETF">ETF</option>
-		</select>
-	</div>
-	<label class="control-label col-sm-2"> 註記:</label>
-	<div class="col-sm-3 form-group">
-		<input type="text" id="label" name="label" class="form-control"/>
-	</div>
+
 	<br>
 	<br>
 	<label class="control-label col-sm-2"> 商品代碼:</label>
@@ -54,6 +42,20 @@
 	   	</div>	
 	<br>
 	<br>
+
+	<label class="control-label col-sm-2">商品風險等級:</label>
+	<div class="form-group col-sm-3"> 
+		<select id="RiskReturn" name="RiskReturn" class="form-control ">
+			<option  value="RR1">RR1</option>
+			<option  value="RR2">RR2</option>
+			<option  value="RR3">RR3</option>
+			<option  value="RR4">RR4</option>
+			<option  value="RR5" selected>RR5</option>
+		</select>
+	</div>	
+	<br>
+	<br>
+
 	<label class="control-label col-sm-2">商品說明</label>
 		<div class="form-group col-sm-9"> 
 	    	<textarea class="form-control" id="productDescribe" name ="productDescribe" rows="5"></textarea>
@@ -72,13 +74,17 @@
 	<div class="col-sm-2">
 		<button id="submitBtn" type="button" class="btn btn-primary">新增</button>
 	</div>
-	<form id="uploadForm" enctype='multipart/form-data' >
-		<label class="btn btn-default btn-file">
-			<input id="file" type="file" style="display: none"/>
-			請選擇要上傳的檔案
-		</label>
-		<button id="submitBtnUpload" type="button" class="btn btn-primary">上傳</button>
-	</form>
+
+	<div style="display: none">
+		<!-- 檔案上傳功能沒人知道細節，而且沒人使用。把它停用。 -->
+		<form id="uploadForm" enctype='multipart/form-data' >
+			<label class="btn btn-default btn-file">
+				<input id="file" type="file" style="display: none"/>
+				請選擇要上傳的檔案
+			</label>
+			<button id="submitBtnUpload" type="button" class="btn btn-primary">上傳</button>
+		</form>
+	</div>
 </form>
 
 
