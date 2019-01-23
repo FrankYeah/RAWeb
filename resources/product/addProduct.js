@@ -6,39 +6,46 @@ $(function() {
 			/*新增商品*/
 			var $bu = $("#buId option:selected");
 			
-			var product={"BUID": $bu.val(), "BUName": $bu.attr("buname"),
-                         "Code":$("#productID").val(),
-		   				 "Name":$("#productName").val(),
-						 "Description":$("#productDescribe").val(),
-						 "Link":$("#url").val(),
-						 "Active":$("#startCheckBox").prop("checked"),
-						 "RiskReturn" :$("#RiskReturn :selected").text()
+			var product={
+				"modifyType" : "Add",
+                "code":$("#productID").val(),
+				"name":$("#productName").val(),
+				"riskReturn" :$("#RiskReturn :selected").text(),
+                "description":$("#productDescribe").val(),
+                "link":$("#url").val(),
+                "active":$("#startCheckBox").prop("checked")	
 			};
-			console.log(product)
+
 			$.ajax({
 				type : "POST",
 				contentType : 'application/json',
-				url : fubon.contextPath+"product/addProduct",
+				url : fubon.contextPath+"product/modifyRequest",
 				data : JSON.stringify(product),
 				success : function(data, response, xhr) {
-					var data = JSON.parse(data);
-					if(!data.Status){
-						bootsrapAlert(data.ExceptionMessage);
-					}else{
-						 BootstrapDialog.show({
-							 type :BootstrapDialog.TYPE_PRIMARY,
-							 closable: false,
-							 title: '訊息',
-					         message: "商品新增成功",
-					         buttons: [{
-					             label: 'Close',
-					             action: function(dialogRef){
-					                 dialogRef.close();
-					                 window.location.href = fubon.contextPath+'Product/SearchProduct';
-					             }
-					         }]
-					     });
-					}
+
+					bootsrapAlert("商品新增成功");
+					$("#productID").val("");
+					$("#url").val("");
+					$("#productDescribe").val("");
+					$("#productName").val("");
+                    $("input[type='checkbox']").attr("checked", false);
+
+					// 發送 email  ------------------------------------
+					$.ajax({
+						type : "POST",
+						contentType : 'application/json',
+						url : fubon.contextPath+"product/sendVerifyNotify",
+						data: {},
+						success : function(data, response, xhr) {
+							console.log(data)						
+						},
+						error : function(xhr) {
+							bootsrapAlert("err: " + xhr.status + ' '
+								+ xhr.statusText);
+						}
+					});
+					// -----------------------------------------------
+
 				},
 				error : function(xhr) {
 					bootsrapAlert("err: " + xhr.status + ' '

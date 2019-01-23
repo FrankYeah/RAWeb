@@ -1,5 +1,5 @@
-searchProduct('0001');
-
+listModifyProduct();
+var storeData;
 function IsJsonString(str) {
     try {
         JSON.parse(str);
@@ -11,27 +11,17 @@ function IsJsonString(str) {
 
 
 /*搜尋商品*/
-function searchProduct(BUID){
-	console.log(BUID)
-	var searchproduct = {"SearchName":'',"BUID":'0001'}
-	console.log(searchproduct)
+function listModifyProduct(){
+
 	$.ajax({
 		type : "POST",
 		contentType : 'application/json',
-		url : fubon.contextPath+"product/searchProduct",
-		data : JSON.stringify(searchproduct),
+		url : fubon.contextPath+"product/listModifyRequest",
+		data : {},
 		success : function(data, response, xhr) {
-			if(!IsJsonString(data)){
-				$("#productTable").find("tr:gt(0)").remove();
-				$( ".Msg" ).empty();
-				$(".Msg").append(data);
-				if (BUID!=""){bootsrapAlert(data);}
-				
-			}else{
-				var temp = JSON.parse(data);
-				var productData = JSON.parse(temp.Data);
-				console.log(productData);
-				var tableData =productData.Products;
+
+			var tableData = data.Data.modifyRequestList
+			storeData = tableData;
 				$( ".Msg" ).empty();
 				$("#productTable").find("tr:gt(0)").remove();
 				$("#buId").find(":selected").val();
@@ -45,19 +35,20 @@ function searchProduct(BUID){
 						text : tableData[i].Link,
 						target: "_blank"
 					});
-					$specifyTd.eq(0).text(tableData[i].Code);
-					$specifyTd.eq(1).text(tableData[i].Name);
-					$specifyTd.eq(2).text(tableData[i].RiskReturn);
-					$specifyTd.eq(3).text(tableData[i].Description);
-					$specifyTd.eq(4).append(href);
-					$specifyTd.eq(5).append(checkEnabled(tableData[i].Active));
+					$specifyTd.eq(0).text(tableData[i].code);
+					$specifyTd.eq(1).text(tableData[i].name);
+					$specifyTd.eq(2).text(tableData[i].riskReturn);
+					$specifyTd.eq(3).text(tableData[i].description);
+					$specifyTd.eq(4).append(tableData[i].link);
+					$specifyTd.eq(5).append(checkEnabled(tableData[i].active));
 					$('#productTable tr').find('button')[i*2+1].name = i;
 					$('#productTable tr').find('button')[i*2].name = i;
-					
+
+
+
+
 				}
 				
-			}
-			
 		},
 		error : function(xhr) {
 			bootsrapAlert("err: " + xhr.status + ' '
@@ -78,50 +69,61 @@ function checkEnabled(tf){
 }
 
 
-
-
-
 function passVerify(e){
-	console.log(e.name)
+
+	var pass ={
+		"approveFlowIdList" : [storeData[e.name].flowId]
+	}
+	
     // 發 API 通過 
+	$.ajax({
+		type : "POST",
+		contentType : 'application/json',
+		url : fubon.contextPath+"product/verifyRequest",
+		data: JSON.stringify(pass)
+		,
+		success : function(data, response, xhr) {
+			bootsrapAlert("通過成功");
+		
+			listModifyProduct();				
+		},
+		error : function(xhr) {
+	
+			bootsrapAlert("err: " + xhr.status + ' '+ xhr.statusText);
+			listModifyProduct();
+		}
+	});
 
-
-
-	// 重新整理
 
 }
 
 function falseVerify(e){
-	console.log(e.name)
-    // 發 API 駁回 
 
+	var falseIt ={
+		"rejectFlowIdList" : [storeData[e.name].flowId]
+	}
+	
+    // 發 API 通過 
+	$.ajax({
+		type : "POST",
+		contentType : 'application/json',
+		url : fubon.contextPath+"product/verifyRequest",
+		data: JSON.stringify(falseIt)
+		,
+		success : function(data, response, xhr) {
+			bootsrapAlert("駁回成功");
+		
+			listModifyProduct();				
+		},
+		error : function(xhr) {
+
+			bootsrapAlert("err: " + xhr.status + ' '+ xhr.statusText);	
+			listModifyProduct();
+		}
+	});
 
 	// 重新整理
+	listModifyProduct();
 
 }
 
-// $.ajax({
-// 	type : "POST",
-// 	contentType : 'application/json',
-// 	url : fubon.contextPath+"product/searchProduct",
-// 	data : JSON.stringify(searchproduct),
-// 	success : function(data, response, xhr) {
-
-// 		// 模擬假資料
-
-
-// 		if(!IsJsonString(data)){
-// 			// 告知發送 API 失敗
-			
-// 		}else{
-// 			// 重整 list data
-			
-			
-// 		}
-		
-// 	},
-// 	error : function(xhr) {
-// 		bootsrapAlert("err: " + xhr.status + ' '
-// 				+ xhr.statusText);
-// 	}	
-// });

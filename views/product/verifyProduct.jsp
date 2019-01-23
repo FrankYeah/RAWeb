@@ -8,7 +8,7 @@
 <link href="<c:url value="/resources/css/product/common.css" />" rel="stylesheet" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<title>商品管理 > 覆核商品變更</title>
+<title>覆核商品變更</title>
 </head>
 <body>
 <jsp:include page="../nav.jsp"></jsp:include>
@@ -17,7 +17,7 @@
 
 
 <!-- // -->
-<div class="content-1">
+<div style="display:none" class="content-1">
     <!--之後者裏要改成從資料庫撈有哪些單位-->
         <label class="control-label col-sm-2"> 單位ID:</label>
             <div class="col-sm-10 form-group"> 

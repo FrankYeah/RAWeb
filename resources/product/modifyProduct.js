@@ -28,6 +28,38 @@ $(function() {
 
 });
 
+
+// var hahaha = {
+// 	"modifyType" : "Add",       // 請求類型。'Add' = 新增商品, 'Update' = 修改商品。(Required)
+// 	"code": "009323",            // 金融商品代碼 (Required)
+// 	"name": "不喜歡科技",  // 金融商品名稱 (Required)
+// 	"riskReturn": "RR4",        // 產品風險等級，有五種值 'RR1', 'RR2', 'RR3', 'RR4', 'RR5' (Required)
+// 	"description": "國內第一檔真正「直接」投資於中國A股的ETF",    // 金融商品描述
+// 	"link": "https://www.FubonETF/Funds/Profile.aspx?stock=0052", // 金融商品介紹外部連結URL
+// 	"active": true             // 是否被啟用？(True: 啟用)(Required)
+// }
+
+// // modify request  ------------------------------------
+// $.ajax({
+// 	type : "POST",
+// 	contentType : 'application/json',
+// 	url : fubon.contextPath+"product/modifyRequest",
+// 	data: JSON.stringify(hahaha)
+// 	,
+// 	success : function(data, response, xhr) {
+// 		bootsrapAlert("修改成功");
+// 		console.log(data)							
+// 	},
+// 	error : function(xhr) {
+// 		console.log(xhr)	
+// 		bootsrapAlert("err: " + xhr.status + ' '
+// 			+ xhr.statusText);
+// 	}
+// });
+// // -----------------------------------------------
+
+
+
 /*如果切換ID 下面 role表格也要改變*/
 $("#buId").change(function () {
     var str = "";
@@ -54,11 +86,9 @@ function IsJsonString(str) {
     return true;
 }
 
-
 /*將要修改的資訊用ajax去後端跟api要資料*/	
 function selectProduct(product){
 	var code = product.Code;
-	  
 	  
 	$.ajax({
 		type : "GET",
@@ -95,23 +125,23 @@ function selectProduct(product){
         if(productNameValidate()){
             var $bu = $("#buId option:selected");
             /*修改商品*/
-            var updatedProduct = {"BUID": $bu.val(), "BUName": $bu.attr("buname"),
-                "Code":$("#productID").val(),
-                "Name":$("#productName").val(),
-                "Description":$("#productDescribe").val(),
-                "Link":$("#url").val(),
-                "Active":$("#startCheckBox").prop("checked"),
-				"RiskReturn" :$("#RiskReturn :selected").text()
+            var updatedProduct = {
+				"modifyType" : "Update",
+                "code":$("#productID").val(),
+				"name":$("#productName").val(),
+				"riskReturn" :$("#RiskReturn :selected").text(),
+                "description":$("#productDescribe").val(),
+                "link":$("#url").val(),
+                "active":$("#startCheckBox").prop("checked")				
 			};
-			var ajaxData = {updated: updatedProduct, origin: product};
-			console.log(ajaxData)
+
             $.ajax({
                 type : "POST",
                 contentType : 'application/json',
-                url : fubon.contextPath+"product/modifyProduct",
-                data : JSON.stringify(ajaxData),
+                url : fubon.contextPath+"product/modifyRequest",
+                data : JSON.stringify(updatedProduct),
                 success : function(data, response, xhr) {
-                    var data = JSON.parse(data);
+					console.log(data)
                     bootsrapAlert("商品修改成功");
                     /*把表單清空*/
                     var all_Inputs = $("input[type=text]");
@@ -120,6 +150,23 @@ function selectProduct(product){
                     $("input[type='checkbox']").attr("checked", false);
                     /*更新商品清單*/
                     searchProduct($("#buId").find(":selected").val());
+
+
+					// 發送 email  ------------------------------------
+					$.ajax({
+						type : "POST",
+						contentType : 'application/json',
+						url : fubon.contextPath+"product/sendVerifyNotify",
+						data: {},
+						success : function(data, response, xhr) {
+							console.log(data)
+						},
+						error : function(xhr) {
+							bootsrapAlert("err: " + xhr.status + ' '
+								+ xhr.statusText);
+						}
+					});
+					// -----------------------------------------------
 
                 },
                 error : function(xhr) {
@@ -192,7 +239,6 @@ function productNameValidate() {
 
 	return true;
 }
-
 
 /*搜尋商品*/
 function searchProduct(BUID){
