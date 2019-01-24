@@ -3,24 +3,29 @@ $(function() {
 	$("#submitBtn").click(function() {
 		
 		if(productNameValidate()){
-			/*新增商品*/
+			/*新增險種*/
 			var $bu = $("#buId option:selected");
-			
-			var product={"BUID": $bu.val(), "BUName": $bu.attr("buname"),
-                         "Code":$("#productID").val(),
-		   				 "Name":$("#productName").val(),
-						 "Active":$("#startCheckBox").prop("checked"),
-                         "RiskReturn" :$("#RiskReturn :selected").text(),
-                         "isPrdruct" :$("#isPrdruct :selected").text()
+			var boalean;
+			if($("#isPrdruct :selected").val()== 'false'){
+				boalean = false;
+			}else{
+				boalean = true;
+			}
+			var product={
+				"modifyType" : "Add", // 請求類型。'Add' = 新增商品, 'Update' = 修改商品。(Required)
+				"code": $("#productID").val(), // 商品代碼 (Required)
+				"name": $("#productName").val(), // 商品名稱 (Required)
+				"kypGroup": $("#RiskReturn :selected")[0].value, // KYP組別，有這儿種值 '1', '2', '3', '4', '5', '6', null 
+				"isProject": boalean, // 是否為專案商品 (Required)
+				"isActive": $("#startCheckBox").prop("checked") // 商品是否啟用 (Required)	 
 			};
-			console.log(product)
 			$.ajax({
 				type : "POST",
 				contentType : 'application/json',
-				url : fubon.contextPath+"product/addProduct",
+				url : fubon.contextPath+"insuranceManage/modify",
 				data : JSON.stringify(product),
 				success : function(data, response, xhr) {
-					var data = JSON.parse(data);
+					console.log(data)
 					if(!data.Status){
 						bootsrapAlert(data.ExceptionMessage);
 					}else{
@@ -33,7 +38,7 @@ $(function() {
 					             label: 'Close',
 					             action: function(dialogRef){
 					                 dialogRef.close();
-					                 window.location.href = fubon.contextPath+'Product/SearchProduct';
+					                 window.location.href = fubon.contextPath+'InsuranceManage/SearchInsurance';
 					             }
 					         }]
 					     });
@@ -74,10 +79,6 @@ function productNameValidate() {
     	bootsrapAlert("請填寫商品名稱");
     	return false;
     }
-	if(productDescribe.trim()==""){
-    	bootsrapAlert("請填寫商品說明");
-    	return false;
-    }
 	//check格式
 	if(!REproductID.test(productID)){
     	bootsrapAlert("欲新增的商品代碼最大長度為20，可含英文或數字");
@@ -93,14 +94,7 @@ function productNameValidate() {
     	return false;
     }
 	//if(!REproductDesc.test(productDescribe)){
-	if (productDescribe.trim().length>500){
-    	bootsrapAlert("新增的商品說明最大長度為500");
-    	return false;
-    }
-	if(!REusl.test(url)){
-    	bootsrapAlert("請輸入正確連結網址，例如:https://www.fubon.com/financialholdings/home/index.html");
-    	return false;
-    }
+
 	
 	return true;
 }

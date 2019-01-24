@@ -6,7 +6,7 @@
     <%@include file="/resources/commons/decelerations.jsp"%>
     <link href="<c:url value="/resources/css/insuranceManage/common.css" />" rel="stylesheet" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>險種管理 > 查詢險種</title>
+    <title>查詢險種</title>
 </head>
 <body>
 <jsp:include page="../nav.jsp"></jsp:include>
@@ -26,7 +26,7 @@
                </select>
            </div>
            
-        <label class="control-label col-sm-4" > 商品代碼/名稱/商品說明:</label>
+        <label class="control-label col-sm-3" > 險種代碼/名稱:</label>
             <div class="col-sm-6">
                 <input type="text" id="productName" name="productName" class="form-control" placeholder="All" />
             </div>	

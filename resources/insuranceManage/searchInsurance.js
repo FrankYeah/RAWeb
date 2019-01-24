@@ -33,30 +33,21 @@ function IsJsonString(str) {
 
 /*搜尋商品*/
 function searchProduct(BUID){
-	console.log(BUID)
+
 	var searchproduct = {"SearchName":$("#productName").val(),"BUID":BUID}
 	
 	$.ajax({
 		type : "POST",
 		contentType : 'application/json',
-		url : fubon.contextPath+"product/searchProduct",
-		data : JSON.stringify(searchproduct),
+		url : fubon.contextPath+"insuranceManage/list",
+		data : {},
 		success : function(data, response, xhr) {
-			if(!IsJsonString(data)){
-				$("#productTable").find("tr:gt(0)").remove();
-				$( ".Msg" ).empty();
-				$(".Msg").append(data);
-				if (BUID!=""){bootsrapAlert(data);}
-				
-			}else{
-				var temp = JSON.parse(data);
-				var productData = JSON.parse(temp.Data);
-				console.log(productData);
-				var tableData =productData.Products;
+			console.log(data)
+				var tableData = data.Data.insuranceProductList;
 				$( ".Msg" ).empty();
 				$("#productTable").find("tr:gt(0)").remove();
 				$("#buId").find(":selected").val();
-				
+
 				for(var i=0; i<tableData.length;i++){
 					var str = "<tr><td class='wn'> </td><td> </td><td> </td><td> </td><td > </td><td> </td></tr>";
 					$('#productTable').append(str);
@@ -66,17 +57,17 @@ function searchProduct(BUID){
 						text : tableData[i].Link,
 						target: "_blank"
 					});
-					$specifyTd.eq(0).text(tableData[i].Code);
-					$specifyTd.eq(1).text(tableData[i].Name);
-					$specifyTd.eq(2).text('');
-					$specifyTd.eq(3).text('');
-					$specifyTd.eq(4).append(checkEnabled(tableData[i].Active));
-					$specifyTd.eq(5).text(tableData[i].UpdateTime);
+					$specifyTd.eq(0).text(tableData[i].code);
+					$specifyTd.eq(1).text(tableData[i].name);
+					$specifyTd.eq(2).text(tableData[i].kypGroup);
+					$specifyTd.eq(3).append(checkEnabled(tableData[i].isProject));
+					$specifyTd.eq(4).append(checkEnabled(tableData[i].isActive));
+					$specifyTd.eq(5).text(tableData[i].updateTime);
 
 					
 				}
 				
-			}
+			
 			
 		},
 		error : function(xhr) {
@@ -89,29 +80,21 @@ function searchProduct(BUID){
 /*搜尋商品 For Submit*/
 function searchProductForSubmit(BUID){
 
-	var searchproduct = {"SearchName":$("#productName").val().trim(),"BUID":BUID}
+	var searchproduct = {"keyword":$("#productName").val().trim()}
 	
 	$.ajax({
 		type : "POST",
 		contentType : 'application/json',
-		url : fubon.contextPath+"product/searchProductForSubmit",
+		url : fubon.contextPath+"insuranceManage/search",
 		data : JSON.stringify(searchproduct),
 		success : function(data, response, xhr) {
-			if(!IsJsonString(data)){
-				$("#productTable").find("tr:gt(0)").remove();
-				$( ".Msg" ).empty();
-				$(".Msg").append(data);
-				bootsrapAlert(data);
-			}else{
-				var temp = JSON.parse(data);
-				var productData = JSON.parse(temp.Data);
-				console.log(productData);
-				var tableData =productData.Products;
+			console.log(data)
+				var tableData = data.Data.insuranceProductList;
 				$( ".Msg" ).empty();
 				$("#productTable").find("tr:gt(0)").remove();
 				$("#buId").find(":selected").val();
 				for(var i=0; i<tableData.length;i++){
-					var str = "<tr><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>";
+					var str = "<tr><td class='wn'> </td><td> </td><td> </td><td> </td><td > </td><td> </td></tr>";
 					$('#productTable').append(str);
 					var $specifyTd = $('#productTable tr:last').find('td');
 					var href = $("<a>", {
@@ -119,17 +102,15 @@ function searchProductForSubmit(BUID){
 						text : tableData[i].Link,
 						target: "_blank"
 					});
+					$specifyTd.eq(0).text(tableData[i].code);
+					$specifyTd.eq(1).text(tableData[i].name);
+					$specifyTd.eq(2).text(tableData[i].kypGroup);
+					$specifyTd.eq(3).append(checkEnabled(tableData[i].isProject));
+					$specifyTd.eq(4).append(checkEnabled(tableData[i].isActive));
+					$specifyTd.eq(5).text(tableData[i].updateTime);
 
-					$specifyTd.eq(0).text(tableData[i].Code);
-					$specifyTd.eq(1).text(tableData[i].Name);
-					$specifyTd.eq(2).text(tableData[i].RiskReturn);
-					$specifyTd.eq(3).text(tableData[i].Description);
-					$specifyTd.eq(4).append(href);
-					$specifyTd.eq(5).text(tableData[i].CreateTime);
-
+					
 				}
-				
-			}
 			
 		},
 		error : function(xhr) {
@@ -148,17 +129,5 @@ function checkEnabled(tf){
 		return result
 	}
 }
-
-/*
-function productNameValidate() {
-	var productName = $("#productName").val();
-	
-	if (productName.trim() == null || productName.trim() == "") {
-		bootsrapAlert("請輸入商品代碼/名稱");
-		return false;
-	} 
-	
-	return true;
-}*/
 
 

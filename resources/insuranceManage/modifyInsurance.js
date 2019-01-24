@@ -27,76 +27,68 @@ function IsJsonString(str) {
 
 /*將要修改的資訊用ajax去後端跟api要資料*/	
 function selectProduct(product){
-	var code = product.Code;
-	  
-	  
-	$.ajax({
-		type : "GET",
-		contentType : 'application/json',
-		data: {"productCode":code,"buid":$("#buId").find(":selected").val()},
-		url : fubon.contextPath+"product/findProduct",
-		success : function(data, response, xhr) {
-			
-			if(!IsJsonString(data)){
-				bootsrapAlert(data);
-			}else{
-				var productData = JSON.parse(JSON.parse(data).Data);
-				$("#buId_text").val($("#buId").find(":selected").val());
-                // $('#type').val(productData.Type);
-				// $('#label').val(productData.Label);
-				$('#RiskReturn').val(productData.RiskReturn);
-				$('#productID').val(productData.Code);
-				$('#productName').val(productData.Name);
-				$('#productDescribe').val(productData.Description);
-				$('#url').val(productData.Link);
-				$("#startCheckBox").prop("checked", productData.Active);
-			}
 
-		},
-		error : function(xhr) {
-			bootsrapAlert("err: " + xhr.status + ' '
-					+ xhr.statusText);
-		}	
-	});
+	$("#buId_text").val($("#buId").find(":selected").val());
+	$('#productID').val(product.code);
+	$('#productName').val(product.name);
+	$("#startCheckBox").prop("checked", product.isActive);
+	$('#RiskReturn').val(product.kypGroup);
+	$('#isProduct').val(product.isProject + '');
 
     var $button = $("#submitBtn");
     $button.off();
     $button.click(function() {
-        if(productNameValidate()){
-            var $bu = $("#buId option:selected");
-            /*修改商品*/
-            var updatedProduct = {"BUID": $bu.val(), "BUName": $bu.attr("buname"),
-                "Code":$("#productID").val(),
-                "Name":$("#productName").val(),
 
-                "Active":$("#startCheckBox").prop("checked"),
-				"RiskReturn" :$("#RiskReturn :selected").text()
-			};
-			var ajaxData = {updated: updatedProduct, origin: product};
-			console.log(ajaxData)
-            $.ajax({
-                type : "POST",
-                contentType : 'application/json',
-                url : fubon.contextPath+"product/modifyProduct",
-                data : JSON.stringify(ajaxData),
-                success : function(data, response, xhr) {
-                    var data = JSON.parse(data);
-                    bootsrapAlert("商品修改成功");
-                    /*把表單清空*/
-                    var all_Inputs = $("input[type=text]");
-                    all_Inputs.val("");
-                    $("#productDescribe").val("");
-                    $("input[type='checkbox']").attr("checked", false);
-                    /*更新商品清單*/
-                    searchProduct('0005');
+					/*新增險種*/
+					var $bu = $("#buId option:selected");
+					var boalean;
+					if($("#isProduct :selected").val() == 'false'){
+						boalean = false;
+					}else{
+						boalean = true;
+					}
+					var product={
+						"modifyType" : "Update", // 請求類型。'Add' = 新增商品, 'Update' = 修改商品。(Required)
+						"code": $("#productID").val(), // 商品代碼 (Required)
+						"name": $("#productName").val(), // 商品名稱 (Required)
+						"kypGroup": $("#RiskReturn :selected")[0].value, // KYP組別，有這儿種值 '1', '2', '3', '4', '5', '6', null 
+						"isProject": boalean, // 是否為專案商品 (Required)
+						"isActive": $("#startCheckBox").prop("checked") // 商品是否啟用 (Required)	 
+					};
 
-                },
-                error : function(xhr) {
-                    bootsrapAlert("err: " + xhr.status + ' '
-                        + xhr.statusText);
-                }
-            });
-        }
+					$.ajax({
+						type : "POST",
+						contentType : 'application/json',
+						url : fubon.contextPath+"insuranceManage/modify",
+						data : JSON.stringify(product),
+						success : function(data, response, xhr) {
+							console.log(data)
+							if(!data.Status){
+								bootsrapAlert(data.ExceptionMessage);
+							}else{
+								 BootstrapDialog.show({
+									 type :BootstrapDialog.TYPE_PRIMARY,
+									 closable: false,
+									 title: '訊息',
+									 message: "商品新增成功",
+									 buttons: [{
+										 label: 'Close',
+										 action: function(dialogRef){
+											 dialogRef.close();
+											 window.location.href = fubon.contextPath+'InsuranceManage/ModifyInsurance';
+										 }
+									 }]
+								 });
+							}
+						},
+						error : function(xhr) {
+							bootsrapAlert("err: " + xhr.status + ' '
+									+ xhr.statusText);
+						}
+					});
+
+
+
     });
 
 }
@@ -166,22 +158,15 @@ function productNameValidate() {
 /*搜尋商品*/
 function searchProduct(BUID){
 	var searchproduct = {"SearchName":'',"BUID":'0005'};
-	console.log(searchproduct)
 	$.ajax({
 		type : "POST",
 		contentType : 'application/json',
-		url : fubon.contextPath+"product/searchProduct",
-		data : JSON.stringify(searchproduct),
+		url : fubon.contextPath+"insuranceManage/list",
+		data : {},
 		success : function(data, response, xhr) {
-			if(!IsJsonString(data)){
-				$("#productTable").find("tr:gt(0)").remove();
-				$( ".Msg" ).empty();
-				$(".Msg").append(data);
-				if (BUID!=""){bootsrapAlert(data);}
-			}else{
-				var temp = JSON.parse(data);
-				var productData = JSON.parse(temp.Data);
-				var tableData =productData.Products;
+				console.log(data)
+
+				var tableData = data.Data.insuranceProductList
 				$("#productTable").find("tr:gt(0)").remove();
 				$( ".Msg" ).empty();
 				for(var i=0; i<tableData.length;i++){
@@ -202,24 +187,25 @@ function searchProduct(BUID){
 
                     var clickHandler = function(p) {
                       return function() {
-                          selectProduct(p);
+						  selectProduct(p);
+
                       }
                     };
 
-					var $codeh = $("<a/>").attr("href", "#").html(product.Code);
+					var $codeh = $("<a/>").attr("href", "#").html(product.code);
                     $codeh.click( clickHandler(product) );
 
 
 					$specifyTd.eq(0).append($codeh);
-					$specifyTd.eq(1).text(product.Name);
-					$specifyTd.eq(2).text('');
-					$specifyTd.eq(3).text('');
-					$specifyTd.eq(4).append(checkEnabled(product.Active));
-					$specifyTd.eq(5).text(product.UpdateTime);
+					$specifyTd.eq(1).text(product.name);
+					$specifyTd.eq(2).text(product.kypGroup);
+					$specifyTd.eq(3).append(checkEnabled(product.isProject));
+					$specifyTd.eq(4).append(checkEnabled(product.isActive));
+					$specifyTd.eq(5).text(product.updateTime);
 					
 				}
 				
-			}
+			
 			
 		},
 		error : function(xhr) {

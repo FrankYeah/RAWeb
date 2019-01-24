@@ -6,7 +6,7 @@
     <%@include file="/resources/commons/decelerations.jsp"%>
     <link href="<c:url value="/resources/css/insuranceManage/common.css" />" rel="stylesheet" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>險種管理 > 新增險種</title>
+    <title>新增險種</title>
 </head>
 <body>
 <jsp:include page="../nav.jsp"></jsp:include>
@@ -46,25 +46,25 @@
             <label class="control-label col-sm-2">KYP組別:</label>
             <div class="form-group col-sm-3"> 
                 <select id="RiskReturn" name="RiskReturn" class="form-control ">
-                    <option  value="RR1">RR1</option>
-                    <option  value="RR2">RR2</option>
-                    <option  value="RR3">RR3</option>
-                    <option  value="RR4">RR4</option>
-                    <option  value="RR5" selected>RR5</option>
+                    <option  value="1">1</option>
+                    <option  value="2">2</option>
+                    <option  value="3">3</option>
+                    <option  value="4">4</option>
+                    <option  value="5" selected>5</option>
+                    <option  value="6">6</option>
                 </select>
             </div>	
 
             <label class="control-label col-sm-3">是否為專案產品:</label>
             <div class="form-group col-sm-3"> 
                 <select id="isPrdruct" name="isPrdruct" class="form-control ">
-                    <option value="是">是</option>
-                    <option value="否">否</option>
+                    <option value=true>true</option>
+                    <option value=false>false</option>
                 </select>
             </div>	
             <br>
             <br>
-        
-            <div class="form-group col-sm-0"> </div>                       
+                              
             <label class="control-label col-sm-2"> 是否啟用:</label>
                 <label class="form-check-label col-sm-1">
                       <input type="checkbox" id ="startCheckBox" class="form-group" checked="true" />

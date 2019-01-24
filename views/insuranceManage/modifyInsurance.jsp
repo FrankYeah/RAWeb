@@ -22,33 +22,34 @@
 
 			<br>
 			<br>
-			<label class="control-label col-sm-2"> 商品代碼:</label>
+			<label class="control-label col-sm-2"> 險種代碼:</label>
 				<div class="col-sm-3 form-group"> 
 					<input type="text" id="productID" name="productID" class="form-control" readonly="readonly"/>
 			   	</div>
-			<label class="control-label col-sm-2"> 商品名稱:</label>
+			<label class="control-label col-sm-2"> 險種名稱:</label>
 				<div class="col-sm-3 form-group"> 
 					<input type="text" id="productName" name="productName" class="form-control" />
 			   	</div>	
 			<br>
 			<br>
 
-			<label class="control-label col-sm-2">商品風險等級:</label>
+			<label class="control-label col-sm-2">KYP組別:</label>
 			<div class="form-group col-sm-3"> 
 				<select id="RiskReturn" name="RiskReturn" class="form-control ">
-					<option  value="RR1">RR1</option>
-					<option  value="RR2">RR2</option>
-					<option  value="RR3">RR3</option>
-					<option  value="RR4">RR4</option>
-					<option  value="RR5" selected>RR5</option>
+					<option  value="1">1</option>
+					<option  value="2">2</option>
+					<option  value="3">3</option>
+					<option  value="4">4</option>
+					<option  value="5" selected>5</option>
+					<option  value="6">6</option>
 				</select>
             </div>	
             
-			<label class="control-label col-sm-3">是否為專業產品:</label>
+			<label class="control-label col-sm-3">是否為專案產品:</label>
 			<div class="form-group col-sm-3"> 
 				<select id="isProduct" name="isProduct" class="form-control ">
-					<option  value="是">是</option>
-					<option  value="否">否</option>
+					<option  value=true>true</option>
+					<option  value=false>false</option>
 				</select>
 			</div>	
 			<br>
@@ -72,7 +73,7 @@
 
 
 <!-- // -->
-	<div class="content-2">
+	<div style="display:none" class="content-2">
         <!--之後者裏要改成從資料庫撈有哪些單位-->
             <label class="control-label col-sm-2"> 單位ID:</label>
                 <div class="col-sm-3 form-group"> 

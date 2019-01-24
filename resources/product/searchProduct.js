@@ -33,7 +33,7 @@ function IsJsonString(str) {
 
 /*搜尋商品*/
 function searchProduct(BUID){
-	console.log(BUID)
+
 	var searchproduct = {"SearchName":$("#productName").val(),"BUID":BUID}
 	
 	$.ajax({
