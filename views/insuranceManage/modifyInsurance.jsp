@@ -13,15 +13,10 @@
 <div class="container page-header">
     <jsp:include page="title.jsp"></jsp:include>
 
-
 	<div class="content-1">
-		<label class="control-label col-sm-2"> 單位ID:</label>
-				<div class="col-sm-3 form-group"> 
-					<input type="text" id="buId_text" name="buId" class="form-control" readonly="readonly"/>
-			   	</div>
+			<%-- user's buId --%>
+			<input type="hidden" id="buId" name="buId" readonly="readonly" value="${userBUID}"/>
 
-			<br>
-			<br>
 			<label class="control-label col-sm-2"> 險種代碼:</label>
 				<div class="col-sm-3 form-group"> 
 					<input type="text" id="productID" name="productID" class="form-control" readonly="readonly"/>
@@ -70,25 +65,6 @@
 	</div>
 	
 	<div class="hr"><hr /></div>
-
-
-<!-- // -->
-	<div style="display:none" class="content-2">
-        <!--之後者裏要改成從資料庫撈有哪些單位-->
-            <label class="control-label col-sm-2"> 單位ID:</label>
-                <div class="col-sm-3 form-group"> 
-                    
-                <select class="form-control" id="buId" name="buId">
-                    <c:forEach items="${uiBUList}" var="BU" varStatus="iterator">
-                      <option value="${BU.BUID}">${BU.BUName}${BU.BUID}</option>
-                    </c:forEach>
-                
-               </select>
-               </div>
-
-        </div>
-<!-- // -->
-
 
 	<div class="content-3"><!-- style="display:none;"  -->
 		<table id ="productTable" class="table table-bordered table-striped table-hover">

@@ -1,5 +1,4 @@
 $(function() {
-
 	$("#submitBtn").click(function () {
 
         var productID = $("#productID").val();
@@ -8,11 +7,9 @@ $(function() {
         }
     	
     });
-	
-
 });
 
-searchProduct('0005');
+searchProduct($("#buId").val());
 
 /*確認是否為 json object*/  
 function IsJsonString(str) {
@@ -27,8 +24,6 @@ function IsJsonString(str) {
 
 /*將要修改的資訊用ajax去後端跟api要資料*/	
 function selectProduct(product){
-
-	$("#buId_text").val($("#buId").find(":selected").val());
 	$('#productID').val(product.code);
 	$('#productName').val(product.name);
 	$("#startCheckBox").prop("checked", product.isActive);
@@ -40,7 +35,6 @@ function selectProduct(product){
     $button.click(function() {
 
 					/*新增險種*/
-					var $bu = $("#buId option:selected");
 					var boalean;
 					if($("#isProduct :selected").val() == 'false'){
 						boalean = false;
@@ -63,14 +57,14 @@ function selectProduct(product){
 						data : JSON.stringify(product),
 						success : function(data, response, xhr) {
 							console.log(data)
-							if(!data.Status){
-								bootsrapAlert(data.ExceptionMessage);
+							if(data.Status == 'Error'){
+								bootsrapAlert('險種修改失敗');
 							}else{
 								 BootstrapDialog.show({
 									 type :BootstrapDialog.TYPE_PRIMARY,
 									 closable: false,
 									 title: '訊息',
-									 message: "商品新增成功",
+									 message: "險種修改成功",
 									 buttons: [{
 										 label: 'Close',
 										 action: function(dialogRef){
@@ -107,17 +101,12 @@ function checkEnabled(tf){
 }
 /*用 Regular Expression 檢查使用者輸入內容*/
 function productNameValidate() {
-	var buid = $("#buId").find(":selected").val();
 	var productID = $("#productID").val();
 	var productName = $("#productName").val();
 	var productDescribe = $("#productDescribe").val();
 	var url = $("#url").val();
 	// var label = $("#label").val();
-	
-	if(buid.trim()=="" ){
-		bootsrapAlert("請點選欲修改商品的單位代碼");
-    	return false;
-	}
+
 	if( !REproductID.test(productID)){
 		bootsrapAlert("請點選欲修改的商品代碼");
     	return false;
@@ -156,17 +145,20 @@ function productNameValidate() {
 
 
 /*搜尋商品*/
-function searchProduct(BUID){
-	var searchproduct = {"SearchName":'',"BUID":'0005'};
+function searchProduct(buId){
+	$("#productTable").empty();
+
+	var listProduct = {"buId": buId};
+
 	$.ajax({
 		type : "POST",
 		contentType : 'application/json',
 		url : fubon.contextPath+"insuranceManage/list",
-		data : {},
+		data : JSON.stringify(listProduct),
 		success : function(data, response, xhr) {
 				console.log(data)
 
-				var tableData = data.Data.insuranceProductList
+				var tableData = data.Data.insuranceList
 				$("#productTable").find("tr:gt(0)").remove();
 				$( ".Msg" ).empty();
 				for(var i=0; i<tableData.length;i++){
@@ -195,18 +187,13 @@ function searchProduct(BUID){
 					var $codeh = $("<a/>").attr("href", "#").html(product.code);
                     $codeh.click( clickHandler(product) );
 
-
 					$specifyTd.eq(0).append($codeh);
 					$specifyTd.eq(1).text(product.name);
 					$specifyTd.eq(2).text(product.kypGroup);
 					$specifyTd.eq(3).append(checkEnabled(product.isProject));
 					$specifyTd.eq(4).append(checkEnabled(product.isActive));
 					$specifyTd.eq(5).text(product.updateTime);
-					
 				}
-				
-			
-			
 		},
 		error : function(xhr) {
 			bootsrapAlert("err: " + xhr.status + ' '

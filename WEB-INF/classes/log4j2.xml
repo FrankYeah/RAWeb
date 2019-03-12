@@ -27,8 +27,8 @@
     </logger>
 
     <!-- local debug 才需要把這裡 uncomment -->
-    <Logger name="com.fubon" level="debug" additivity="false">
-        <AppenderRef ref="Console"/>
-    </Logger>
+    <!--<Logger name="com.fubon" level="debug" additivity="false">-->
+        <!--<AppenderRef ref="Console"/>-->
+    <!--</Logger>-->
 </Loggers>
 </Configuration>

@@ -188,8 +188,8 @@ function validateInput(){
     var apiKey = $('#apiKey').val();
 
 	//檢核格式
-    if(!REApiKey.test(apiKey)){
-        bootsrapAlert("API Key僅限英文,數字");
+    if(!REString.test(apiKey)){
+        bootsrapAlert("API Key僅限英文,數字,點(.),底線(_),連結線(-)");
         return false;
     }
 	if(!REJdbcUrl.test(jdbcUrl)){

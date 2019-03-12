@@ -26,7 +26,6 @@ var REusl = /^(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[
 var REUserID = /^[A-Za-z0-9\.\_\-]{1,50}$/;
 var REName = /^[A-Za-z0-9\.\_\-]{1,24}$/;
 var REString = /^[A-Za-z0-9\.\_\-]{1,}$/;
-var REApiKey = /^[A-Za-z0-9]{1,}$/;
 var REJdbcUrl = /^jdbc:.*$/;
 
 

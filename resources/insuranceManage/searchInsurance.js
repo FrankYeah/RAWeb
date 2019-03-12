@@ -32,18 +32,19 @@ function IsJsonString(str) {
 
 
 /*搜尋商品*/
-function searchProduct(BUID){
+function searchProduct(buId){
+	$("#productTable").empty();
 
-	var searchproduct = {"SearchName":$("#productName").val(),"BUID":BUID}
+	var listProduct = {"buId": buId};
 	
 	$.ajax({
 		type : "POST",
 		contentType : 'application/json',
 		url : fubon.contextPath+"insuranceManage/list",
-		data : {},
+		data : JSON.stringify(listProduct),
 		success : function(data, response, xhr) {
 			console.log(data)
-				var tableData = data.Data.insuranceProductList;
+				var tableData = data.Data.insuranceList;
 				$( ".Msg" ).empty();
 				$("#productTable").find("tr:gt(0)").remove();
 				$("#buId").find(":selected").val();
@@ -63,8 +64,6 @@ function searchProduct(BUID){
 					$specifyTd.eq(3).append(checkEnabled(tableData[i].isProject));
 					$specifyTd.eq(4).append(checkEnabled(tableData[i].isActive));
 					$specifyTd.eq(5).text(tableData[i].updateTime);
-
-					
 				}
 				
 			
@@ -78,18 +77,19 @@ function searchProduct(BUID){
 }
 
 /*搜尋商品 For Submit*/
-function searchProductForSubmit(BUID){
+function searchProductForSubmit(buId){
+	$("#productTable").empty();
 
-	var searchproduct = {"keyword":$("#productName").val().trim()}
+	var searchProduct = {"keyword":$("#productName").val().trim(), "buId": buId};
 	
 	$.ajax({
 		type : "POST",
 		contentType : 'application/json',
 		url : fubon.contextPath+"insuranceManage/search",
-		data : JSON.stringify(searchproduct),
+		data : JSON.stringify(searchProduct),
 		success : function(data, response, xhr) {
 			console.log(data)
-				var tableData = data.Data.insuranceProductList;
+				var tableData = data.Data.insuranceList;
 				$( ".Msg" ).empty();
 				$("#productTable").find("tr:gt(0)").remove();
 				$("#buId").find(":selected").val();
@@ -108,8 +108,6 @@ function searchProductForSubmit(BUID){
 					$specifyTd.eq(3).append(checkEnabled(tableData[i].isProject));
 					$specifyTd.eq(4).append(checkEnabled(tableData[i].isActive));
 					$specifyTd.eq(5).text(tableData[i].updateTime);
-
-					
 				}
 			
 		},

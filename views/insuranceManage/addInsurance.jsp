@@ -17,21 +17,6 @@
 
     <div class="content-1">
         <form id="productForm">
-        <label class="control-label col-sm-2"> 單位ID:</label>
-                <div class="col-sm-10 form-group"> 
-                    
-                    
-                    <select class="form-control" id="buId" name="buId">
-                        <c:forEach items="${uiBUList}" var="BU" varStatus="iterator">
-                          <option value="${BU.BUID}">${BU.BUName}${BU.BUID}</option>
-                        </c:forEach>
-                    
-                   </select>
-                   
-                   </div>
-        
-            <br>
-            <br>
             <label class="control-label col-sm-2"> 險種代碼:</label>
                 <div class="col-sm-3 form-group"> 
                     <input type="text" id="productID" name="productID" class="form-control"/>

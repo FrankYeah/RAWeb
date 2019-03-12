@@ -4,7 +4,6 @@ $(function() {
 		
 		if(productNameValidate()){
 			/*新增險種*/
-			var $bu = $("#buId option:selected");
 			var boalean;
 			if($("#isPrdruct :selected").val()== 'false'){
 				boalean = false;
@@ -26,14 +25,15 @@ $(function() {
 				data : JSON.stringify(product),
 				success : function(data, response, xhr) {
 					console.log(data)
-					if(!data.Status){
-						bootsrapAlert(data.ExceptionMessage);
+
+					if(data.Status == 'Error'){
+						bootsrapAlert('險種新增失敗');
 					}else{
 						 BootstrapDialog.show({
 							 type :BootstrapDialog.TYPE_PRIMARY,
 							 closable: false,
 							 title: '訊息',
-					         message: "商品新增成功",
+					         message: "險種新增成功",
 					         buttons: [{
 					             label: 'Close',
 					             action: function(dialogRef){
@@ -45,6 +45,7 @@ $(function() {
 					}
 				},
 				error : function(xhr) {
+					console.log(xhr)
 					bootsrapAlert("err: " + xhr.status + ' '
 							+ xhr.statusText);
 				}
@@ -58,13 +59,6 @@ $(function() {
 
 /*用 Regular Expression 檢查使用者輸入內容*/
 function productNameValidate() {
-	
-	var buid = $("#buId").find(":selected").val();
-	
-	if(typeof(buid)=="undefined"){
-		bootsrapAlert("非此系統所屬單位,無法新增商品");
-		return;
-	}
 	var productName = $("#productName").val();
 	var productID = $("#productID").val();
 	var productDescribe = $("#productDescribe").val();

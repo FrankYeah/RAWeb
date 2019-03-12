@@ -108,8 +108,8 @@ function validateInput(){
         bootsrapAlert("應用程式設定檔名稱最大長度為24,僅限英文,數字,點(.),底線(_),連結線(-)");
         return false;
     }
-    if(!REApiKey.test(apiKey)){
-        bootsrapAlert("API Key僅限英文,數字");
+    if(!REString.test(apiKey)){
+        bootsrapAlert("API Key僅限英文,數字,點(.),底線(_),連結線(-)");
         return false;
     }
     if(!REJdbcUrl.test(jdbcUrl)){
