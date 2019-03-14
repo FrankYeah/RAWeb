@@ -236,7 +236,7 @@ function drawHistogram(data,interval){
  	 		.enter().append("rect")
  	 		.attr("x", function(d) { return x(d.DateIndexes); })
  	 		.attr("width", x.rangeBand())
- 	 		.attr("y", function(d) { return y(d.Values); })
+			.attr("y", function(d) { return y(d.Values); })
  	 		.attr("height", function(d) {
  	 			console.log(height - y(d.Values));
  	 			return height - y(d.Values); 
@@ -244,9 +244,24 @@ function drawHistogram(data,interval){
  	 		.attr("fill",function(d,i){ //fill 是添加顏色 給每個data一個顏色
  	 			return colors(i);
  	 		});
-  	 	
- 	 	
- 	 
+			 
+			// 新增查詢人次 text 
+			svg.selectAll("bar")
+ 	 		.data(data)
+ 	 		.enter().append("text")
+ 	 		.attr("x", function(d) { return x(d.DateIndexes); })
+ 	 		.attr("width", x.rangeBand())
+			.attr("y", function(d) { return y(d.Values); })
+ 	 		.attr("height", function(d) {
+ 	 			console.log(height - y(d.Values));
+ 	 			return height - y(d.Values); 
+ 	 		})
+ 	 		.attr("fill",function(d,i){ //fill 是添加顏色 給每個data一個顏色
+ 	 			return colors(i);
+ 	 		})
+			.text(function(d){
+				return d.Values;}
+			);
  	 	 
  	 	//add line    
  	 	svg.append("path")

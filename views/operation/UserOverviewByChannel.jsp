@@ -11,7 +11,7 @@
     <link href="<c:url value="/resources/css/datepicker.min.css" />" rel="stylesheet" />
     <script src="<c:url value="/resources/bootstrap/bootstrap-datepicker.min.js" />"></script>
     <link href="<c:url value="/resources/css/operation/userChannel.css" />" rel="stylesheet" />
-    <title>Channels (TODO:chinese translation)</title>
+    <title>各管道人數統計</title>
 </head>
 
 <body>
@@ -19,6 +19,7 @@
     <div class="container page-header">
         <div class="row">
             <jsp:include page="title.jsp"></jsp:include>
+            <div class="form-group row "></div>
         </div>
         <div class="row">
             <label class="control-label col-sm-2"> 單位ID:</label>
@@ -55,8 +56,8 @@
             </div>
         </div>
     </div>
-    <spring:url value="/resources/operation/userChannel.js" var="userChannelJs" />
-    <script src="${userChannelJs}"></script>
+    <spring:url value="/resources/operation/userOverviewByChannel.js" var="userOverviewByChannel"/>
+    <script src="${userOverviewByChannel}"></script>
     <script type="text/javascript">
 
         var projectName = "<%= request.getContextPath()%>";

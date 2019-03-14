@@ -66,10 +66,14 @@ function drawBarChart(data) {
 		innerWidth = width - margin.left - margin.right,
 		innerHeight = height - margin.top - margin.bottom,
 		svg = d3.select('#chartsResults').append('svg').attr('width', width).attr('height', height)
-	g = svg.append('g').attr('transform', `translate(${margin.left}, ${margin.top})`);
+	g = svg.append('g').attr('transform', `translate(${margin.left-100}, ${margin.top})`);
 
+	console.log(width)
+	console.log(innerWidth)
+	var xWidth;
+	if (data.length<15 )  xWidth = width/15 *(data.length) ; //小於15筆,不要占全版面
 
-	const x0 = d3.scale.ordinal().rangeRoundBands([0, innerWidth], .1);
+	var x0 = d3.scale.ordinal().rangeRoundBands([0, xWidth], .1);
 
 	const x1 = d3.scale.ordinal().rangeRoundBands([0, innerWidth], .1);
 
@@ -106,12 +110,39 @@ function drawBarChart(data) {
 		.on("mouseover", function (d) { return tip.text(d.value).style("visibility", "visible").style("top", y(d.value) + 100 + 'px').style("left", x0(d.channelName) + x1(d.key) + (x1.rangeBand() / 2) + margin.left + 'px') })
 		.on("mouseout", function () { return tip.style("visibility", "hidden"); });
 
+		g.append('g')
+			.selectAll('g')
+			.data(data)
+			.enter()
+			.append('g')
+			.attr('transform', d => 'translate(' + x0(d.channelName) + ',0)')
+			.selectAll('rect')
+			.data(d => keys.map(key => { return { key: key, value: d[key], channelName: d.channelName } }))
+			.enter().append('text')
+			.attr('x', d => x1(d.key))
+			.attr('y', d => y(d.value))
+			.attr('width', x1.rangeBand())
+			.attr('height', d => innerHeight - y(d.value))
+			.attr('fill', d => z(d.key))
+			.text(function(d){
+				return d.value;}
+			)
+
+		
 	g.append('g')
 		.attr('class', 'axis-bottom')
 		.attr('transform', 'translate(0,' + innerHeight + ')')
 		.call(d3.svg.axis()
-			.scale(x0)
-			.orient("bottom"));
+		.scale(x0)
+		.orient("bottom"));
+
+	x0 = d3.scale.ordinal().rangeRoundBands([0, innerWidth], .1);
+	g.append('g')
+		.attr('class', 'axis-bottom')
+		.attr('transform', 'translate(0,' + innerHeight + ')')
+		.call(d3.svg.axis()
+		.scale(x0)
+		.orient("bottom"));
 
 	g.append('g')
 		.attr('class', 'axis-left')
