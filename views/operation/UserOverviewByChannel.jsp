@@ -44,6 +44,7 @@
                 </div>
                 <div class="col-sm-2">
                     <button id="submitBtn" type="button" class="btn btn-primary">查詢</button>
+                    <button id="downloadBtn" type="button" class="btn btn-primary">下載</button>
                 </div>
             </div>
         </div>

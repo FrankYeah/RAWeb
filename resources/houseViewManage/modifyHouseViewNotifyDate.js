@@ -94,15 +94,12 @@ $("#addBtn").click(function() {
         contentType : 'application/json;charset=UTF-8',
         data : JSON.stringify(addData),
         success : function(data, response, xhr) {
-
             if(data.Status === "Error"){
-                $("#productTable").find("tr:gt(0)").remove();
-                getListNote()
-
-            }else{
+                bootsrapAlert("通知起始日或通知結束日不正確. " + data.Detail);
+            }
+            else {
                 $("#productTable").find("tr:gt(0)").remove();
                 getListNote();
-                
             }
         },
         error : function(xhr) {

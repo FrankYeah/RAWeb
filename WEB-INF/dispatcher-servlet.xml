@@ -21,17 +21,6 @@
       <property name="suffix" value=".jsp" />
    </bean>
 
-   <!-- custom restTemplate for API calls -->
-   <bean id="RestTemplateInterceptor" class="com.fubon.interceptor.RestTemplateInterceptor"/>
-
-   <bean id="customRestTemplate" class="org.springframework.web.client.RestTemplate">
-      <property name="interceptors">
-         <list>
-            <ref bean="RestTemplateInterceptor" />
-         </list>
-      </property>
-   </bean>
-
    <bean id="viewResolver" class="org.springframework.web.servlet.view.ResourceBundleViewResolver">
       <property name="order" value="1"></property>
       <property name="basename" value="views"></property>

@@ -7,15 +7,6 @@ $(function () {
 	});
 });
 
-function IsJsonString(str) {
-	try {
-		JSON.parse(str);
-	} catch (e) {
-		return false;
-	}
-	return true;
-}
-
 function getStatData() {
 	if (dateRangeEqualsValidate()) {
 		$.ajax({
@@ -36,17 +27,15 @@ function getStatData() {
 	}
 }
 
-function showStatResults(data, response, xhr) {
+function showStatResults(channelStats, response, xhr) {
+	$('#chartsResults').empty();
 
-	if (!IsJsonString(data)) {
-		clearChar();
-		bootsrapAlert(data);
+	if(channelStats.Status === "Error"){
+		bootsrapAlert(channelStats.Detail);
 		return;
 	}
 
-	var channelStats = JSON.parse(data);
-
-	if (channelStats.length == 0) {
+	if (channelStats.Data.data.length == 0) {
 		bootsrapAlert("目前無資料!");
 		return;
 	}
@@ -157,3 +146,14 @@ function drawBarChart(data) {
 		.attr('dy', '0.32em')
 		.text(d => d);
 }
+
+$("#downloadBtn").click(function() {
+	var buId = $("#buId").find(":selected").val();
+	var startDate = $("#datepickerFrom").val();
+	var endDate = $("#datepickerTo").val();
+
+	console.log(fubon.contextPath+"operateManagement/downloadUserOverviewByChannel?buId=" + buId +
+		"&startDate=" + encodeURIComponent(startDate) + "&endDate=" + encodeURIComponent(endDate));
+	location.href = fubon.contextPath+"operateManagement/downloadUserOverviewByChannel?buId=" + buId +
+		"&startDate=" + encodeURIComponent(startDate) + "&endDate=" + encodeURIComponent(endDate);
+})

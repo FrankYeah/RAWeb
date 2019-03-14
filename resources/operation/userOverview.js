@@ -15,40 +15,32 @@ $(function() {
 					data : {"buid":$buid.val(),
 						    "datepickerFrom":$("#datepickerFrom").val(),
 							"datepickerTo":$("#datepickerTo").val()},
-					success : function(data, response, xhr) 
+					success : function(jsonData, response, xhr)
 					{
-						
-						if(!IsJsonString(data)){
-							 //clearChar();
-							   bootsrapAlert(data);
-							   //var drawdata=[0,0];
-							   //drawPieChart(drawdata,1);
-						}else{
-							var jsonData = JSON.parse(data);
-						
-							console.log(jsonData);
-							var userNumberData = jsonData.Data;
-							$("#result").removeAttr("style");
-							$("#usernum").text(userNumberData.Total);
-							$("#transNum").text(userNumberData.Trans);
-							var transPct=0;
-							var drawdata=[0,0];
-							if (userNumberData.Total==0){
-								transPct=0;
-								drawdata=[100,0];
-								bootsrapAlert("目前無使用人數!");
-								drawPieChart(drawdata,1);
-							}else{
-								transPct = Math.round((userNumberData.TransPct)*10000)/100;
-								drawdata = [transPct,Math.round((100-transPct)*100)/100];
-								drawPieChart(drawdata,0);
-							}
+						if(jsonData.Status === "Error"){
+							bootsrapAlert(jsonData.Detail);
+							return;
 						}
-                         
+
+						console.log(jsonData);
+						var userNumberData = jsonData.Data;
+						$("#result").removeAttr("style");
+						$("#usernum").text(userNumberData.Total);
+						$("#transNum").text(userNumberData.Trans);
+						var transPct=0;
+						var drawdata=[0,0];
+						if (userNumberData.Total==0){
+							transPct=0;
+							drawdata=[100,0];
+							bootsrapAlert("目前無使用人數!");
+							drawPieChart(drawdata,1);
+						}else{
+							transPct = Math.round((userNumberData.TransPct)*10000)/100;
+							drawdata = [transPct,Math.round((100-transPct)*100)/100];
+							drawPieChart(drawdata,0);
+						}
 						  
 						//{"name":"bb","value":(userNumberData.transPercentage)*100},{"name":"aa","value":(1-userNumberData.transPercentage)*100}
-						
-						
 					},
 					error : function(xhr) {
 						bootsrapAlert("err: " + xhr.status + ' '
@@ -69,15 +61,7 @@ $( "select" ).change(function () {
     //searchProduct(str);
     getStatData();
   }).change();
-  
-function IsJsonString(str) {
-    try {
-        JSON.parse(str);
-    } catch (e) {
-        return false;
-    }
-    return true;
-}
+
 function getStatData(){
 	if(dateRangeEqualsValidate()){
 		var $buid = $("#buId option:selected");
@@ -91,40 +75,33 @@ function getStatData(){
 				data : {"buid":$buid.val(),
 					    "datepickerFrom":$("#datepickerFrom").val(),
 						"datepickerTo":$("#datepickerTo").val()},
-				success : function(data, response, xhr) 
+				success : function(jsonData, response, xhr)
 				{
-					
-					if(!IsJsonString(data)){
-						   clearChar();
-						   bootsrapAlert(data);
-					}else{
-						var jsonData = JSON.parse(data);
-					
-						console.log(jsonData);
-						var userNumberData = jsonData.Data;
-						$("#result").removeAttr("style");
-						$("#usernumstr").text("使用人數:");
-						$("#transNumstr").text("交易人數:");
-						$("#usernum").text(userNumberData.Total);
-						$("#transNum").text(userNumberData.Trans);
-						var transPct=0;
-						var drawdata=[0,0];
-						if (userNumberData.Total==0){
-							transPct=0;
-							drawdata=[100,0];
-							bootsrapAlert("目前無使用人數!");
-							drawPieChart(drawdata,1);
-						}else{
-							transPct = Math.round((userNumberData.TransPct)*10000)/100;
-							drawdata = [transPct,Math.round((100-transPct)*100)/100];
-							drawPieChart(drawdata,0);
-						}
+					if(jsonData.Status === "Error"){
+						bootsrapAlert(jsonData.Detail);
+						return;
 					}
-                     
-					  
+
+					console.log(jsonData);
+					var userNumberData = jsonData.Data;
+					$("#result").removeAttr("style");
+					$("#usernumstr").text("使用人數:");
+					$("#transNumstr").text("交易人數:");
+					$("#usernum").text(userNumberData.Total);
+					$("#transNum").text(userNumberData.Trans);
+					var transPct=0;
+					var drawdata=[0,0];
+					if (userNumberData.Total==0){
+						transPct=0;
+						drawdata=[100,0];
+						bootsrapAlert("目前無使用人數!");
+						drawPieChart(drawdata,1);
+					}else{
+						transPct = Math.round((userNumberData.TransPct)*10000)/100;
+						drawdata = [transPct,Math.round((100-transPct)*100)/100];
+						drawPieChart(drawdata,0);
+					}
 					//{"name":"bb","value":(userNumberData.transPercentage)*100},{"name":"aa","value":(1-userNumberData.transPercentage)*100}
-					
-					
 				},
 				error : function(xhr) {
 					bootsrapAlert("err: " + xhr.status + ' '
@@ -143,3 +120,13 @@ function clearChar(){
 	$("#picbody").empty();
 }
 
+$("#downloadBtn").click(function() {
+	var buid = $("#buId").find(":selected").val();
+	var datepickerFrom = $("#datepickerFrom").val();
+	var datepickerTo = $("#datepickerTo").val();
+
+	console.log(fubon.contextPath+"operateManagement/downloadPeopleNum?buid=" + buid +
+		"&datepickerFrom=" + encodeURIComponent(datepickerFrom) + "&datepickerTo=" + encodeURIComponent(datepickerTo));
+	location.href = fubon.contextPath+"operateManagement/downloadPeopleNum?buid=" + buid +
+		"&datepickerFrom=" + encodeURIComponent(datepickerFrom) + "&datepickerTo=" + encodeURIComponent(datepickerTo);
+})
