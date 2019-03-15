@@ -40,7 +40,7 @@ function searchHouseView(buId){
                 $("#buId").find(":selected").val();
 
                 for(var i=0; i<productHouseViewParamList.length;i++){
-                    var str = "<tr><td class='wn'> </td><td> </td><td> </td><td> </td><td> </td><td > </td></tr>";
+                    var str = "<tr><td class='wn'> </td><td> </td><td> </td><td> </td><td> </td><td > </td> <td > </td></tr>";
                     $('#productTable').append(str);
                     var $specifyTd = $('#productTable tr:last').find('td');
                     $specifyTd.eq(0).text(productHouseViewParamList[i].productCode);
@@ -57,6 +57,14 @@ function searchHouseView(buId){
                     if (productHouseViewParamList[i].houseViewParamEndTime) {
                         $specifyTd.eq(5).text(productHouseViewParamList[i].houseViewParamEndTime);
                     }
+                    if (productHouseViewParamList[i].flowId) {
+                        $specifyTd.eq(6).text('審核中');
+                        $specifyTd.eq(2).text(parseFloat((productHouseViewParamList[i].newERoR1Y * 100).toPrecision(12)) +'%');
+                        $specifyTd.eq(3).text(parseFloat((productHouseViewParamList[i].newConfLevel * 100).toPrecision(12)) +'%');
+                    }else{
+                        $specifyTd.eq(6).text('無');
+                    }
+
                 }
             }
         },

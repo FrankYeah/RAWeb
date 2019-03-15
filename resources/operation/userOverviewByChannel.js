@@ -58,11 +58,11 @@ function drawBarChart(data) {
 	const margin = {
 		top: 40,
 		right: 80,
-		bottom: 40,
+		bottom: 70,
 		left: 240
 	},
 		width = 800,
-		height = 400,
+		height = 450,
 		innerWidth = width - margin.left - margin.right,
 		innerHeight = height - margin.top - margin.bottom,
 		svg = d3.select('#chartsResults').append('svg').attr('width', width).attr('height', height)
@@ -70,6 +70,7 @@ function drawBarChart(data) {
 
 	console.log(width)
 	console.log(innerWidth)
+	console.log(data)
 	var xWidth;
 	if (data.length<15 )  xWidth = width/15 *(data.length) ; //小於15筆,不要占全版面
 
@@ -80,7 +81,7 @@ function drawBarChart(data) {
 	const y = d3.scale.linear().range([innerHeight, 0]);;
 
 	const z = d3.scale.ordinal()
-		.range(['blue', 'red']);
+		.range(['#00BFFF', '#7B68EE']);
 
 	x0.domain(data.map(d => d.channelName));
 	x1.domain(keys).rangeRoundBands([0, x0.rangeBand()]);
@@ -110,24 +111,24 @@ function drawBarChart(data) {
 		.on("mouseover", function (d) { return tip.text(d.value).style("visibility", "visible").style("top", y(d.value) + 100 + 'px').style("left", x0(d.channelName) + x1(d.key) + (x1.rangeBand() / 2) + margin.left + 'px') })
 		.on("mouseout", function () { return tip.style("visibility", "hidden"); });
 
-		g.append('g')
-			.selectAll('g')
-			.data(data)
-			.enter()
-			.append('g')
-			.attr('transform', d => 'translate(' + x0(d.channelName) + ',0)')
-			.selectAll('rect')
-			.data(d => keys.map(key => { return { key: key, value: d[key], channelName: d.channelName } }))
-			.enter().append('text')
-			.attr('x', d => x1(d.key))
-			.attr('y', d => y(d.value))
-			.attr('width', x1.rangeBand())
-			.attr('height', d => innerHeight - y(d.value))
-			.attr('fill', d => z(d.key))
-			.text(function(d){
-				return d.value;}
-			)
-
+	g.append('g')
+		.selectAll('g')
+		.data(data)
+		.enter()
+		.append('g')
+		.attr('transform', d => 'translate(' + x0(d.channelName) + ',0)')
+		.selectAll('rect')
+		.data(d => keys.map(key => { return { key: key, value: d[key], channelName: d.channelName } }))
+		.enter().append('text')
+		.attr('x', d => x1(d.key))
+		.attr('y', d => y(d.value) - 5)
+		.attr('width', x1.rangeBand())
+		.attr('height', d => innerHeight - y(d.value))
+		.attr('fill', 'black')			
+		.style("font-size", "14px")
+		.text(function(d){
+			return d.value;}
+		)
 		
 	g.append('g')
 		.attr('class', 'axis-bottom')
@@ -136,6 +137,22 @@ function drawBarChart(data) {
 		.scale(x0)
 		.orient("bottom"));
 
+	g.append('text')
+		.attr('x', -130)
+		.attr('y', 180)
+		.attr('dy', '0.32em')
+		.style("font-size", "20px")
+		.text('管道人數');
+
+	g.append('text')
+		.attr('x', 170)
+		.attr('y', 390)
+		.attr('dy', '0.32em')
+		.style("font-size", "20px")
+		.text('管道類別');
+
+
+	// 另一個下方線
 	x0 = d3.scale.ordinal().rangeRoundBands([0, innerWidth], .1);
 	g.append('g')
 		.attr('class', 'axis-bottom')
@@ -163,19 +180,21 @@ function drawBarChart(data) {
 		.selectAll('g')
 		.data(["使用人數", "交易人數"])
 		.enter().append('g')
-		.attr('transform', (d, i) => 'translate(0,' + i * 20 + ')');
+		.attr('transform', (d, i) => 'translate(100,' + i * 20 + ')');
 
 	legend.append('rect')
-		.attr('x', innerWidth - 19)
+		.attr('x', innerWidth - 0)
 		.attr('width', 10)
 		.attr('height', 10)
 		.attr('fill', z);
 
 	legend.append('text')
-		.attr('x', innerWidth - 32)
+		.attr('x', innerWidth - 13)
 		.attr('y', 6)
 		.attr('dy', '0.32em')
+		.style("font-size", "18px")
 		.text(d => d);
+
 }
 
 $("#downloadBtn").click(function() {

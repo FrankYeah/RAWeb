@@ -36,7 +36,7 @@
     <div class="content-1"><!-- style="display:none;"  -->
         <table id ="productTable"  class="table table-bordered table-striped table-hover">
             <tr class="info">
-                <td class="wn">代碼</td><td class="wn">名稱</td><td class="wn">預期年報酬率</td><td class="wn">信心水準</td><td >生效日期</td><td >失效日期</td>
+                <td class="wn">代碼</td><td class="wn">名稱</td><td class="wn">預期年報酬率</td><td class="wn">信心水準</td><td >生效日期</td><td >失效日期</td><td >送審</td>
             </tr>
         </table>
 

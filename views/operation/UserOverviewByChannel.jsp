@@ -50,7 +50,7 @@
             </div>
         </div>
         <div id="result" class="col-sm-10 row">
-            <label class="control-label col-sm-2"> user channels:</label>
+            <label class="control-label col-sm-2"> 查詢結果:</label>
             <div name="rView" class=out1 class="col-sm-8">
                 <div id="chartsResults" />
             </div>
