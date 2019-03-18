@@ -33,7 +33,7 @@ function IsJsonString(str) {
 
 /*搜尋商品*/
 function searchProduct(buId){
-	$("#productTable").empty();
+	// $("#productTable").empty();
 
 	var listProduct = {"buId": buId};
 	
@@ -78,7 +78,7 @@ function searchProduct(buId){
 
 /*搜尋商品 For Submit*/
 function searchProductForSubmit(buId){
-	$("#productTable").empty();
+	// $("#productTable").empty();
 
 	var searchProduct = {"keyword":$("#productName").val().trim(), "buId": buId};
 	

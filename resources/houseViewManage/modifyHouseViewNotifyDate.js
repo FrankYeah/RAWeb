@@ -52,42 +52,30 @@ function getListNote(){
             bootsrapAlert("err: " + xhr.status + ' ' + xhr.statusText);
         }
     });
-
-
-
 }
+
+// var min = new Date().getFullYear() + "-01-01";
+// var max = new Date().getFullYear() + "-12-31";
+// $("#startDate")[0].min = min;
+// $("#startDate")[0].max = max;
+// $("#endDate")[0].min = min;
+// $("#endDate")[0].max = max;
 
 // 新增
 $("#addBtn").click(function() {
     // 判斷有沒有加 0
     var getInput = $('div div').find('input');
+    var startDate = $("#startDate")[0].value;
+    var endDate = $("#endDate")[0].value;
 
-    var startMonth = getInput[0].value;
-    var startDay = getInput[1].value;
-    var endMonth = getInput[3].value;
-    var endDay = getInput[4].value;
-
-    if(getInput[0].value.length==1){
-        startMonth = '0' + getInput[0].value;
-
-    }
-    if(getInput[1].value.length==1){
-        startDay = '0' + getInput[1].value;
-    }
-    if(getInput[3].value.length==1){
-        endMonth = '0' + getInput[3].value;
-    }
-    if(getInput[4].value.length==1){
-        endDay = '0' + getInput[4].value;
-    }
 
     var addData = {
-        "startDate" : startMonth + "/" + startDay, // 通知開始日 (格式為 "MM/dd")
-        "endDate" : endMonth + "/" + endDay,   // 通知結束日 (格式為 "MM/dd")
-        "period" : getInput[2].value           // 通知週期，每隔儿日發送一次通知
+        "startDate" : startDate.substr(5).replace('-','/'), // 通知開始日 (格式為 "MM/dd")
+        "endDate" : endDate.substr(5).replace('-','/'),   // 通知結束日 (格式為 "MM/dd")
+        "period" : getInput[1].value           // 通知週期，每隔儿日發送一次通知
     };
     console.log(addData)
-
+ 
     $.ajax({
         type : "POST",
         url : fubon.contextPath+"houseViewManage/addNotifyConfig",
@@ -143,7 +131,7 @@ function delDate(e){
 //更新
 $("#newBtn").click(function() {
     var getInput = {
-        "period" :  $('div div').find('input')[2].value // 通知週期，每隔儿日發送一次通知
+        "period" :  $('div div').find('input')[1].value // 通知週期，每隔儿日發送一次通知
     }
 
     $.ajax({

@@ -43,8 +43,8 @@
 			<label class="control-label col-sm-3">是否為專案產品:</label>
 			<div class="form-group col-sm-3"> 
 				<select id="isProduct" name="isProduct" class="form-control ">
-					<option  value=true>true</option>
-					<option  value=false>false</option>
+					<option  value=true>是</option>
+					<option  value=false>否</option>
 				</select>
 			</div>	
 			<br>

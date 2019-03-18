@@ -146,7 +146,7 @@ function productNameValidate() {
 
 /*搜尋商品*/
 function searchProduct(buId){
-	$("#productTable").empty();
+	// $("#productTable").empty();
 
 	var listProduct = {"buId": buId};
 

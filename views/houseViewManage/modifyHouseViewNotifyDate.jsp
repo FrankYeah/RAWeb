@@ -14,15 +14,13 @@
 <jsp:include page="title.jsp"></jsp:include>
 
     <div class="content-1">
-        <label class="control-label col-sm-1"> 每年</label>
+        <label class="control-label col-sm-1">從 </label>
             <div class="col-sm-1 form-group" style="padding:0px"> 
-                <input class="form-control" type="number" min="1" max="12"/>
+                <input type="date" id="startDate" name="startDate">
             </div>
-        <label class="control-label col-sm-1"> 月</label>
-            <div class="col-sm-1 form-group" style="padding:0px"> 
-                <input class="form-control" type="number" min="1" max="31"/>
-            </div>
-        <label class="control-label col-sm-1"> 日</label>
+        <label class="control-label col-sm-1"></label>
+
+        <label class="control-label col-sm-1"> </label>
 
             <div class="col-sm-1 form-group"> 
                 <button id='addBtn' type="button" class="btn btn-primary" >新增</button>
@@ -40,14 +38,10 @@
             <div class="col-sm-12"> </div>
 
         <label class="control-label col-sm-1">至</label>
-            <div class="col-sm-1 form-group" style="padding:0px"> 
-                <input class="form-control" type="number" min="1" max="12"/>
-            </div>
-        <label class="control-label col-sm-1"> 月</label>
-            <div class="col-sm-1 form-group" style="padding:0px"> 
-                <input class="form-control" type="number" min="1" max="31"/>
-            </div>
-        <label class="control-label col-sm-1"> 日</label>            
+        <div class="col-sm-1 form-group" style="padding:0px"> 
+            <input type="date" id="endDate" name="endDate">
+        </div>
+         
 
     </div>
 

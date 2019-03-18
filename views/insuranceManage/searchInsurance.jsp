@@ -38,16 +38,13 @@
     
         <div class="content-1"><!-- style="display:none;"  -->
             <table id ="productTable"  class="table table-bordered table-striped table-hover">
-            
-            
                 <tr class="info">
                     <td class="wn">代碼</td><td class="wn">名稱</td><td class="wn">KYP組別</td><td >是否為專案產品</td><td  class="wn">是否啟用</td><td class="wn">更新日期</td>
                 </tr>
-            
             </table>
-                <div class = "Msg"></div>
-                
+            <div class = "Msg"></div>
         </div>
+        
     </div>
 
 
