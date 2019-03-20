@@ -5,6 +5,8 @@
 <head>
 <%@include file="/resources/commons/decelerations.jsp"%>
 <link href="<c:url value="/resources/css/houseViewManage/common.css" />" rel="stylesheet" />
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css" type="text/css" media="all">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>觀點匯入管理</title>
 </head>
@@ -16,7 +18,7 @@
     <div class="content-1">
         <label class="control-label col-sm-1">從 </label>
             <div class="col-sm-1 form-group" style="padding:0px"> 
-                <input type="date" id="startDate" name="startDate">
+                <input type="text" id="startDate" name="startDate" value="01/01">
             </div>
         <label class="control-label col-sm-1"></label>
 
@@ -39,9 +41,11 @@
 
         <label class="control-label col-sm-1">至</label>
         <div class="col-sm-1 form-group" style="padding:0px"> 
-            <input type="date" id="endDate" name="endDate">
+            <input style="display:none" type="text" id="" name="" value="01/01" placeholder="01/01">
+            <input type="text" id="endDate" name="endDate" value="01/01" placeholder="01/01">
+
         </div>
-         
+        
 
     </div>
 

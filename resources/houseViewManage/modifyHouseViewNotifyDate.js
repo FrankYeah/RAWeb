@@ -9,7 +9,7 @@ function getListNote(){
         data : '',
         success : function(data, response, xhr) {
             storeData = data;
-
+            console.log(data)
             if(data.Status === "Error"){
                 $("#productTable").find("tr:gt(0)").remove();
 
@@ -25,7 +25,6 @@ function getListNote(){
                     $specifyTd.eq(1).text(productHouseViewParamList[i].endDate);
                     $('#productTable tr').find('button')[i].name = i;
                 }
-
             }
         },
         error : function(xhr) {
@@ -41,7 +40,6 @@ function getListNote(){
         data : '',
         success : function(data, response, xhr) {
             console.log(data)
-
             if(data.Status === "Error"){
                 
             }else{
@@ -54,13 +52,6 @@ function getListNote(){
     });
 }
 
-// var min = new Date().getFullYear() + "-01-01";
-// var max = new Date().getFullYear() + "-12-31";
-// $("#startDate")[0].min = min;
-// $("#startDate")[0].max = max;
-// $("#endDate")[0].min = min;
-// $("#endDate")[0].max = max;
-
 // 新增
 $("#addBtn").click(function() {
     // 判斷有沒有加 0
@@ -68,14 +59,13 @@ $("#addBtn").click(function() {
     var startDate = $("#startDate")[0].value;
     var endDate = $("#endDate")[0].value;
 
-
     var addData = {
-        "startDate" : startDate.substr(5).replace('-','/'), // 通知開始日 (格式為 "MM/dd")
-        "endDate" : endDate.substr(5).replace('-','/'),   // 通知結束日 (格式為 "MM/dd")
+        "startDate" : startDate, // 通知開始日 (格式為 "MM/dd")
+        "endDate" : endDate,   // 通知結束日 (格式為 "MM/dd")
         "period" : getInput[1].value           // 通知週期，每隔儿日發送一次通知
     };
     console.log(addData)
- 
+
     $.ajax({
         type : "POST",
         url : fubon.contextPath+"houseViewManage/addNotifyConfig",
@@ -96,7 +86,6 @@ $("#addBtn").click(function() {
     });
 
 })
-
 
 // 刪除
 function delDate(e){
@@ -156,3 +145,20 @@ $("#newBtn").click(function() {
         }
     });
 })
+
+$("#startDate").datepicker({
+    changeYear: false,
+    dateFormat: "MM/dd",
+    monthNames: [ "01","02","03","04","05","06","07","08","09","10","11","12" ],
+ }).focus(function () {
+    $(".ui-datepicker-year").hide();
+ });
+
+ $("#endDate").datepicker({
+    changeYear: false,
+    dateFormat: "MM/dd",
+    monthNames: [ "01","02","03","04","05","06","07","08","09","10","11","12" ],
+    currentText: "01/01",
+ }).focus(function () {
+    $(".ui-datepicker-year").hide();
+ });
