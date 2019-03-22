@@ -1,7 +1,6 @@
 $(function() {
-
 	$("#submitBtn").click(function() {
-		
+
 		if(productNameValidate()){
 			/*新增商品*/
 			var $bu = $("#buId option:selected");
@@ -22,6 +21,15 @@ $(function() {
 				url : fubon.contextPath+"product/modifyRequest",
 				data : JSON.stringify(product),
 				success : function(data, response, xhr) {
+					if(data.Status === "Error"){
+						if (data.Detail.includes("is existed")){
+							bootsrapAlert("該項商品已存在，不能進行新增商品變更");
+						}
+						else {
+							bootsrapAlert(data.Detail);
+						}
+						return;
+					}
 
 					bootsrapAlert("商品新增成功");
 					$("#productID").val("");
@@ -46,10 +54,10 @@ $(function() {
 					});
 					// -----------------------------------------------
 
+					listModifyRequest();
 				},
 				error : function(xhr) {
-					bootsrapAlert("err: " + xhr.status + ' '
-							+ xhr.statusText);
+					bootsrapAlert("err: " + xhr.status + ' ' + xhr.statusText);
 				}
 			});
 		}
@@ -86,9 +94,7 @@ $(function() {
         }else{
             bootsrapAlert("請上傳檔案");
 		}
-
     });
-
 });
 
 
@@ -155,4 +161,86 @@ function fileValidate() {
     }else{
         return true;
     }
-};
+}
+
+/**
+ * 列出所有 "商品新增請求"
+ */
+function listModifyRequest(){
+	$.ajax({
+		type : "POST",
+		contentType : 'application/json',
+		url : fubon.contextPath+"product/listModifyRequest",
+		data : {},
+		success : function(data, response, xhr) {
+			$( ".Msg" ).empty();
+			$("#productTable").find("tr:gt(0)").remove();
+
+			if(data.Status === "Error"){
+				$(".Msg").append(data);
+				bootsrapAlert(data.Detail);
+				return;
+			}
+
+			var modifyRequestList = data.Data.modifyRequestList.filter(function (modifyRequest) {
+				return modifyRequest.modifyType === "Add";
+			});// 只需要 "商品新增請求" 的資料
+			var tableData = modifyRequestList;
+
+			for(var i=0; i < tableData.length;i++){
+				var modifyRequest = tableData[i];
+				var str = "<tr><td class='wn'> </td><td> </td><td> </td><td> </td><td > </td><td> </td><td> </td></tr>";
+				$('#productTable').append(str);
+				var $specifyTd = $('#productTable tr:last').find('td');
+
+				var $codeLink = $("<a/>").attr("href", "#").html(modifyRequest.code);
+				var clickHandler = function(modifyRequest) {
+					return function() {
+						selectModifyRequest(modifyRequest);
+					}
+				};
+				$codeLink.click(clickHandler(modifyRequest));
+				$specifyTd.eq(0).append($codeLink);
+
+				$specifyTd.eq(1).text(modifyRequest.name);
+				$specifyTd.eq(2).text(modifyRequest.riskReturn);
+				$specifyTd.eq(3).text(modifyRequest.description);
+				var href = $("<a>", {
+					href : modifyRequest.link,
+					text : modifyRequest.link,
+					target: "_blank"
+				});
+				$specifyTd.eq(4).append(href);
+				$specifyTd.eq(5).append(checkEnabled(modifyRequest.active));
+				$specifyTd.eq(6).text("審核中");
+			}
+		},
+		error : function(xhr) {
+			bootsrapAlert("err: " + xhr.status + ' ' + xhr.statusText);
+		}
+	});
+}
+
+function checkEnabled(isProductActive){
+	if(isProductActive){
+		var result = "<span class=\"glyphicon glyphicon-ok\"></span>";
+		return result
+	}else{
+		var result = "<span class=\"glyphicon glyphicon-remove\"></span>";
+		return result
+	}
+}
+
+/**
+ * 挑選之前改過的 "商品新增請求"
+ *
+ * @param modifyRequest
+ */
+function selectModifyRequest(modifyRequest){
+	$('#productID').val(modifyRequest.code);
+	$('#productName').val(modifyRequest.name);
+	$('#RiskReturn').val(modifyRequest.riskReturn);
+	$('#productDescribe').val(modifyRequest.description);
+	$('#url').val(modifyRequest.link);
+	$("#startCheckBox").prop("checked", modifyRequest.active);
+}

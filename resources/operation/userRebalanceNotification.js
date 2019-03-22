@@ -47,7 +47,6 @@ $( "select" ).change(function () {
     $( "select option:selected" ).each(function() {
       str += $( this ).val();
     });
-    //searchProduct(str);
   }).change();
 
 function clearChar(){

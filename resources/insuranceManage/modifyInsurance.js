@@ -58,7 +58,7 @@ function selectProduct(product){
 						success : function(data, response, xhr) {
 							console.log(data)
 							if(data.Status == 'Error'){
-								bootsrapAlert('險種修改失敗');
+								bootsrapAlert('險種修改失敗.' + data.Detail);
 							}else{
 								 BootstrapDialog.show({
 									 type :BootstrapDialog.TYPE_PRIMARY,

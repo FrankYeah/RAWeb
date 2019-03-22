@@ -41,9 +41,9 @@ function getListNote(){
         success : function(data, response, xhr) {
             console.log(data)
             if(data.Status === "Error"){
-                
+
             }else{
-                $('div div').find('input')[2].value = data.Data.period;
+                $('#notifyPeriod').val(data.Data.period);
             }
         },
         error : function(xhr) {
@@ -101,6 +101,8 @@ function delDate(e){
         success : function(data, response, xhr) {
 
             if(data.Status === "Error"){
+                bootsrapAlert(data.Detail);
+
                 $("#productTable").find("tr:gt(0)").remove();
                 getListNote()
 
@@ -131,6 +133,8 @@ $("#newBtn").click(function() {
         success : function(data, response, xhr) {
             console.log(data)
             if(data.Status === "Error"){
+                bootsrapAlert(data.Detail);
+
                 $("#productTable").find("tr:gt(0)").remove();
                 getListNote()
 

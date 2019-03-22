@@ -91,7 +91,7 @@ function rejectView(answerData){
             }
             
             if(data.Status === "Error"){
-                bootsrapAlert(data.Detail);               
+                bootsrapAlert(data.Detail);
             }else{
                 bootsrapAlert('完成任務'); 
             }

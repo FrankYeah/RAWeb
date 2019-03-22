@@ -58,7 +58,6 @@ $( "select" ).change(function () {
       str += $( this ).val();
     });
     //alert(str)
-    //searchProduct(str);
     getStatData();
   }).change();
 

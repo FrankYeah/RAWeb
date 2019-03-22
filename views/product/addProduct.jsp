@@ -85,9 +85,17 @@
 			<button id="submitBtnUpload" type="button" class="btn btn-primary">上傳</button>
 		</form>
 	</div>
+
+	<div class="col-sm-10 form-group"> </div>
+	<div>
+		<table id ="productTable"  class="table table-bordered table-striped table-hover">
+			<tr class="info">
+				<td class="wn">代碼</td><td class="wn">名稱</td><td class="wn">商品風險等級</td><td >商品說明</td><td  class="wn">連結網址</td><td class="wn">是否啟用</td><td >變更單</td>
+			</tr>
+		</table>
+		<div class = "Msg"></div>
+	</div>
 </form>
-
-
 </div>
 </div>
 
@@ -95,10 +103,17 @@
 <script src="${addProductJs}"></script>
 
 <script type="text/javascript">
-	
 	var projectName = "<%=request.getContextPath()%>";
 	var roleScope = ${roleScope}.functions;
 	getNavBar(roleScope);
+
+	var isFHUser = ${isFHUser}; //目前用戶是否為 "金控" BU 用戶
+	if (isFHUser == true) {
+		bootsrapAlert("金控帳號不能執行此功能");
+	}
+	else {
+		listModifyRequest();
+	}
 </script>
 
 

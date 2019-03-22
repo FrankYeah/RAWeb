@@ -86,6 +86,11 @@
     var projectName = "<%=request.getContextPath()%>";
     var roleScope = ${roleScope}.functions;
     getNavBar(roleScope);
+
+    var isFHUser = ${isFHUser}; //目前用戶是否為 "金控" BU 用戶
+    if (isFHUser == true) {
+        bootsrapAlert("金控帳號不能執行此功能");
+    }
 </script>
 
 </body>

@@ -139,7 +139,7 @@ function sendModifyView(SubData){
             if(data.Status === "Error"){
                 bootsrapAlert(data.Detail);
             }else{
-                bootsrapAlert("資料成功送出" + data.Status);                
+                bootsrapAlert("資料成功送出" + data.Status);
             }
         },
         error : function(xhr) {

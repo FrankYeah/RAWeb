@@ -76,48 +76,28 @@ $("#buId").change(function () {
     searchProduct(str);
   })
   .change();
-/*確認是否為 json object*/  
-function IsJsonString(str) {
-    try {
-        JSON.parse(str);
-    } catch (e) {
-        return false;
-    }
-    return true;
-}
 
-/*將要修改的資訊用ajax去後端跟api要資料*/	
 function selectProduct(product){
 	var code = product.Code;
-	  
-	$.ajax({
-		type : "GET",
-		contentType : 'application/json',
-		data: {"productCode":code,"buid":$("#buId").find(":selected").val()},
-		url : fubon.contextPath+"product/findProduct",
-		success : function(data, response, xhr) {
-			
-			if(!IsJsonString(data)){
-				bootsrapAlert(data);
-			}else{
-				var productData = JSON.parse(JSON.parse(data).Data);
-				$("#buId_text").val($("#buId").find(":selected").val());
-                // $('#type').val(productData.Type);
-				// $('#label').val(productData.Label);
-				$('#RiskReturn').val(productData.RiskReturn);
-				$('#productID').val(productData.Code);
-				$('#productName').val(productData.Name);
-				$('#productDescribe').val(productData.Description);
-				$('#url').val(productData.Link);
-				$("#startCheckBox").prop("checked", productData.Active);
-			}
+	var modifyRequest = product.modifyRequest; // 已經修改正在等待覆核的 "商品修改請求"
 
-		},
-		error : function(xhr) {
-			bootsrapAlert("err: " + xhr.status + ' '
-					+ xhr.statusText);
-		}	
-	});
+	$("#buId_text").val($("#buId").find(":selected").val());
+	$('#productID').val(code);
+
+	if (modifyRequest != null){
+		$('#RiskReturn').val(modifyRequest.riskReturn);
+		$('#productName').val(modifyRequest.name);
+		$('#productDescribe').val(modifyRequest.description);
+		$('#url').val(modifyRequest.link);
+		$("#startCheckBox").prop("checked", modifyRequest.active);
+	}
+	else {
+		$('#RiskReturn').val(product.RiskReturn);
+		$('#productName').val(product.Name);
+		$('#productDescribe').val(product.Description);
+		$('#url').val(product.Link);
+		$("#startCheckBox").prop("checked", product.Active);
+	}
 
     var $button = $("#submitBtn");
     $button.off();
@@ -132,7 +112,7 @@ function selectProduct(product){
 				"riskReturn" :$("#RiskReturn :selected").text(),
                 "description":$("#productDescribe").val(),
                 "link":$("#url").val(),
-                "active":$("#startCheckBox").prop("checked")				
+                "active":$("#startCheckBox").prop("checked")
 			};
 
             $.ajax({
@@ -141,7 +121,13 @@ function selectProduct(product){
                 url : fubon.contextPath+"product/modifyRequest",
                 data : JSON.stringify(updatedProduct),
                 success : function(data, response, xhr) {
-					console.log(data)
+					console.log(data);
+
+					if(data.Status === "Error"){
+						bootsrapAlert(data.Detail);
+						return;
+					}
+
                     bootsrapAlert("商品修改成功");
                     /*把表單清空*/
                     var all_Inputs = $("input[type=text]");
@@ -178,8 +164,6 @@ function selectProduct(product){
     });
 
 }
-
-
 
 /* 商品表格清單的 true or false picture*/
 function checkEnabled(tf){
@@ -241,8 +225,8 @@ function productNameValidate() {
 }
 
 /*搜尋商品*/
-function searchProduct(BUID){
-	var searchproduct = {"SearchName":$("#productNameSearch").val(),"BUID":BUID};
+function searchProduct(buId){
+	var searchproduct = {"Keyword":$("#productNameSearch").val(),"buId":buId};
 	
 	$.ajax({
 		type : "POST",
@@ -250,32 +234,21 @@ function searchProduct(BUID){
 		url : fubon.contextPath+"product/searchProduct",
 		data : JSON.stringify(searchproduct),
 		success : function(data, response, xhr) {
-			if(!IsJsonString(data)){
+			if(data.Status === "Error"){
 				$("#productTable").find("tr:gt(0)").remove();
 				$( ".Msg" ).empty();
 				$(".Msg").append(data);
-				if (BUID!=""){bootsrapAlert(data);}
+				bootsrapAlert(data.Detail);
 			}else{
-				var temp = JSON.parse(data);
-				var productData = JSON.parse(temp.Data);
+				var productData = data.Data;
 				var tableData =productData.Products;
 				$("#productTable").find("tr:gt(0)").remove();
 				$( ".Msg" ).empty();
 				for(var i=0; i<tableData.length;i++){
 					var product = tableData[i];
-					var str = "<tr><td class='wn'> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>";
+					var str = "<tr><td class='wn'> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>";
 					$('#productTable').append(str);
 					var $specifyTd = $('#productTable tr:last').find('td');
-					var href = $("<a/>", {
-						href : product.Link,
-						text : product.Link,
-						target: "_blank"
-					});
-					// var $codeh = $("<a/>", {
-					// 	href : "#",
-					// 	text : product.Code,
-					// 	onclick:"sendAjax('"+ product.Code+"')"
-					// });
 
                     var clickHandler = function(p) {
                       return function() {
@@ -286,20 +259,41 @@ function searchProduct(BUID){
 					var $codeh = $("<a/>").attr("href", "#").html(product.Code);
                     $codeh.click( clickHandler(product) );
 
+                    var modifyRequest = product.modifyRequest; // 已經修改正在等待覆核的 "商品修改請求"
 
 					$specifyTd.eq(0).append($codeh);
-					$specifyTd.eq(1).text(product.Name);
-					$specifyTd.eq(2).text(product.RiskReturn);
-					$specifyTd.eq(3).text(product.Description);
-					$specifyTd.eq(4).append(href);
-					$specifyTd.eq(5).text(product.CreateTime);
-					$specifyTd.eq(6).append(checkEnabled(product.Active));
-					$specifyTd.eq(7).text(product.UpdateTime);
-					
+
+					if (modifyRequest != null){
+						$specifyTd.eq(1).text(modifyRequest.name);
+						$specifyTd.eq(2).text(modifyRequest.riskReturn);
+						$specifyTd.eq(3).text(modifyRequest.description);
+
+						var href = $("<a/>", {
+							href : modifyRequest.link,
+							text : modifyRequest.link,
+							target: "_blank"
+						});
+						$specifyTd.eq(4).append(href);
+						$specifyTd.eq(5).append(checkEnabled(modifyRequest.active));
+						$specifyTd.eq(6).text("審核中");
+					}
+					else {
+						$specifyTd.eq(1).text(product.Name);
+						$specifyTd.eq(2).text(product.RiskReturn);
+						$specifyTd.eq(3).text(product.Description);
+
+						var href = $("<a/>", {
+							href : product.Link,
+							text : product.Link,
+							target: "_blank"
+						});
+						$specifyTd.eq(4).append(href);
+						$specifyTd.eq(5).append(checkEnabled(product.Active));
+						$specifyTd.eq(6).text("無");
+					}
 				}
 				
 			}
-			
 		},
 		error : function(xhr) {
 			bootsrapAlert("err: " + xhr.status + ' '

@@ -3,10 +3,10 @@ $(function() {
 	$("#submitBtn").click(function() {
 			if($("#productName").val()=="All"){
 				$("#productName").val("");
-				searchProductForSubmit($("#buId").find(":selected").val());
+				searchProduct($("#buId").find(":selected").val());
 				$("#productName").val("");
 			}else{
-				searchProductForSubmit($("#buId").find(":selected").val());
+				searchProduct($("#buId").find(":selected").val());
 				$("#productName").val("");
 			}
 	});	
@@ -20,21 +20,10 @@ $( "select" ).change(function () {
     });
     searchProduct(str);
   }).change();
-  
-function IsJsonString(str) {
-    try {
-        JSON.parse(str);
-    } catch (e) {
-        return false;
-    }
-    return true;
-}
-
 
 /*搜尋商品*/
-function searchProduct(BUID){
-
-	var searchproduct = {"SearchName":$("#productName").val(),"BUID":BUID}
+function searchProduct(buId){
+	var searchproduct = {"Keyword":$("#productName").val(), "buId":buId};
 	
 	$.ajax({
 		type : "POST",
@@ -42,15 +31,14 @@ function searchProduct(BUID){
 		url : fubon.contextPath+"product/searchProduct",
 		data : JSON.stringify(searchproduct),
 		success : function(data, response, xhr) {
-			if(!IsJsonString(data)){
+			if(data.Status === "Error"){
 				$("#productTable").find("tr:gt(0)").remove();
 				$( ".Msg" ).empty();
 				$(".Msg").append(data);
-				if (BUID!=""){bootsrapAlert(data);}
-				
-			}else{
-				var temp = JSON.parse(data);
-				var productData = JSON.parse(temp.Data);
+				bootsrapAlert(data.Detail);
+			}
+			else{
+				var productData = data.Data;
 				console.log(productData);
 				var tableData =productData.Products;
 				$( ".Msg" ).empty();
@@ -61,83 +49,27 @@ function searchProduct(BUID){
 					var str = "<tr><td class='wn'> </td><td> </td><td> </td><td> </td><td > </td><td> </td><td> </td><td> </td></tr>";
 					$('#productTable').append(str);
 					var $specifyTd = $('#productTable tr:last').find('td');
-					var href = $("<a>", {
-						href : tableData[i].Link,
-						text : tableData[i].Link,
-						target: "_blank"
-					});
-					$specifyTd.eq(0).text(tableData[i].Code);
-					$specifyTd.eq(1).text(tableData[i].Name);
-					$specifyTd.eq(2).text(tableData[i].RiskReturn);
-					$specifyTd.eq(3).text(tableData[i].Description);
-					$specifyTd.eq(4).append(href);
-					$specifyTd.eq(5).text(tableData[i].CreateTime);
-					$specifyTd.eq(6).append(checkEnabled(tableData[i].Active));
-					$specifyTd.eq(7).text(tableData[i].UpdateTime);
-					
-				}
-				
-			}
-			
-		},
-		error : function(xhr) {
-			bootsrapAlert("err: " + xhr.status + ' '
-					+ xhr.statusText);
-		}	
-	});
-}
-
-/*搜尋商品 For Submit*/
-function searchProductForSubmit(BUID){
-
-	var searchproduct = {"SearchName":$("#productName").val().trim(),"BUID":BUID}
-	
-	$.ajax({
-		type : "POST",
-		contentType : 'application/json',
-		url : fubon.contextPath+"product/searchProductForSubmit",
-		data : JSON.stringify(searchproduct),
-		success : function(data, response, xhr) {
-			if(!IsJsonString(data)){
-				$("#productTable").find("tr:gt(0)").remove();
-				$( ".Msg" ).empty();
-				$(".Msg").append(data);
-				bootsrapAlert(data);
-			}else{
-				var temp = JSON.parse(data);
-				var productData = JSON.parse(temp.Data);
-				console.log(productData);
-				var tableData =productData.Products;
-				$( ".Msg" ).empty();
-				$("#productTable").find("tr:gt(0)").remove();
-				$("#buId").find(":selected").val();
-				for(var i=0; i<tableData.length;i++){
-					var str = "<tr><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>";
-					$('#productTable').append(str);
-					var $specifyTd = $('#productTable tr:last').find('td');
-					var href = $("<a>", {
-						href : tableData[i].Link,
-						text : tableData[i].Link,
-						target: "_blank"
-					});
 
 					$specifyTd.eq(0).text(tableData[i].Code);
 					$specifyTd.eq(1).text(tableData[i].Name);
 					$specifyTd.eq(2).text(tableData[i].RiskReturn);
 					$specifyTd.eq(3).text(tableData[i].Description);
+
+					var href = $("<a>", {
+						href : tableData[i].Link,
+						text : tableData[i].Link,
+						target: "_blank"
+					});
 					$specifyTd.eq(4).append(href);
 					$specifyTd.eq(5).text(tableData[i].CreateTime);
 					$specifyTd.eq(6).append(checkEnabled(tableData[i].Active));
 					$specifyTd.eq(7).text(tableData[i].UpdateTime);
 				}
-				
 			}
-			
 		},
 		error : function(xhr) {
-			bootsrapAlert("err: " + xhr.status + ' '
-					+ xhr.statusText);
-		}	
+			bootsrapAlert("err: " + xhr.status + ' ' + xhr.statusText);
+		}
 	});
 }
 
@@ -150,17 +82,4 @@ function checkEnabled(tf){
 		return result
 	}
 }
-
-/*
-function productNameValidate() {
-	var productName = $("#productName").val();
-	
-	if (productName.trim() == null || productName.trim() == "") {
-		bootsrapAlert("請輸入商品代碼/名稱");
-		return false;
-	} 
-	
-	return true;
-}*/
-
 
