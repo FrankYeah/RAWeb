@@ -128,7 +128,7 @@ function selectProduct(product){
 						return;
 					}
 
-                    bootsrapAlert("商品修改成功");
+                    bootsrapAlert("資料成功送出Ok");
                     /*把表單清空*/
                     var all_Inputs = $("input[type=text]");
                     all_Inputs.val("");
