@@ -29,6 +29,7 @@
 </div>
 
 <spring:url value="/resources/houseViewManage/modifyHouseView.js" var="houseViewJs" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 <script src="${houseViewJs}"></script>
 
 <script type="text/javascript">
