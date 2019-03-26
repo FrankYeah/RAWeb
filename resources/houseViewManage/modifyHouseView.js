@@ -144,7 +144,7 @@ function sendModifyView(SubData){
             if(data.Status === "Error"){
                 bootsrapAlert(data.Detail);
             }else{
-                bootsrapAlert("資料成功送出Ok");
+                bootsrapAlert("更新觀點已送出");
             }
         },
         error : function(xhr) {
@@ -158,6 +158,7 @@ function sendModifyView(SubData){
 $(function() {
     /* 取消送出資料 */
     $("#cancelBtn").click(function() {
+        bootsrapAlert("更新觀點已取消");
         searchHouseView()
     });
 });

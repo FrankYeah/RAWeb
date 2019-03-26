@@ -31,7 +31,7 @@ $(function() {
 						return;
 					}
 
-					bootsrapAlert("資料成功送出Ok");
+					bootsrapAlert("新增商品已送出");
 					$("#productID").val("");
 					$("#url").val("");
 					$("#productDescribe").val("");

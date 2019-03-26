@@ -70,12 +70,11 @@ $(function() {
                 rejectOrApprove.approveFlowIdList.push(originData.Data.productHouseViewParamList[i].flowId)
             }
         }
-        rejectView(rejectOrApprove);
+        approveView(rejectOrApprove);
     });
 });
 
 function rejectView(answerData){
-    
     console.log(answerData)
     $.ajax({
         type : "POST",
@@ -93,7 +92,41 @@ function rejectView(answerData){
             if(data.Status === "Error"){
                 bootsrapAlert(data.Detail);
             }else{
-                bootsrapAlert('完成任務'); 
+                bootsrapAlert('駁回成功'); 
+            }
+            searchHouseView();
+        },
+        error : function(xhr) {
+            //清空資料
+            rejectOrApprove = {
+                "approveFlowIdList" : [],
+                "rejectFlowIdList" : [] 
+            }
+            bootsrapAlert("err: " + xhr.status + ' ' + xhr.statusText);
+            searchHouseView();
+        }
+    });
+}
+
+function approveView(answerData){
+    console.log(answerData)
+    $.ajax({
+        type : "POST",
+        url : fubon.contextPath+"houseViewManage/verifyHouseView",
+        contentType : 'application/json;charset=UTF-8',
+        data : JSON.stringify(answerData),
+        success : function(data, response, xhr) {
+            console.log(data)
+            //清空資料
+            rejectOrApprove = {
+                "approveFlowIdList" : [],
+                "rejectFlowIdList" : [] 
+            }
+            
+            if(data.Status === "Error"){
+                bootsrapAlert(data.Detail);
+            }else{
+                bootsrapAlert('覆核成功'); 
             }
             searchHouseView();
         },
