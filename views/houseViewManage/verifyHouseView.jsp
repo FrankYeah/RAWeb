@@ -19,7 +19,7 @@
             </tr>
         </table>
 
-        <div class="col-sm-2">
+        <div class="col-sm-2 button-all" style="display:none">
             <button id="rejectBtn" type="button" class="btn btn-primary">駁回</button>
             <button id="approveBtn" type="button" class="btn btn-primary">確認</button>
         </div>
