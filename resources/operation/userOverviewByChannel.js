@@ -5,6 +5,8 @@ $(function () {
 	$("#submitBtn").click(function () {
 		getStatData();
 	});
+	// 預設查詢
+	getStatData();
 });
 
 function getStatData() {

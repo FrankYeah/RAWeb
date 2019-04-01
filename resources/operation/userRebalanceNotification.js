@@ -6,6 +6,13 @@ $(function() {
 
 	//查詢 UserRebalanceNotification
 	$("#submitBtn").click(function() {
+		queryRebalance();
+	});
+
+	// 預設選取
+	queryRebalance();
+
+	function queryRebalance(){
 		if(dateRangeEqualsValidate()){
 			var $buid = $("#buId option:selected");
 			//alert($buid.val())
@@ -38,7 +45,11 @@ $(function() {
 				}
 			});
 		}
-	});
+	}
+
+
+
+
 });
 
 /*如果切換ID 下面 role表格也要改變*/
