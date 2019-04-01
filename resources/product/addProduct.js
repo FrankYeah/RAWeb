@@ -38,22 +38,6 @@ $(function() {
 					$("#productName").val("");
                     $("input[type='checkbox']").attr("checked", false);
 
-					// 發送 email  ------------------------------------
-					$.ajax({
-						type : "POST",
-						contentType : 'application/json',
-						url : fubon.contextPath+"product/sendVerifyNotify",
-						data: {},
-						success : function(data, response, xhr) {
-							console.log(data)						
-						},
-						error : function(xhr) {
-							bootsrapAlert("err: " + xhr.status + ' '
-								+ xhr.statusText);
-						}
-					});
-					// -----------------------------------------------
-
 					listModifyRequest();
 				},
 				error : function(xhr) {

@@ -39,7 +39,7 @@ function searchHouseView(){
                         $specifyInput[1].value = parseFloat((productHouseViewParamList[i].oldConfLevel * 100).toPrecision(12)) ;
                     }
                     if (productHouseViewParamList[i].flowId) {
-                        $specifyTd.eq(4).text('送審中');
+                        $specifyTd.eq(4).text('審核中');
                         $specifyInput[0].value = parseFloat((productHouseViewParamList[i].newERoR1Y * 100).toPrecision(12)) ;
                         $specifyInput[1].value = parseFloat((productHouseViewParamList[i].newConfLevel * 100).toPrecision(12)) ;
                     }else{
@@ -145,6 +145,7 @@ function sendModifyView(SubData){
                 bootsrapAlert(data.Detail);
             }else{
                 bootsrapAlert("更新觀點已送出");
+                searchHouseView();
             }
         },
         error : function(xhr) {
@@ -159,7 +160,7 @@ $(function() {
     /* 取消送出資料 */
     $("#cancelBtn").click(function() {
         bootsrapAlert("更新觀點已取消");
-        searchHouseView()
+        searchHouseView();
     });
 });
 

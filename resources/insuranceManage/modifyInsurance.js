@@ -22,32 +22,41 @@ function IsJsonString(str) {
 }
 
 
-/*將要修改的資訊用ajax去後端跟api要資料*/	
+/*將要修改的資訊用ajax去後端跟api要資料*/
 function selectProduct(product){
 	$('#productID').val(product.code);
 	$('#productName').val(product.name);
 	$("#startCheckBox").prop("checked", product.isActive);
-	$('#RiskReturn').val(product.kypGroup);
+	if (product.kypGroup == null){
+		$('#RiskReturn').val("null");
+	}
+	else {
+		$('#RiskReturn').val(product.kypGroup);
+	}
 	$('#isProduct').val(product.isProject + '');
 
     var $button = $("#submitBtn");
     $button.off();
     $button.click(function() {
-
-					/*新增險種*/
-					var boalean;
+					var isProduct;
 					if($("#isProduct :selected").val() == 'false'){
-						boalean = false;
+						isProduct = false;
 					}else{
-						boalean = true;
+						isProduct = true;
 					}
+
+					var kypGroup = $("#RiskReturn :selected").val();
+					if (kypGroup == "null") {
+						kypGroup = null;
+					}
+
 					var product={
 						"modifyType" : "Update", // 請求類型。'Add' = 新增商品, 'Update' = 修改商品。(Required)
 						"code": $("#productID").val(), // 商品代碼 (Required)
 						"name": $("#productName").val(), // 商品名稱 (Required)
-						"kypGroup": $("#RiskReturn :selected")[0].value, // KYP組別，有這儿種值 '1', '2', '3', '4', '5', '6', null 
-						"isProject": boalean, // 是否為專案商品 (Required)
-						"isActive": $("#startCheckBox").prop("checked") // 商品是否啟用 (Required)	 
+						"kypGroup": kypGroup, // KYP組別，有這儿種值 '1', '2', '3', '4', '5', '6', null
+						"isProject": isProduct, // 是否為專案商品 (Required)
+						"isActive": $("#startCheckBox").prop("checked") // 商品是否啟用 (Required)
 					};
 
 					$.ajax({

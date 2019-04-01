@@ -31,6 +31,7 @@
             <label class="control-label col-sm-2">KYP組別:</label>
             <div class="form-group col-sm-3"> 
                 <select id="RiskReturn" name="RiskReturn" class="form-control ">
+                    <option  value="null"></option>
                     <option  value="1">1</option>
                     <option  value="2">2</option>
                     <option  value="3">3</option>

@@ -136,24 +136,6 @@ function selectProduct(product){
                     $("input[type='checkbox']").attr("checked", false);
                     /*更新商品清單*/
                     searchProduct($("#buId").find(":selected").val());
-
-
-					// 發送 email  ------------------------------------
-					$.ajax({
-						type : "POST",
-						contentType : 'application/json',
-						url : fubon.contextPath+"product/sendVerifyNotify",
-						data: {},
-						success : function(data, response, xhr) {
-							console.log(data)
-						},
-						error : function(xhr) {
-							bootsrapAlert("err: " + xhr.status + ' '
-								+ xhr.statusText);
-						}
-					});
-					// -----------------------------------------------
-
                 },
                 error : function(xhr) {
                     bootsrapAlert("err: " + xhr.status + ' '

@@ -3,20 +3,25 @@ $(function() {
 	$("#submitBtn").click(function() {
 		
 		if(productNameValidate()){
-			/*新增險種*/
-			var boalean;
+			var isProject;
 			if($("#isPrdruct :selected").val()== 'false'){
-				boalean = false;
+				isProject = false;
 			}else{
-				boalean = true;
+				isProject = true;
 			}
+
+			var kypGroup = $("#RiskReturn :selected").val();
+			if (kypGroup == "null") {
+				kypGroup = null;
+			}
+
 			var product={
 				"modifyType" : "Add", // 請求類型。'Add' = 新增商品, 'Update' = 修改商品。(Required)
 				"code": $("#productID").val(), // 商品代碼 (Required)
 				"name": $("#productName").val(), // 商品名稱 (Required)
-				"kypGroup": $("#RiskReturn :selected")[0].value, // KYP組別，有這儿種值 '1', '2', '3', '4', '5', '6', null 
-				"isProject": boalean, // 是否為專案商品 (Required)
-				"isActive": $("#startCheckBox").prop("checked") // 商品是否啟用 (Required)	 
+				"kypGroup": kypGroup, // KYP組別，有這儿種值 '1', '2', '3', '4', '5', '6', null
+				"isProject": isProject, // 是否為專案商品 (Required)
+				"isActive": $("#startCheckBox").prop("checked") // 商品是否啟用 (Required)
 			};
 			$.ajax({
 				type : "POST",

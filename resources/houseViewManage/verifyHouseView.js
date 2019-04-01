@@ -26,18 +26,20 @@ function searchHouseView(){
                 $("#productTable").find("tr:gt(0)").remove();
 
                 for(var i=0; i<productHouseViewParamList.length;i++){
-                    if (productHouseViewParamList[i].newERoR1Y || productHouseViewParamList[i].newConfLevel) {
-                        var str = "<tr><td class='wn'> </td><td> </td><td> </td><td> </td></tr>";
-                        $('#productTable').append(str);
-                        var $specifyTd = $('#productTable tr:last').find('td');
-                        $specifyTd.eq(0).text(productHouseViewParamList[i].productCode);
-                        $specifyTd.eq(1).text(productHouseViewParamList[i].productName);
-                        if (productHouseViewParamList[i].newERoR1Y) {
-                            $specifyTd.eq(2).text(parseFloat((productHouseViewParamList[i].newERoR1Y * 100).toPrecision(12)) + '%');
-                        }
-                        if (productHouseViewParamList[i].newConfLevel) {
-                            $specifyTd.eq(3).text(parseFloat((productHouseViewParamList[i].newConfLevel * 100).toPrecision(12)) + '%');
-                        }
+                    var str = "<tr><td class='wn'> </td><td> </td><td> </td><td> </td></tr>";
+                    $('#productTable').append(str);
+                    var $specifyTd = $('#productTable tr:last').find('td');
+                    $specifyTd.eq(0).text(productHouseViewParamList[i].productCode);
+                    $specifyTd.eq(1).text(productHouseViewParamList[i].productName);
+                    if (productHouseViewParamList[i].newERoR1Y != null) {
+                        $specifyTd.eq(2).text(parseFloat((productHouseViewParamList[i].newERoR1Y * 100).toPrecision(12)) + '%');
+                    } else {
+                        $specifyTd.eq(2).text("N/A");
+                    }
+                    if (productHouseViewParamList[i].newConfLevel != null) {
+                        $specifyTd.eq(3).text(parseFloat((productHouseViewParamList[i].newConfLevel * 100).toPrecision(12)) + '%');
+                    } else {
+                        $specifyTd.eq(3).text("N/A");
                     }
                 }
             }
