@@ -5,8 +5,6 @@ $(function () {
 	$("#submitBtn").click(function () {
 		getStatData();
 	});
-	// 預設查詢
-	getStatData();
 });
 
 function getStatData() {
@@ -110,8 +108,8 @@ function drawBarChart(data) {
 		.attr('width', x1.rangeBand())
 		.attr('height', d => innerHeight - y(d.value))
 		.attr('fill', d => z(d.key))
-		.on("mouseover", function (d) { return tip.text(d.value).style("visibility", "visible").style("top", y(d.value) + 100 + 'px').style("left", x0(d.channelName) + x1(d.key) + (x1.rangeBand() / 2) + margin.left + 'px') })
-		.on("mouseout", function () { return tip.style("visibility", "hidden"); });
+		// .on("mouseover", function (d) { return tip.text(d.value).style("visibility", "visible").style("top", y(d.value) + 100 + 'px').style("left", x0(d.channelName) + x1(d.key) + (x1.rangeBand() / 2) + margin.left + 'px') })
+		// .on("mouseout", function () { return tip.style("visibility", "hidden"); });
 
 	g.append('g')
 		.selectAll('g')

@@ -32,10 +32,10 @@ function searchHouseView(){
                     $specifyTd.eq(0).text(productHouseViewParamList[i].productCode);
                     $specifyTd.eq(1).text(productHouseViewParamList[i].productName);
                     var $specifyInput = $('#productTable tr:last').find('input');
-                    if (productHouseViewParamList[i].oldERoR1Y) {
+                    if (productHouseViewParamList[i].oldERoR1Y != null) {
                         $specifyInput[0].value = parseFloat((productHouseViewParamList[i].oldERoR1Y * 100).toPrecision(12)) ;
                     }
-                    if (productHouseViewParamList[i].oldConfLevel) {
+                    if (productHouseViewParamList[i].oldConfLevel != null) {
                         $specifyInput[1].value = parseFloat((productHouseViewParamList[i].oldConfLevel * 100).toPrecision(12)) ;
                     }
                     if (productHouseViewParamList[i].flowId) {
@@ -120,9 +120,12 @@ $(function() {
                 "productConfLevel" : levelNum
             }
             submitDataSet.houseViewParamList.push(submitArray);
-            
+
+            console.log(submitArray)
+            console.log(submitDataSet)
         }
 
+        return
         console.log(submitDataSet)
         sendModifyView(submitDataSet);
     });
@@ -135,6 +138,9 @@ function sendModifyView(SubData){
         url : fubon.contextPath+"houseViewManage/updateHouseView",
         contentType : 'application/json;charset=UTF-8',
         data : JSON.stringify(SubData),
+        beforeSend : function() {
+            $("#submitBtn").prop("disabled", true);
+        },
         success : function(data, response, xhr) {
             //清空資料
             submitDataSet = {"houseViewParamList" : []};
@@ -152,6 +158,9 @@ function sendModifyView(SubData){
             //清空資料
             submitDataSet = {"houseViewParamList" : []};
             bootsrapAlert("err: " + xhr.status + ' ' + xhr.statusText);
+        },
+        complete : function () {
+            $("#submitBtn").removeAttr("disabled");
         }
     });
 }

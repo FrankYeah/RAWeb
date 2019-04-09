@@ -120,6 +120,9 @@ function selectProduct(product){
                 contentType : 'application/json',
                 url : fubon.contextPath+"product/modifyRequest",
                 data : JSON.stringify(updatedProduct),
+				beforeSend : function() {
+					$("#submitBtn").prop("disabled", true);
+				},
                 success : function(data, response, xhr) {
 					console.log(data);
 
@@ -140,7 +143,10 @@ function selectProduct(product){
                 error : function(xhr) {
                     bootsrapAlert("err: " + xhr.status + ' '
                         + xhr.statusText);
-                }
+                },
+				complete : function () {
+					$("#submitBtn").removeAttr("disabled");
+				}
             });
         }
     });

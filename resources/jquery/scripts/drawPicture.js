@@ -282,7 +282,9 @@ function drawHistogram(data,interval){
  			return y(d.TransationNum);
  		})
  		.attr('r', 5)
- 		.attr('fill',"yellow");
+		.attr('fill',"yellow")
+		.on("mouseover", function (d) { return tip.text('導向交易人次 : ' + d.TransationNum).style("visibility", "visible") })
+		.on("mouseout", function () { return tip.style("visibility", "hidden"); });
  	 	
  	 	
  	   // grid
@@ -326,7 +328,21 @@ function drawHistogram(data,interval){
  	 		.attr("x", width-140 )
  	 		.attr("y", -10 )
  	 		.style("text-anchor", "middle")
- 	 		.text("查詢人次"); 
+				.text("查詢人次"); 
+
+		var tip = d3.select("#picbody")
+			.append("div")
+			.attr("class", "tip")
+			.style("position", "absolute")
+			.style("z-index", "10")
+			.style("top", "60px")
+			.style("left", "130px")
+			.style("border", "1px solid black")
+			.style("padding", "5px")
+			.style("visibility", "hidden")
+			// .style("padding", "5px")
+
+
         //legend 2
  	 	svg.append("image")
  	 		.attr("xlink:href",  "../resources/picture/line.png")

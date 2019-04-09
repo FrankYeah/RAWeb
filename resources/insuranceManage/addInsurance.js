@@ -71,16 +71,16 @@ function productNameValidate() {
 	var label = $("#label").val();
 
 	if(productID.trim()==""){
-    	bootsrapAlert("請填寫商品代碼");
+    	bootsrapAlert("請填寫險種代碼");
     	return false;
     }
 	if(productName.trim()==""){
-    	bootsrapAlert("請填寫商品名稱");
+    	bootsrapAlert("請填寫險種名稱");
     	return false;
     }
 	//check格式
 	if(!REproductID.test(productID)){
-    	bootsrapAlert("欲新增的商品代碼最大長度為20，可含英文或數字");
+    	bootsrapAlert("欲新增的險種代碼最大長度為20，可含英文或數字");
     	return false;
     }
     if(!REproductID.test(label)){
@@ -89,7 +89,7 @@ function productNameValidate() {
     }
 
 	if(!REproductName.test(productName)){
-    	bootsrapAlert("欲新增的商品名稱最大長度為50，可含中文,英文,數字,底線(_),連結線(-),單點(.),括弧((),[],{}),斜線(/, \\)");
+    	bootsrapAlert("欲新增的險種名稱最大長度為50，可含中文,英文,數字,底線(_),連結線(-),單點(.),括弧((),[],{}),斜線(/, \\)");
     	return false;
     }
 	//if(!REproductDesc.test(productDescribe)){

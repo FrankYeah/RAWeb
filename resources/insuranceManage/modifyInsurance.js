@@ -38,60 +38,59 @@ function selectProduct(product){
     var $button = $("#submitBtn");
     $button.off();
     $button.click(function() {
-					var isProduct;
-					if($("#isProduct :selected").val() == 'false'){
-						isProduct = false;
+		if(productNameValidate()){
+			var isProduct;
+			if($("#isProduct :selected").val() == 'false'){
+				isProduct = false;
+			}else{
+				isProduct = true;
+			}
+
+			var kypGroup = $("#RiskReturn :selected").val();
+			if (kypGroup == "null") {
+				kypGroup = null;
+			}
+
+			var product={
+				"modifyType" : "Update", // 請求類型。'Add' = 新增商品, 'Update' = 修改商品。(Required)
+				"code": $("#productID").val(), // 商品代碼 (Required)
+				"name": $("#productName").val(), // 商品名稱 (Required)
+				"kypGroup": kypGroup, // KYP組別，有這儿種值 '1', '2', '3', '4', '5', '6', null
+				"isProject": isProduct, // 是否為專案商品 (Required)
+				"isActive": $("#startCheckBox").prop("checked") // 商品是否啟用 (Required)
+			};
+
+			$.ajax({
+				type : "POST",
+				contentType : 'application/json',
+				url : fubon.contextPath+"insuranceManage/modify",
+				data : JSON.stringify(product),
+				success : function(data, response, xhr) {
+					console.log(data)
+					if(data.Status == 'Error'){
+						bootsrapAlert('險種修改失敗.' + data.Detail);
 					}else{
-						isProduct = true;
+							BootstrapDialog.show({
+								type :BootstrapDialog.TYPE_PRIMARY,
+								closable: false,
+								title: '訊息',
+								message: "險種修改成功",
+								buttons: [{
+									label: 'Close',
+									action: function(dialogRef){
+										dialogRef.close();
+										window.location.href = fubon.contextPath+'InsuranceManage/ModifyInsurance';
+									}
+								}]
+							});
 					}
-
-					var kypGroup = $("#RiskReturn :selected").val();
-					if (kypGroup == "null") {
-						kypGroup = null;
-					}
-
-					var product={
-						"modifyType" : "Update", // 請求類型。'Add' = 新增商品, 'Update' = 修改商品。(Required)
-						"code": $("#productID").val(), // 商品代碼 (Required)
-						"name": $("#productName").val(), // 商品名稱 (Required)
-						"kypGroup": kypGroup, // KYP組別，有這儿種值 '1', '2', '3', '4', '5', '6', null
-						"isProject": isProduct, // 是否為專案商品 (Required)
-						"isActive": $("#startCheckBox").prop("checked") // 商品是否啟用 (Required)
-					};
-
-					$.ajax({
-						type : "POST",
-						contentType : 'application/json',
-						url : fubon.contextPath+"insuranceManage/modify",
-						data : JSON.stringify(product),
-						success : function(data, response, xhr) {
-							console.log(data)
-							if(data.Status == 'Error'){
-								bootsrapAlert('險種修改失敗.' + data.Detail);
-							}else{
-								 BootstrapDialog.show({
-									 type :BootstrapDialog.TYPE_PRIMARY,
-									 closable: false,
-									 title: '訊息',
-									 message: "險種修改成功",
-									 buttons: [{
-										 label: 'Close',
-										 action: function(dialogRef){
-											 dialogRef.close();
-											 window.location.href = fubon.contextPath+'InsuranceManage/ModifyInsurance';
-										 }
-									 }]
-								 });
-							}
-						},
-						error : function(xhr) {
-							bootsrapAlert("err: " + xhr.status + ' '
-									+ xhr.statusText);
-						}
-					});
-
-
-
+				},
+				error : function(xhr) {
+					bootsrapAlert("err: " + xhr.status + ' '
+							+ xhr.statusText);
+				}
+			});
+		}
     });
 
 }
@@ -211,3 +210,21 @@ function searchProduct(buId){
 	});
 }
 
+/*用 Regular Expression 檢查使用者輸入內容*/
+function productNameValidate() {
+	var productName = $("#productName").val();
+
+	if(productName.trim()==""){
+    	bootsrapAlert("請填寫險種名稱");
+    	return false;
+    }
+	//check格式
+
+	if(!REproductName.test(productName)){
+    	bootsrapAlert("欲修改的險種名稱最大長度為50，可含中文,英文,數字,底線(_),連結線(-),單點(.),括弧((),[],{}),斜線(/, \\)");
+    	return false;
+    }
+	//if(!REproductDesc.test(productDescribe)){
+
+	return true;
+}

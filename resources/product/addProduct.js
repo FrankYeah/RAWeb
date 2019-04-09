@@ -20,6 +20,9 @@ $(function() {
 				contentType : 'application/json',
 				url : fubon.contextPath+"product/modifyRequest",
 				data : JSON.stringify(product),
+				beforeSend : function() {
+					$("#submitBtn").prop("disabled", true);
+				},
 				success : function(data, response, xhr) {
 					if(data.Status === "Error"){
 						if (data.Detail.includes("is existed")){
@@ -42,6 +45,9 @@ $(function() {
 				},
 				error : function(xhr) {
 					bootsrapAlert("err: " + xhr.status + ' ' + xhr.statusText);
+				},
+				complete : function () {
+					$("#submitBtn").removeAttr("disabled");
 				}
 			});
 		}

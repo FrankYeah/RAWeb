@@ -79,20 +79,21 @@ function passVerify(e){
 		contentType : 'application/json',
 		url : fubon.contextPath+"product/verifyRequest",
 		data: JSON.stringify(pass),
+		beforeSend : function() {
+			$(e).prop("disabled", true);
+		},
 		success : function(data, response, xhr) {
 			if(data.Status === "Error"){
 				bootsrapAlert(data.Detail);
 				return;
 			}
-
 			bootsrapAlert("通過成功");
-		
-			listModifyProduct();
 		},
 		error : function(xhr) {
-	
 			bootsrapAlert("err: " + xhr.status + ' '+ xhr.statusText);
-			listModifyProduct();
+		},
+		complete : function () {
+			listModifyProduct(); // 重新整理
 		}
 	});
 
@@ -111,25 +112,22 @@ function falseVerify(e){
 		contentType : 'application/json',
 		url : fubon.contextPath+"product/verifyRequest",
 		data: JSON.stringify(falseIt),
+		beforeSend : function() {
+			$(e).prop("disabled", true);
+		},
 		success : function(data, response, xhr) {
 			if(data.Status === "Error"){
 				bootsrapAlert(data.Detail);
 				return;
 			}
-
 			bootsrapAlert("駁回成功");
-		
-			listModifyProduct();
 		},
 		error : function(xhr) {
-
-			bootsrapAlert("err: " + xhr.status + ' '+ xhr.statusText);	
-			listModifyProduct();
+			bootsrapAlert("err: " + xhr.status + ' '+ xhr.statusText);
+		},
+		complete : function () {
+			listModifyProduct(); // 重新整理
 		}
 	});
-
-	// 重新整理
-	listModifyProduct();
-
 }
 

@@ -69,6 +69,15 @@
             $("#logoutBtm").attr("disabled", true);
             $(window).unload(function () { });
         }
+
+        var isFHUser = ${isFHUser}; //目前用戶是否為 "金控" BU 用戶
+        var isSecurityUser = ${isSecurityUser}; //目前用戶是否為 "証卷" BU 用戶
+        if (isFHUser == false && isSecurityUser == false) {
+            bootsrapAlert("金控或証卷帳號才能執行此功能");
+        }
+        else {
+            getStatData();
+        }
     </script>
 </body>
 
