@@ -24,8 +24,9 @@
 			<br>
 			<br>
 			<label class="control-label col-sm-2"> 商品代碼:</label>
-				<div class="col-sm-3 form-group"> 
-					<input type="text" id="productID" name="productID" class="form-control" readonly="readonly"/>
+				<div class="col-sm-3 form-group">
+					<input type="hidden" id="oldProductId" name="oldProductId" readonly="readonly" />
+					<input type="text" id="newProductId" name="newProductId" class="form-control" />
 			   	</div>
 			<label class="control-label col-sm-2"> 商品名稱:</label>
 				<div class="col-sm-3 form-group"> 

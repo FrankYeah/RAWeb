@@ -119,13 +119,24 @@ function clearChar(){
 	$("#picbody").empty();
 }
 
-$("#downloadBtn").click(function() {
+$("#downloadExcelBtn").click(function() {
 	var buid = $("#buId").find(":selected").val();
 	var datepickerFrom = $("#datepickerFrom").val();
 	var datepickerTo = $("#datepickerTo").val();
 
-	console.log(fubon.contextPath+"operateManagement/downloadPeopleNum?buid=" + buid +
+	console.log(fubon.contextPath+"operateManagement/downloadPeopleNum?fileType=EXCEL&buid=" + buid +
 		"&datepickerFrom=" + encodeURIComponent(datepickerFrom) + "&datepickerTo=" + encodeURIComponent(datepickerTo));
-	location.href = fubon.contextPath+"operateManagement/downloadPeopleNum?buid=" + buid +
+	location.href = fubon.contextPath+"operateManagement/downloadPeopleNum?fileType=EXCEL&buid=" + buid +
+		"&datepickerFrom=" + encodeURIComponent(datepickerFrom) + "&datepickerTo=" + encodeURIComponent(datepickerTo);
+})
+
+$("#downloadCsvBtn").click(function() {
+	var buid = $("#buId").find(":selected").val();
+	var datepickerFrom = $("#datepickerFrom").val();
+	var datepickerTo = $("#datepickerTo").val();
+
+	console.log(fubon.contextPath+"operateManagement/downloadPeopleNum?fileType=CSV&buid=" + buid +
+		"&datepickerFrom=" + encodeURIComponent(datepickerFrom) + "&datepickerTo=" + encodeURIComponent(datepickerTo));
+	location.href = fubon.contextPath+"operateManagement/downloadPeopleNum?fileType=CSV&buid=" + buid +
 		"&datepickerFrom=" + encodeURIComponent(datepickerFrom) + "&datepickerTo=" + encodeURIComponent(datepickerTo);
 })

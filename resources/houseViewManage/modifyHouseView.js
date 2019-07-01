@@ -65,6 +65,7 @@ function searchHouseView(){
 $(function() {
     /* 送出資料 */
     $("#submitBtn").click(function() {
+        submitDataSet = {"houseViewParamList" : []}
         for(var i=0; i<originData.Data.productHouseViewParamList.length;i++){
             var inputNum= $('#productTable tr').find('input');
             var submitArray;
@@ -120,12 +121,9 @@ $(function() {
                 "productConfLevel" : levelNum
             }
             submitDataSet.houseViewParamList.push(submitArray);
-
-            console.log(submitArray)
-            console.log(submitDataSet)
+            
         }
 
-        return
         console.log(submitDataSet)
         sendModifyView(submitDataSet);
     });

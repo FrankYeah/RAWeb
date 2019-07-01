@@ -31,18 +31,19 @@
 		<div class="form-group row "></div>
 	<label class="control-label col-sm-2"> 查詢日期範圍:</label>
 	<div class="form-group row input-daterange">
-		<div class="col-sm-3">
+		<div class="col-sm-2">
 			<input type="text" id="datepickerFrom" name="datepickerFrom" value="${iStartDate}" class="form-control datepicker" placeholder="Date From" />
 		</div>
 		<div class="col-sm-1">
 			<span>~</span>
 		</div>
-		<div class="col-sm-3">
+		<div class="col-sm-2">
 			<input type="text" id="datepickerTo" name="datepickerTo" value="${iEndDate}" class="form-control datepicker" placeholder="Date To" />
 		</div>
-		<div class="col-sm-2">
+		<div class="col-sm-4">
 			<button id="submitBtn" type="button" class="btn btn-primary">查詢</button>
-            <button id="downloadBtn" type="button" class="btn btn-primary">下載</button>
+			<button id="downloadExcelBtn" type="button" class="btn btn-primary">下載Excel</button>
+            <button id="downloadCsvBtn" type="button" class="btn btn-primary">下載CSV</button>
 		</div>
 	</div>
 

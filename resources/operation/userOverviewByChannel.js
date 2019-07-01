@@ -197,13 +197,24 @@ function drawBarChart(data) {
 
 }
 
-$("#downloadBtn").click(function() {
+$("#downloadCsvBtn").click(function() {
 	var buId = $("#buId").find(":selected").val();
 	var startDate = $("#datepickerFrom").val();
 	var endDate = $("#datepickerTo").val();
 
-	console.log(fubon.contextPath+"operateManagement/downloadUserOverviewByChannel?buId=" + buId +
+	console.log(fubon.contextPath+"operateManagement/downloadUserOverviewByChannel?fileType=CSV&buId=" + buId +
 		"&startDate=" + encodeURIComponent(startDate) + "&endDate=" + encodeURIComponent(endDate));
-	location.href = fubon.contextPath+"operateManagement/downloadUserOverviewByChannel?buId=" + buId +
+	location.href = fubon.contextPath+"operateManagement/downloadUserOverviewByChannel?fileType=CSV&buId=" + buId +
+		"&startDate=" + encodeURIComponent(startDate) + "&endDate=" + encodeURIComponent(endDate);
+})
+
+$("#downloadExcelBtn").click(function() {
+	var buId = $("#buId").find(":selected").val();
+	var startDate = $("#datepickerFrom").val();
+	var endDate = $("#datepickerTo").val();
+
+	console.log(fubon.contextPath+"operateManagement/downloadUserOverviewByChannel?fileType=EXCEL&buId=" + buId +
+		"&startDate=" + encodeURIComponent(startDate) + "&endDate=" + encodeURIComponent(endDate));
+	location.href = fubon.contextPath+"operateManagement/downloadUserOverviewByChannel?fileType=EXCEL&buId=" + buId +
 		"&startDate=" + encodeURIComponent(startDate) + "&endDate=" + encodeURIComponent(endDate);
 })

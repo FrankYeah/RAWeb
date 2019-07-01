@@ -1,24 +1,19 @@
 $(function() {
-
 	$("#submitBtn").click(function () {
-
-        var productID = $("#productID").val();
-        if (productID==""){
-        	bootsrapAlert("請選擇欲修改的商品代碼");
-        }
-    	
+		productNameValidate();
     });
 	
 	/*搜尋商品*/
 	$("#submitBtnSearch").click(function() {
-		 $("#buId_text").val("");
-			$("#productID").val("");
-			$("#productName").val("");
-			$("#productDescribe").val("");
-			$("#url").val("");
+		$("#buId_text").val("");
+		$("#oldProductId").val("");
+		$("#newProductId").val("");
+		$("#productName").val("");
+		$("#productDescribe").val("");
+		$("#url").val("");
+
 		if($("#productNameSearch").val()=="All"){
 			$("#productNameSearch").val("");
-
 			searchProduct($("#buId").find(":selected").val());
 		}else{
 			searchProduct($("#buId").find(":selected").val());
@@ -68,7 +63,8 @@ $("#buId").change(function () {
     });
     
     $("#buId_text").val("");
-	$("#productID").val("");
+	$("#oldProductId").val("");
+	$("#newProductId").val("");
 	$("#productName").val("");
 	$("#productDescribe").val("");
 	$("#url").val("");
@@ -78,13 +74,13 @@ $("#buId").change(function () {
   .change();
 
 function selectProduct(product){
-	var code = product.Code;
 	var modifyRequest = product.modifyRequest; // 已經修改正在等待覆核的 "商品修改請求"
 
 	$("#buId_text").val($("#buId").find(":selected").val());
-	$('#productID').val(code);
 
 	if (modifyRequest != null){
+		$('#oldProductId').val(modifyRequest.oldCode);
+		$('#newProductId').val(modifyRequest.newCode);
 		$('#RiskReturn').val(modifyRequest.riskReturn);
 		$('#productName').val(modifyRequest.name);
 		$('#productDescribe').val(modifyRequest.description);
@@ -92,6 +88,8 @@ function selectProduct(product){
 		$("#startCheckBox").prop("checked", modifyRequest.active);
 	}
 	else {
+		$('#oldProductId').val(product.Code);
+		$('#newProductId').val(product.Code);
 		$('#RiskReturn').val(product.RiskReturn);
 		$('#productName').val(product.Name);
 		$('#productDescribe').val(product.Description);
@@ -102,55 +100,83 @@ function selectProduct(product){
     var $button = $("#submitBtn");
     $button.off();
     $button.click(function() {
-        if(productNameValidate()){
-            var $bu = $("#buId option:selected");
-            /*修改商品*/
-            var updatedProduct = {
-				"modifyType" : "Update",
-                "code":$("#productID").val(),
-				"name":$("#productName").val(),
-				"riskReturn" :$("#RiskReturn :selected").text(),
-                "description":$("#productDescribe").val(),
-                "link":$("#url").val(),
-                "active":$("#startCheckBox").prop("checked")
-			};
-
-            $.ajax({
-                type : "POST",
-                contentType : 'application/json',
-                url : fubon.contextPath+"product/modifyRequest",
-                data : JSON.stringify(updatedProduct),
-				beforeSend : function() {
-					$("#submitBtn").prop("disabled", true);
-				},
-                success : function(data, response, xhr) {
-					console.log(data);
-
-					if(data.Status === "Error"){
-						bootsrapAlert(data.Detail);
-						return;
+    	var oldCode = $("#oldProductId").val();
+		var newCode = $("#newProductId").val();
+		if (oldCode != newCode) {
+			var message = "您確定要將商品代碼從 " + oldCode + " 改成 " + newCode + " 嗎?";
+			BootstrapDialog.confirm({
+				type: "type-danger",
+				title: "警告",
+				message: message,
+				cssClass: 'delete-row-dialog',
+				closable: false,
+				callback: function(result) {
+					if (result) {
+						sendModifyRequest();
 					}
-
-                    bootsrapAlert("修改商品已送出");
-                    /*把表單清空*/
-                    var all_Inputs = $("input[type=text]");
-                    all_Inputs.val("");
-                    $("#productDescribe").val("");
-                    $("input[type='checkbox']").attr("checked", false);
-                    /*更新商品清單*/
-                    searchProduct($("#buId").find(":selected").val());
-                },
-                error : function(xhr) {
-                    bootsrapAlert("err: " + xhr.status + ' '
-                        + xhr.statusText);
-                },
-				complete : function () {
-					$("#submitBtn").removeAttr("disabled");
 				}
-            });
-        }
+			});
+		}
+		else {
+			sendModifyRequest();
+		}
     });
+}
 
+function sendModifyRequest() {
+	if(productNameValidate()){
+		var $bu = $("#buId option:selected");
+		/*修改商品*/
+		var updatedProduct = {
+			"modifyType" : "Update",
+			"oldCode":$("#oldProductId").val(),
+			"newCode":$("#newProductId").val(),
+			"name":$("#productName").val(),
+			"riskReturn" :$("#RiskReturn :selected").text(),
+			"description":$("#productDescribe").val(),
+			"link":$("#url").val(),
+			"active":$("#startCheckBox").prop("checked")
+		};
+
+		$.ajax({
+			type : "POST",
+			contentType : 'application/json',
+			url : fubon.contextPath+"product/modifyRequest",
+			data : JSON.stringify(updatedProduct),
+			beforeSend : function() {
+				$("#submitBtn").prop("disabled", true);
+			},
+			success : function(data, response, xhr) {
+				console.log(data);
+
+				if(data.Status === "Error"){
+					if (data.Detail.includes("is existed")){
+						bootsrapAlert("已有其它商品使用這個商品代碼，不能進行修改商品變更");
+					}
+					else {
+						bootsrapAlert(data.Detail);
+					}
+					return;
+				}
+
+				bootsrapAlert("修改商品已送出");
+				/*把表單清空*/
+				var all_Inputs = $("input[type=text]");
+				all_Inputs.val("");
+				$("#productDescribe").val("");
+				$("input[type='checkbox']").attr("checked", false);
+				/*更新商品清單*/
+				searchProduct($("#buId").find(":selected").val());
+			},
+			error : function(xhr) {
+				bootsrapAlert("err: " + xhr.status + ' '
+					+ xhr.statusText);
+			},
+			complete : function () {
+				$("#submitBtn").removeAttr("disabled");
+			}
+		});
+	}
 }
 
 /* 商品表格清單的 true or false picture*/
@@ -166,7 +192,7 @@ function checkEnabled(tf){
 /*用 Regular Expression 檢查使用者輸入內容*/
 function productNameValidate() {
 	var buid = $("#buId").find(":selected").val();
-	var productID = $("#productID").val();
+	var newProductId = $("#newProductId").val();
 	var productName = $("#productName").val();
 	var productDescribe = $("#productDescribe").val();
 	var url = $("#url").val();
@@ -176,8 +202,8 @@ function productNameValidate() {
 		bootsrapAlert("請點選欲修改商品的單位代碼");
     	return false;
 	}
-	if( !REproductID.test(productID)){
-		bootsrapAlert("請點選欲修改的商品代碼");
+	if(newProductId.trim() == "" || !REproductID.test(newProductId)){
+		bootsrapAlert("請填寫正確格式的商品代碼");
     	return false;
 	}
     // if(!REproductID.test(label)){
@@ -244,14 +270,20 @@ function searchProduct(buId){
                       }
                     };
 
-					var $codeh = $("<a/>").attr("href", "#").html(product.Code);
-                    $codeh.click( clickHandler(product) );
+					var modifyRequest = product.modifyRequest; // 已經修改正在等待覆核的 "商品修改請求"
+					var code = (modifyRequest != null ? modifyRequest.newCode : product.Code);
+					var $codeLink = $("<a/>").attr("href", "#").html(code);
+                    $codeLink.click( clickHandler(product) );
 
-                    var modifyRequest = product.modifyRequest; // 已經修改正在等待覆核的 "商品修改請求"
-
-					$specifyTd.eq(0).append($codeh);
+					$specifyTd.eq(0).append($codeLink);
 
 					if (modifyRequest != null){
+						//region 如果有修改到現有商品代碼，顯示紅色警示訊息
+						if (modifyRequest.modifyType == "Update" && modifyRequest.newCode != modifyRequest.oldCode) {
+							$specifyTd.eq(0).append('<div class="alert-danger">舊 : ' + modifyRequest.oldCode + ', 新 : ' + modifyRequest.newCode + '</div>');
+						}
+						//endregion
+
 						$specifyTd.eq(1).text(modifyRequest.name);
 						$specifyTd.eq(2).text(modifyRequest.riskReturn);
 						$specifyTd.eq(3).text(modifyRequest.description);
@@ -284,8 +316,7 @@ function searchProduct(buId){
 			}
 		},
 		error : function(xhr) {
-			bootsrapAlert("err: " + xhr.status + ' '
-					+ xhr.statusText);
+			bootsrapAlert("err: " + xhr.status + ' ' + xhr.statusText);
 		}	
 	});
 }

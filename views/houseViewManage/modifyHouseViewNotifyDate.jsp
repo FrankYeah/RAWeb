@@ -18,7 +18,7 @@
     <div class="content-1">
         <label class="control-label col-sm-1">從 </label>
             <div class="col-sm-1 form-group" style="padding:0px"> 
-                <input type="text" id="startDate" name="startDate" value="01/01">
+                <input type="text" id="startDate" name="startDate" value="01/01" placeholder="01/01">
             </div>
         <label class="control-label col-sm-1"></label>
 

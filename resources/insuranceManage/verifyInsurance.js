@@ -6,7 +6,7 @@ function listModifyProduct(){
 	$.ajax({
 		type : "POST",
 		contentType : 'application/json',
-		url : fubon.contextPath+"product/listModifyRequest",
+		url : fubon.contextPath+"insuranceManage/listModifyRequest",
 		data : {},
 		success : function(data, response, xhr) {
 			$( ".Msg" ).empty();
@@ -97,7 +97,7 @@ function sendApproveVerifyRequest(e) {
     $.ajax({
         type : "POST",
         contentType : 'application/json',
-        url : fubon.contextPath+"product/verifyRequest",
+        url : fubon.contextPath+"insuranceManage/verifyRequest",
         data: JSON.stringify(pass),
         beforeSend : function() {
             $(e).prop("disabled", true);
@@ -128,7 +128,7 @@ function falseVerify(e){
 	$.ajax({
 		type : "POST",
 		contentType : 'application/json',
-		url : fubon.contextPath+"product/verifyRequest",
+		url : fubon.contextPath+"insuranceManage/verifyRequest",
 		data: JSON.stringify(falseIt),
 		beforeSend : function() {
 			$(e).prop("disabled", true);

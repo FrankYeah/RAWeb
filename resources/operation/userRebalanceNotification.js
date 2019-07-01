@@ -64,16 +64,30 @@ function clearChar(){
 	$("#picbody").empty();
 }
 
-$("#downloadBtn").click(function() {
+$("#downloadCsvBtn").click(function() {
 	var buid = $("#buId").find(":selected").val();
 	var datepickerFrom = $("#datepickerFrom").val();
 	var datepickerTo = $("#datepickerTo").val();
 	var interval = $('input[name="interval"]:checked').val();
 
-	console.log(fubon.contextPath+"operateManagement/downloadRebalanceNum?buid=" + buid +
+	console.log(fubon.contextPath+"operateManagement/downloadRebalanceNum?fileType=CSV&buid=" + buid +
 		"&datepickerFrom=" + encodeURIComponent(datepickerFrom) + "&datepickerTo=" + encodeURIComponent(datepickerTo) +
 		"&interval=" + encodeURIComponent(interval));
-	location.href = fubon.contextPath+"operateManagement/downloadRebalanceNum?buid=" + buid +
+	location.href = fubon.contextPath+"operateManagement/downloadRebalanceNum?fileType=CSV&buid=" + buid +
+		"&datepickerFrom=" + encodeURIComponent(datepickerFrom) + "&datepickerTo=" + encodeURIComponent(datepickerTo) +
+		"&interval=" + encodeURIComponent(interval);
+})
+
+$("#downloadExcelBtn").click(function() {
+	var buid = $("#buId").find(":selected").val();
+	var datepickerFrom = $("#datepickerFrom").val();
+	var datepickerTo = $("#datepickerTo").val();
+	var interval = $('input[name="interval"]:checked').val();
+
+	console.log(fubon.contextPath+"operateManagement/downloadRebalanceNum?fileType=EXCEL&buid=" + buid +
+		"&datepickerFrom=" + encodeURIComponent(datepickerFrom) + "&datepickerTo=" + encodeURIComponent(datepickerTo) +
+		"&interval=" + encodeURIComponent(interval));
+	location.href = fubon.contextPath+"operateManagement/downloadRebalanceNum?fileType=EXCEL&buid=" + buid +
 		"&datepickerFrom=" + encodeURIComponent(datepickerFrom) + "&datepickerTo=" + encodeURIComponent(datepickerTo) +
 		"&interval=" + encodeURIComponent(interval);
 })

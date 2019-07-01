@@ -7,12 +7,12 @@ $(function() {
 			
 			var product={
 				"modifyType" : "Add",
-                "code":$("#productID").val(),
+                "newCode":$("#productID").val(),
 				"name":$("#productName").val(),
 				"riskReturn" :$("#RiskReturn :selected").text(),
                 "description":$("#productDescribe").val(),
                 "link":$("#url").val(),
-                "active":$("#startCheckBox").prop("checked")	
+                "active":$("#startCheckBox").prop("checked")
 			};
 
 			$.ajax({
@@ -183,7 +183,7 @@ function listModifyRequest(){
 				$('#productTable').append(str);
 				var $specifyTd = $('#productTable tr:last').find('td');
 
-				var $codeLink = $("<a/>").attr("href", "#").html(modifyRequest.code);
+				var $codeLink = $("<a/>").attr("href", "#").html(modifyRequest.newCode);
 				var clickHandler = function(modifyRequest) {
 					return function() {
 						selectModifyRequest(modifyRequest);
@@ -227,7 +227,7 @@ function checkEnabled(isProductActive){
  * @param modifyRequest
  */
 function selectModifyRequest(modifyRequest){
-	$('#productID').val(modifyRequest.code);
+	$('#productID').val(modifyRequest.newCode);
 	$('#productName').val(modifyRequest.name);
 	$('#RiskReturn').val(modifyRequest.riskReturn);
 	$('#productDescribe').val(modifyRequest.description);

@@ -32,20 +32,21 @@
             </div>
             <div class="form-group input-daterange" style="padding-top: 10px">
                 <label class="control-label col-sm-2"> 查詢日期範圍:</label>
-                <div class="col-sm-3">
+                <div class="col-sm-2">
                     <input type="text" id="datepickerFrom" name="datepickerFrom" value="${startDate}" class="form-control datepicker"
                         placeholder="Date From" />
                 </div>
                 <div class="col-sm-1">
                     <span>~</span>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-2">
                     <input type="text" id="datepickerTo" name="datepickerTo" class="form-control datepicker" value="${endDate}"
                         placeholder="Date To" />
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-4">
                     <button id="submitBtn" type="button" class="btn btn-primary">查詢</button>
-                    <button id="downloadBtn" type="button" class="btn btn-primary">下載</button>
+                    <button id="downloadExcelBtn" type="button" class="btn btn-primary">下載Excel</button>
+                    <button id="downloadCsvBtn" type="button" class="btn btn-primary">下載CSV</button>
                 </div>
             </div>
         </div>
@@ -74,6 +75,8 @@
         var isSecurityUser = ${isSecurityUser}; //目前用戶是否為 "証卷" BU 用戶
         if (isFHUser == false && isSecurityUser == false) {
             bootsrapAlert("金控或証卷帳號才能執行此功能");
+            $("#submitBtn").attr("disabled", true);
+            $("#downloadBtn").attr("disabled", true);
         }
         else {
             getStatData();

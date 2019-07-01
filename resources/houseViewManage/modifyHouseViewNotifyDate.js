@@ -78,6 +78,9 @@ $("#addBtn").click(function() {
             else {
                 $("#productTable").find("tr:gt(0)").remove();
                 getListNote();
+
+                $("#startDate").val("01/01");
+                $("#endDate").val("01/01");
             }
         },
         error : function(xhr) {
