@@ -28,7 +28,7 @@ $(function() {
 // 	"modifyType" : "Add",       // 請求類型。'Add' = 新增商品, 'Update' = 修改商品。(Required)
 // 	"code": "009323",            // 金融商品代碼 (Required)
 // 	"name": "不喜歡科技",  // 金融商品名稱 (Required)
-// 	"riskReturn": "RR4",        // 產品風險等級，有五種值 'RR1', 'RR2', 'RR3', 'RR4', 'RR5' (Required)
+// 	"riskReturn": "RR4",        // 商品風險等級，有五種值 'RR1', 'RR2', 'RR3', 'RR4', 'RR5' (Required)
 // 	"description": "國內第一檔真正「直接」投資於中國A股的ETF",    // 金融商品描述
 // 	"link": "https://www.FubonETF/Funds/Profile.aspx?stock=0052", // 金融商品介紹外部連結URL
 // 	"active": true             // 是否被啟用？(True: 啟用)(Required)

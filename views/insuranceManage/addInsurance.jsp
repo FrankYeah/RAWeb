@@ -6,7 +6,7 @@
     <%@include file="/resources/commons/decelerations.jsp"%>
     <link href="<c:url value="/resources/css/insuranceManage/common.css" />" rel="stylesheet" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>新增險種</title>
+    <title>新增險種變更</title>
 </head>
 <body>
 <jsp:include page="../nav.jsp"></jsp:include>
@@ -59,16 +59,14 @@
             <div class="col-sm-2">
                 <button id="submitBtn" type="button" class="btn btn-primary">新增</button>
             </div>
-        
-            <div style="display: none">
-                <!-- 檔案上傳功能沒人知道細節，而且沒人使用。把它停用。 -->
-                <form id="uploadForm" enctype='multipart/form-data' >
-                    <label class="btn btn-default btn-file">
-                        <input id="file" type="file" style="display: none"/>
-                        請選擇要上傳的檔案
-                    </label>
-                    <button id="submitBtnUpload" type="button" class="btn btn-primary">上傳</button>
-                </form>
+
+            <div style="margin-top: 80px;">
+                <table id ="insuranceTable"  class="table table-bordered table-striped table-hover">
+                    <tr class="info">
+                        <td class="wn">代碼</td><td class="wn">名稱</td><td class="wn">KYP組別</td><td >是否為專案產品</td><td class="wn">是否啟用</td><td  class="wn">更新日期</td><td >變更單</td>
+                    </tr>
+                </table>
+                <div class = "Msg"></div>
             </div>
         </form>
         

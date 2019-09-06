@@ -23,13 +23,14 @@ $(function() {
 				"isProject": isProject, // 是否為專案商品 (Required)
 				"isActive": $("#startCheckBox").prop("checked") // 商品是否啟用 (Required)
 			};
+
 			$.ajax({
 				type : "POST",
 				contentType : 'application/json',
-				url : fubon.contextPath+"insuranceManage/modify",
+				url : fubon.contextPath+"insuranceManage/modifyRequest",
 				data : JSON.stringify(product),
 				success : function(data, response, xhr) {
-					console.log(data)
+					listModifyRequest()
 
 					if(data.Status == 'Error'){
 						bootsrapAlert('險種新增失敗.' + data.Detail);
@@ -43,7 +44,7 @@ $(function() {
 					             label: 'Close',
 					             action: function(dialogRef){
 					                 dialogRef.close();
-					                 window.location.href = fubon.contextPath+'InsuranceManage/SearchInsurance';
+					                //  window.location.href = fubon.contextPath+'InsuranceManage/SearchInsurance';
 					             }
 					         }]
 					     });
@@ -57,6 +58,70 @@ $(function() {
 			});
 		}
 	});
+
+
+
+
+	listModifyRequest()
+/**
+ * 列出所有 "險種新增請求"
+ */
+function listModifyRequest(){
+	$.ajax({
+		type : "POST",
+		contentType : 'application/json',
+		url : fubon.contextPath+"insuranceManage/listModifyRequest",
+		data : {},
+		success : function(data, response, xhr) {
+			$( ".Msg" ).empty();
+			$("#insuranceTable").find("tr:gt(0)").remove();
+
+			if(data.Status === "Error"){
+				$(".Msg").append(data);
+				bootsrapAlert(data.Detail);
+				return;
+			}
+
+			var modifyRequestList = data.Data.modifyRequestList.filter(function (modifyRequest) {
+				return modifyRequest.modifyType === "Add";
+			});// 只需要 "險種新增請求" 的資料
+			var tableData = modifyRequestList;
+
+			for(var i=0; i < tableData.length;i++){
+				var modifyRequest = tableData[i];
+				var str = "<tr><td class='wn'> </td><td> </td><td> </td><td> </td><td > </td><td> </td><td> </td></tr>";
+				$('#insuranceTable').append(str);
+				var $specifyTd = $('#insuranceTable tr:last').find('td');
+
+				var $codeLink = $("<a/>").attr("href", "#").html(modifyRequest.code);
+				var clickHandler = function(modifyRequest) {
+					return function() {
+						selectModifyRequest(modifyRequest);
+					}
+				};
+				$codeLink.click(clickHandler(modifyRequest));
+				$specifyTd.eq(0).append($codeLink);
+
+				$specifyTd.eq(1).text(modifyRequest.name);
+				$specifyTd.eq(2).text(modifyRequest.kypGroup);
+				$specifyTd.eq(3).text(modifyRequest.isProject);
+				// var href = $("<a>", {
+				// 	href : modifyRequest.link,
+				// 	text : modifyRequest.link,
+				// 	target: "_blank"
+				// });
+				$specifyTd.eq(4).text(modifyRequest.isActive);
+				$specifyTd.eq(5).text(modifyRequest.updateTime);
+				// $specifyTd.eq(5).append(checkEnabled(modifyRequest.active));
+				$specifyTd.eq(6).text("審核中");
+			}
+		},
+		error : function(xhr) {
+			bootsrapAlert("err: " + xhr.status + ' ' + xhr.statusText);
+		}
+	});
+}
+
 
 
 });
@@ -98,13 +163,11 @@ function productNameValidate() {
 	return true;
 }
 
-
-function fileValidate() {
-    var extension = $('#file').val().split('.').pop().toLowerCase();
-    if($.inArray(extension, ['xlsx']) == -1) {
-        bootsrapAlert('請上傳正確的檔案格式');
-        return false;
-    }else{
-        return true;
-    }
-};
+function selectModifyRequest(modifyRequest){
+	$('#productID').val(modifyRequest.code);
+	$('#productName').val(modifyRequest.name);
+	$('#RiskReturn').val(modifyRequest.kypGroup);
+	$('#isPrdruct').val(modifyRequest.isProject + '');
+	// $('#productDescribe').val(modifyRequest.isProject);
+	$("#startCheckBox").prop("checked", modifyRequest.isActive);
+}

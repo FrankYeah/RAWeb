@@ -32,9 +32,9 @@
     <div class="content-1"><!-- style="display:none;"  -->
         <table id ="productTable"  class="table table-bordered table-striped table-hover">
         
-        
+
             <tr class="info">
-                <td class="wn">代碼</td><td class="wn">名稱</td><td class="wn">商品風險等級</td><td >商品說明</td><td  class="wn">連結網址</td><td class="wn">是否啟用</td><td class="wn">覆核</td>
+                <td class="wn">代碼</td><td class="wn">名稱</td><td class="wn">KYP組別</td><td >是否為專案產品</td><td  class="wn">是否啟用</td><td class="wn">更新日期</td><td class="wn">覆核</td>
             </tr>
         
         </table>

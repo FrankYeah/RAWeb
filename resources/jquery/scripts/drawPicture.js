@@ -245,7 +245,7 @@ function drawHistogram(data,interval){
  	 			return colors(i);
  	 		});
 			 
-			// 新增查詢人數 text
+			// 新增查詢人次 text
 			svg.selectAll("bar")
  	 		.data(data)
  	 		.enter().append("text")
@@ -260,8 +260,27 @@ function drawHistogram(data,interval){
  	 			return colors(i);
  	 		})
 			.text(function(d){
-				return d.Values;}
-			);
+				return d.Values + '/' + d.TransationNum}
+			)
+
+			// 測試新增文字
+			// svg.selectAll("bar")
+			// .data(data)
+			// .enter().append("text")
+			// .attr("x", function(d) { return x(d.DateIndexes); })
+			// .attr("width", x.rangeBand())
+			// .attr("y", function(d) { return y(d.TransationNum); })
+			// .attr("height", function(d) {
+			// 	console.log(height - y(d.TransationNum));
+			// 	return height - y(d.TransationNum); 
+			// })
+			// .attr("fill",function(d,i){ //fill 是添加顏色 給每個data一個顏色
+			// 	return colors(i);
+			// })
+			// .text(function(d){
+			// 	return d.TransationNum;}
+			// )
+
  	 	 
  	 	//add line    
  	 	svg.append("path")
@@ -269,23 +288,33 @@ function drawHistogram(data,interval){
  	 	    .attr('r', 5)
  		    .attr('fill','none')
  		    .attr('stroke-width',2)
- 	 	    .attr('stroke','yellow');
+			.attr('stroke','yellow')
 
  	 	svg.selectAll('circle')
  		.data(data)
- 		.enter()
- 		.append('circle')
+ 		.enter().append('circle')
  		.attr('cx', function(d) {
  			return x(d.DateIndexes)+ x.rangeBand()/2;
  		})
  		.attr('cy', function(d) {
  			return y(d.TransationNum);
- 		})
+		 })
  		.attr('r', 5)
 		.attr('fill',"yellow")
-		.on("mouseover", function (d) { return tip.text('導向交易人數 : ' + d.TransationNum).style("visibility", "visible") })
-		.on("mouseout", function () { return tip.style("visibility", "hidden"); });
- 	 	
+		.text(function(d){
+			return d.TransationNum;}
+		)
+		.on("mouseover", function (d) { return tip.text('導向交易人次 : ' + d.TransationNum).style("visibility", "visible") })
+		.on("mouseout", function () { return tip.style("visibility", "hidden"); })
+
+
+
+
+
+
+
+
+
  	 	
  	   // grid
  	 	var axisYGrid;
@@ -328,7 +357,7 @@ function drawHistogram(data,interval){
  	 		.attr("x", width-140 )
  	 		.attr("y", -10 )
  	 		.style("text-anchor", "middle")
-				.text("查詢人數");
+				.text("查詢人次");
 
 		var tip = d3.select("#picbody")
 			.append("div")
@@ -355,7 +384,7 @@ function drawHistogram(data,interval){
  	 		.attr("x", width-15 )
  	 		.attr("y", -10 )
  	 		.style("text-anchor", "middle")
- 	 		.text("導向交易人數");
+ 	 		.text("導向交易人次");
 	
  	 	svg.append("text")      // text label for the x axis
  	 		.attr("x", width+20 )
@@ -367,7 +396,7 @@ function drawHistogram(data,interval){
  	 		.attr("x", -63 )
  	 		.attr("y", height/2 )
  	 		.style("text-anchor", "middle")
- 	 		.text("人數");
+ 	 		.text("人次");
 
  	 	svg.append("text")      // title
  	 		.attr("x", width/2 )
@@ -377,7 +406,7 @@ function drawHistogram(data,interval){
  	 			fill: 'red',
  	 			'font-size': '24px'
  	 		})
- 	 		.text("查詢投資組合人數");    
+ 	 		.text("查詢投資組合人次");
        
  	 	var svg = d3.select('body').append('svg').attr({
  	 		width: 300,

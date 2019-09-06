@@ -16,7 +16,7 @@
                 
                 <img src="<c:url value="/resources/picture/fubon-logo.png" />" width="60%" height="40%" />
      			<button id="logoutBtm" type="button" class="btn btn-primary" style="margin-left:10px">登出</button>
-				<h2 style="color:black;">富邦理財機器人-後台管理介面</h2>
+				<h4 style="color:black;">富邦理財機器人-後台管理介面   ${Msg} - ${roleName}</h4>
 				
 				
 				

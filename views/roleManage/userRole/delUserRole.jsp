@@ -227,7 +227,7 @@ function getBURolesUsers(BUID,RoleID){
 			for(var i=0; i<tableData.length;i++){
 				var str = "<tr><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>";
 				$('#userTable').append(str);
-				var checkbox = $('<input />', { type: 'checkbox', id:tableData[i].BUID+i, name:tableData[i].BUID , value:tableData[i].UserID+'&'+tableData[i].BUID +"&"+tableData[i].BUName +'&'+tableData[i].RoleID+'&'+tableData[i].UserName});
+				var checkbox = $('<input />', { type: 'checkbox', id:tableData[i].BUID+i, name:tableData[i].BUID , value:tableData[i].UserID+'&'+tableData[i].BUID +"&"+tableData[i].BUName +'&'+tableData[i].RoleID+'&'+tableData[i].UserName+'&'+tableData[i].UserEmail});
 				var $specifyTd = $('#userTable tr:last').find('td');
 				$specifyTd.eq(0).append(checkbox);
 				$specifyTd.eq(1).text(tableData[i].BUName+" "+tableData[i].BUID);

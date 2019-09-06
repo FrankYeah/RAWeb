@@ -31,7 +31,7 @@ function selectProduct(product){
 		$('#RiskReturn').val("null");
 	}
 	else {
-		$('#RiskReturn').val(product.kypGroup);
+		$('#RiskReturn').val(product.kypGroup + '');
 	}
 	$('#isProduct').val(product.isProject + '');
 
@@ -63,10 +63,9 @@ function selectProduct(product){
 			$.ajax({
 				type : "POST",
 				contentType : 'application/json',
-				url : fubon.contextPath+"insuranceManage/modify",
+				url : fubon.contextPath+"insuranceManage/modifyRequest",
 				data : JSON.stringify(product),
 				success : function(data, response, xhr) {
-					console.log(data)
 					if(data.Status == 'Error'){
 						bootsrapAlert('險種修改失敗.' + data.Detail);
 					}else{
@@ -164,14 +163,12 @@ function searchProduct(buId){
 		url : fubon.contextPath+"insuranceManage/list",
 		data : JSON.stringify(listProduct),
 		success : function(data, response, xhr) {
-				console.log(data)
-
 				var tableData = data.Data.insuranceList
 				$("#productTable").find("tr:gt(0)").remove();
 				$( ".Msg" ).empty();
 				for(var i=0; i<tableData.length;i++){
 					var product = tableData[i];
-					var str = "<tr><td class='wn'> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>";
+					var str = "<tr><td class='wn'> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>";
 					$('#productTable').append(str);
 					var $specifyTd = $('#productTable tr:last').find('td');
 					var href = $("<a/>", {
@@ -192,15 +189,27 @@ function searchProduct(buId){
                       }
                     };
 
-					var $codeh = $("<a/>").attr("href", "#").html(product.code);
-                    $codeh.click( clickHandler(product) );
-
-					$specifyTd.eq(0).append($codeh);
-					$specifyTd.eq(1).text(product.name);
-					$specifyTd.eq(2).text(product.kypGroup);
-					$specifyTd.eq(3).append(checkEnabled(product.isProject));
-					$specifyTd.eq(4).append(checkEnabled(product.isActive));
-					$specifyTd.eq(5).text(product.updateTime);
+					if(product.modifyRequest){
+						var $codeh = $("<a/>").attr("href", "#").html(product.modifyRequest.code);
+						$codeh.click( clickHandler(product.modifyRequest) );
+						$specifyTd.eq(0).append($codeh);
+						$specifyTd.eq(1).text(product.modifyRequest.name);
+						$specifyTd.eq(2).text(product.modifyRequest.kypGroup);
+						$specifyTd.eq(3).append(checkEnabled(product.modifyRequest.isProject));
+						$specifyTd.eq(4).append(checkEnabled(product.modifyRequest.isActive));
+						$specifyTd.eq(5).text(product.modifyRequest.updateTime);
+						$specifyTd.eq(6).text('審核中');
+					} else {
+						var $codeh = $("<a/>").attr("href", "#").html(product.code);
+						$codeh.click( clickHandler(product) );
+						$specifyTd.eq(0).append($codeh);
+						$specifyTd.eq(1).text(product.name);
+						$specifyTd.eq(2).text(product.kypGroup);
+						$specifyTd.eq(3).append(checkEnabled(product.isProject));
+						$specifyTd.eq(4).append(checkEnabled(product.isActive));
+						$specifyTd.eq(5).text(product.updateTime);
+						$specifyTd.eq(6).text('無');
+					}
 				}
 		},
 		error : function(xhr) {

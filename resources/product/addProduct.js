@@ -55,7 +55,7 @@ $(function() {
 
     $("#submitBtnUpload").click(function() {
         var file = $('#file')[0].files[0];
-        console.log(file);
+        // console.log(file);
         if(file != null && file.size > 0 ){
             if(fileValidate()){
                 var formData = new FormData();
