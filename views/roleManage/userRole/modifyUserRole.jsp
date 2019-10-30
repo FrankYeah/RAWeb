@@ -148,12 +148,23 @@ var UserID = "${userID}";
 				data : JSON.stringify(addUser),
 				success : function(data, response, xhr) {
 					var temp = JSON.parse(data);
-					bootsrapAlert("使用者修改成功");
-					$('#myInput').val("");
-					$("#userID").val("");
-					$("#userName").val("");
-                    $("#userEmail").val("");
-					getBURolesUsers(buInfo[0]);
+					if(!temp.Status){
+						var msg = temp.ExceptionMessage;
+						var exceptionStr = "com.fubon.data.DataApiException: Not Acceptable: ";
+						var length = exceptionStr.length;
+						if(msg.includes(exceptionStr)){
+							bootsrapAlert(msg.substr(length));
+						}else{
+							bootsrapAlert(msg);
+						}
+					}else{
+						bootsrapAlert("使用者修改成功");
+						$('#myInput').val("");
+						$("#userID").val("");
+						$("#userName").val("");
+                    	$("#userEmail").val("");
+						getBURolesUsers(buInfo[0]);
+					}
 				},
 				error : function(xhr) {
 					bootsrapAlert("err: " + xhr.status + ' '

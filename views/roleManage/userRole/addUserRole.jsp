@@ -147,7 +147,14 @@ $.ajax({
 				success : function(data, response, xhr) {
 					var temp = JSON.parse(data);
 					if(!temp.Status){
-						bootsrapAlert(temp.ExceptionMessage);
+						var msg = temp.ExceptionMessage;
+						var exceptionStr = "com.fubon.data.DataApiException: Not Acceptable: ";
+						var length = exceptionStr.length;
+						if(msg.includes(exceptionStr)){
+							bootsrapAlert(msg.substr(length));
+						}else{
+							bootsrapAlert(msg);
+						}
 					}else{
 						bootsrapAlert("使用者新增成功");
 						$("#userID").val("");

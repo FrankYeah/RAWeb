@@ -6,9 +6,9 @@ var validateName100 =  /^[A-Za-z0-9\u4e00-\u9fa5\.\_\-\(\)\{\}\[\]\/\\]{1,100}$/
 
 var validateEmail = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
-var REBUId = validateEngAndNum1_10;
-var RERoleId =  validateEngAndNum1_10;
-var REbuid = validateEngAndNum1_10;
+var REBUId = validateEngAndNum1_20;
+var RERoleId =  validateEngAndNum1_20;
+var REbuid = validateEngAndNum1_20;
 
 var REdbName =  validateEngAndNum1_20;
 var REproductID = validateEngAndNum1_20;

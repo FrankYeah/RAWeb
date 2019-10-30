@@ -21,23 +21,18 @@
 			
 			<table class="table table-bordered table-striped table-hover col-sm-12">
 				<tr class="info">
-					<td class="col-sm-6"><label class="control-label">本次再平衡日期</label></td>
-					<td class="col-sm-6"><label class="control-label">狀態</label></td>
+					<td class="col-sm-12"><label class="control-label">本次再平衡日期</label></td>
 				</tr>
 				<tr id="dataList">
 					<td>
-						<input type="text" id="datepickerFrom" name="datepickerFrom" value="${ReviewDate}" readonly="readonly"/>
+						${ReviewDate}
 					</td>
 				</tr>
 			</table>				
 			<br>
-			<label class="control-label col-sm-2"> 是否啟用:</label>
-				<label class="form-check-label col-sm-1">
-		     		 <input type="checkbox" id ="startCheckBox" class="form-group"/>
-		    	</label>
-		    	
-			<div class="col-sm-2">
-				<button id="submitBtn" type="button" class="btn btn-primary">修改</button>
+
+			<div class="col-sm-12">
+				<button id="reimport" class="btn btn-primary" disabled>執行再平衡</button>
 			</div>
 	</div>
 </div>
@@ -55,75 +50,33 @@
 	$(function() {
 		
 		//送出申請
-		$("#submitBtn").click(function(){
-			if($("#startCheckBox").prop("checked")){
-				var data = {
-						CustomDate : $("#datepickerFrom").val(),
-						ReviewType : "apply"
-				};
-				
-				$.ajax({
-					type : "POST",
-					data: data,
-					url : fubon.contextPath+"Rebalance/updateCombiInvSet2ReviewType",
-					success : function(data, response, xhr) {
-						if(data.reportType == "ok"){
-							$('#viewType').remove();
-							$('#dataList').append("<td id='viewType'>審核中</td>");
-							$("#submitBtn").attr("disabled",true);
-							bootsrapAlert("案件送審中");
-						}
-						
-						if(data.reportType == "error"){
-							bootsrapAlert("系統異常,無法送出再平衡申請");
-						}
-					},
-					error : function(xhr) {
-						bootsrapAlert("err: " + xhr.status + ' ' + xhr.statusText);
-					}
+		var reimport = function(date) {
+			var ajaxData = {"date": date,"compulsory":"True"};
+			$.ajax({
+				type: 'GET',
+				url: 'ReImoportBatchBank',
+				contentType : 'application/json',
+				data: ajaxData,
+				dataType: 'json'
+			}).done(function (data, textStatus, jqXHR) {
+				BootstrapDialog.show({
+					message: "重新執行再平衡!"
 				});
-			} else {
-				bootsrapAlert("未勾選是否啟用");
-			}
+			}).fail(function (jqXHR, textStatus, errorThrown) {
+				var returnData = JSON.parse(jqXHR.responseText);
+				var message = (returnData.exception) ? returnData.message : jqXHR.responseText;
+				BootstrapDialog.show({
+					type: BootstrapDialog.TYPE_WARNING,
+					message: message
+				});
+			});
+		};
+		$("#reimport").click(function(){
+			var today = new Date();
+			var date = today.getFullYear()+ "-" + (today.getMonth()+1) + "-" + today.getDate();
+			reimport(date);
 		});
 	})
-	
-	function ready() {
-		$("#datepickerFrom").datepicker({
-			format : 'yyyy-mm-dd',
-			autoclose : true
-		});
-		
-		var data = {
-				CustomDate : $("#datepickerFrom").val(),
-				ReviewType : "select"
-		};
-		
-		$.ajax({
-			type : "POST",
-			data: data,
-			url : fubon.contextPath+"Rebalance/selectCombiInvSet2",
-			success : function(report, response, xhr) {
-				if(report.Data.reviewDate != null && report.Data.reviewDate != ""){
-					$("#datepickerFrom").val(report.Data.reviewDate);
-				} 
-				if(report.Data.review == "apply"){
-					$('#dataList').append("<td id='viewType'>審核中</td>");
-					$("#submitBtn").attr("disabled",true);
-				} else if(report.Data.review == "overrule"){
-					$('#dataList').append("<td id='viewType'>案件駁回</td>");
-				} else if(report.Data.review == "action"){
-					$('#dataList').append("<td id='viewType'>處理中</td>");
-					$("#submitBtn").attr("disabled",true);
-				} else {
-					$('#dataList').append("<td id='viewType'>未處理</td>");
-				}
-			},
-			error : function(xhr) {
-				bootsrapAlert("err: " + xhr.status + ' ' + xhr.statusText);
-			}
-		});
-	}
 </script>
 
 </body>
